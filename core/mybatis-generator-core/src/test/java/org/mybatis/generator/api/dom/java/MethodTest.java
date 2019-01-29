@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2016 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,14 +15,12 @@
  */
 package org.mybatis.generator.api.dom.java;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.Test;
-import org.mybatis.generator.api.dom.java.render.MethodRenderer;
+import static org.junit.Assert.*;
 
 public class MethodTest {
 
@@ -31,7 +29,7 @@ public class MethodTest {
     @Test
     public void testConstructor() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertNotNull(method);
         assertEquals("bar", method.getName());
     }
@@ -84,7 +82,7 @@ public class MethodTest {
     @Test
     public void testAddBodyLines() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals(0, method.getBodyLines().size());
 
         method.addBodyLine("// test1");
@@ -111,7 +109,7 @@ public class MethodTest {
     @Test
     public void testSetConstructor() {
 
-        Method method = new Method("Bar");
+        Method method = new Method();
         assertEquals(false, method.isConstructor());
 
         method.setConstructor(true);
@@ -121,7 +119,7 @@ public class MethodTest {
     @Test
     public void testSetName() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals("bar", method.getName());
 
         method.setName("foo");
@@ -131,7 +129,7 @@ public class MethodTest {
     @Test
     public void testAddTypeParamaters() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals(0, method.getTypeParameters().size());
 
         method.addTypeParameter(new TypeParameter("T"));
@@ -147,7 +145,7 @@ public class MethodTest {
     @Test
     public void testAddParamaters() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals(0, method.getParameters().size());
 
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(), "test1"));
@@ -163,17 +161,17 @@ public class MethodTest {
     @Test
     public void testSetReturnType() {
 
-        Method method = new Method("bar");
-        assertFalse(method.getReturnType().isPresent());
+        Method method = new Method();
+        assertNull(method.getReturnType());
 
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        assertEquals(FullyQualifiedJavaType.getIntInstance(), method.getReturnType().get());
+        assertEquals(FullyQualifiedJavaType.getIntInstance(), method.getReturnType());
     }
 
     @Test
     public void testAddExceptions() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals(0, method.getExceptions().size());
 
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
@@ -184,7 +182,7 @@ public class MethodTest {
     @Test
     public void testSetSynchronized() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals(false, method.isSynchronized());
         method.setSynchronized(true);
         assertEquals(true, method.isSynchronized());
@@ -193,7 +191,7 @@ public class MethodTest {
     @Test
     public void testSetNative() {
 
-        Method method = new Method("bar");
+        Method method = new Method();
         assertEquals(false, method.isNative());
         method.setNative(true);
         assertEquals(true, method.isNative());
@@ -233,8 +231,6 @@ public class MethodTest {
                         + "    return func.apply(t);" + LINE_SEPARATOR
                         + "}";
 
-        MethodRenderer renderer = new MethodRenderer();
-        String rendered = renderer.render(method, false, null).stream().collect(Collectors.joining(LINE_SEPARATOR));
-        assertEquals(excepted, rendered);
+        assertEquals(excepted, method.getFormattedContent(0, false, null));
     }
 }

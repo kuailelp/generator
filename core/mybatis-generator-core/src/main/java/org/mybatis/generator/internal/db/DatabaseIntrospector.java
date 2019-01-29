@@ -96,7 +96,7 @@ public class DatabaseIntrospector {
 
         try {
             // keep primary columns in key sequence order
-            Map<Short, String> keyColumns = new TreeMap<>();
+            Map<Short, String> keyColumns = new TreeMap<Short, String>();
             while (rs.next()) {
                 String columnName = rs.getString("COLUMN_NAME"); //$NON-NLS-1$
                 short keySeq = rs.getShort("KEY_SEQ"); //$NON-NLS-1$
@@ -496,7 +496,8 @@ public class DatabaseIntrospector {
             localTableName = sb.toString();
         }
 
-        Map<ActualTableName, List<IntrospectedColumn>> answer = new HashMap<>();
+        Map<ActualTableName, List<IntrospectedColumn>> answer =
+                new HashMap<ActualTableName, List<IntrospectedColumn>>();
 
         if (logger.isDebugEnabled()) {
             String fullTableName = composeFullyQualifiedTableName(localCatalog, localSchema,
@@ -551,7 +552,7 @@ public class DatabaseIntrospector {
 
             List<IntrospectedColumn> columns = answer.get(atn);
             if (columns == null) {
-                columns = new ArrayList<>();
+                columns = new ArrayList<IntrospectedColumn>();
                 answer.put(atn, columns);
             }
 
@@ -602,7 +603,7 @@ public class DatabaseIntrospector {
                 || stringContainsSpace(tc.getSchema())
                 || stringContainsSpace(tc.getTableName());
 
-        List<IntrospectedTable> answer = new ArrayList<>();
+        List<IntrospectedTable> answer = new ArrayList<IntrospectedTable>();
 
         for (Map.Entry<ActualTableName, List<IntrospectedColumn>> entry : columns
                 .entrySet()) {

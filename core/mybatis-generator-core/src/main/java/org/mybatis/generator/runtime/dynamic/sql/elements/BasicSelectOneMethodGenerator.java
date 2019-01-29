@@ -42,7 +42,7 @@ public class BasicSelectOneMethodGenerator extends AbstractMethodGenerator {
             return null;
         }
         
-        Set<FullyQualifiedJavaType> imports = new HashSet<>();
+        Set<FullyQualifiedJavaType> imports = new HashSet<FullyQualifiedJavaType>();
         
         boolean reuseResultMap = introspectedTable.getRules().generateSelectByExampleWithBLOBs()
                 || introspectedTable.getRules().generateSelectByExampleWithoutBLOBs();
@@ -56,7 +56,6 @@ public class BasicSelectOneMethodGenerator extends AbstractMethodGenerator {
         imports.add(annotation);
         
         Method method = new Method("selectOne"); //$NON-NLS-1$
-        method.setAbstract(true);
 
         imports.add(recordType);
         method.setReturnType(recordType);

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,17 +20,41 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 
+/**
+ * The Class MyBatis3FormattingUtilities.
+ *
+ * @author Jeff Butler
+ */
 public class MyBatis3FormattingUtilities {
 
+    /**
+     * Utility class - no instances.
+     */
     private MyBatis3FormattingUtilities() {
         super();
     }
 
+    /**
+     * Gets the parameter clause.
+     *
+     * @param introspectedColumn
+     *            the introspected column
+     * @return the parameter clause
+     */
     public static String getParameterClause(
             IntrospectedColumn introspectedColumn) {
         return getParameterClause(introspectedColumn, null);
     }
 
+    /**
+     * Gets the parameter clause.
+     *
+     * @param introspectedColumn
+     *            the introspected column
+     * @param prefix
+     *            the prefix
+     * @return the parameter clause
+     */
     public static String getParameterClause(
             IntrospectedColumn introspectedColumn, String prefix) {
         StringBuilder sb = new StringBuilder();
@@ -71,7 +95,8 @@ public class MyBatis3FormattingUtilities {
             }
             sb.append(introspectedColumn.getTableAlias());
             sb.append('_');
-            sb.append(introspectedColumn.getActualColumnName());
+            sb.append(escapeStringForMyBatis3(introspectedColumn
+                    .getActualColumnName()));
             if (introspectedColumn.isColumnNameDelimited()) {
                 sb.append(introspectedColumn.getContext().getEndingDelimiter());
             }
@@ -81,10 +106,18 @@ public class MyBatis3FormattingUtilities {
         }
     }
 
+    /**
+     * Gets the escaped column name.
+     *
+     * @param introspectedColumn
+     *            the introspected column
+     * @return the escaped column name
+     */
     public static String getEscapedColumnName(
             IntrospectedColumn introspectedColumn) {
         StringBuilder sb = new StringBuilder();
-        sb.append(introspectedColumn.getActualColumnName());
+        sb.append(escapeStringForMyBatis3(introspectedColumn
+                .getActualColumnName()));
 
         if (introspectedColumn.isColumnNameDelimited()) {
             sb.insert(0, introspectedColumn.getContext()
@@ -95,6 +128,13 @@ public class MyBatis3FormattingUtilities {
         return sb.toString();
     }
 
+    /**
+     * Calculates the string to use in select phrases in SqlMaps.
+     *
+     * @param introspectedColumn
+     *            the introspected column
+     * @return the aliased escaped column name
+     */
     public static String getAliasedEscapedColumnName(
             IntrospectedColumn introspectedColumn) {
         if (stringHasValue(introspectedColumn.getTableAlias())) {
@@ -164,5 +204,17 @@ public class MyBatis3FormattingUtilities {
         } else {
             return introspectedColumn.getActualColumnName();
         }
+    }
+
+    /**
+     * Escape string for my batis3.
+     *
+     * @param s
+     *            the s
+     * @return the string
+     */
+    public static String escapeStringForMyBatis3(String s) {
+        // nothing to do for MyBatis3 so far
+        return s;
     }
 }

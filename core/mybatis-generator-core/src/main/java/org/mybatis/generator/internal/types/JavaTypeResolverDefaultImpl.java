@@ -54,7 +54,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
     public JavaTypeResolverDefaultImpl() {
         super();
         properties = new Properties();
-        typeMap = new HashMap<>();
+        typeMap = new HashMap<Integer, JdbcTypeInformation>();
 
         typeMap.put(Types.ARRAY, new JdbcTypeInformation("ARRAY", //$NON-NLS-1$
                 new FullyQualifiedJavaType(Object.class.getName())));

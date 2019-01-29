@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -44,8 +44,8 @@ import org.mybatis.generator.codegen.RootClassInfo;
  */
 public class SimpleModelGenerator extends AbstractJavaGenerator {
 
-    public SimpleModelGenerator(String project) {
-        super(project);
+    public SimpleModelGenerator() {
+        super();
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
             }
         }
 
-        List<CompilationUnit> answer = new ArrayList<>();
+        List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
         if (context.getPlugins().modelBaseRecordClassGenerated(topLevelClass,
                 introspectedTable)) {
             answer.add(topLevelClass);
@@ -132,9 +132,10 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
     }
 
     private void addParameterizedConstructor(TopLevelClass topLevelClass) {
-        Method method = new Method(topLevelClass.getType().getShortName());
+        Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setConstructor(true);
+        method.setName(topLevelClass.getType().getShortName());
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);
 

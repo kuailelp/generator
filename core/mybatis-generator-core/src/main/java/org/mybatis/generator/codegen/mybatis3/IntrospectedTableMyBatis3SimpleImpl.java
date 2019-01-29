@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,8 +27,6 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.SimpleXMLMapperGenerator
 import org.mybatis.generator.internal.ObjectFactory;
 
 /**
- * Introspected table implementation for generating simple MyBatis3 artifacts (no "by example" methods,
- * flat model, etc.)
  * 
  * @author Jeff Butler
  * 
@@ -65,11 +63,11 @@ public class IntrospectedTableMyBatis3SimpleImpl extends IntrospectedTableMyBati
 
         AbstractJavaClientGenerator javaGenerator;
         if ("XMLMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
-            javaGenerator = new SimpleJavaClientGenerator(getClientProject());
+            javaGenerator = new SimpleJavaClientGenerator();
         } else if ("ANNOTATEDMAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
-            javaGenerator = new SimpleAnnotatedClientGenerator(getClientProject());
+            javaGenerator = new SimpleAnnotatedClientGenerator();
         } else if ("MAPPER".equalsIgnoreCase(type)) { //$NON-NLS-1$
-            javaGenerator = new SimpleJavaClientGenerator(getClientProject());
+            javaGenerator = new SimpleJavaClientGenerator();
         } else {
             javaGenerator = (AbstractJavaClientGenerator) ObjectFactory
                     .createInternalObject(type);
@@ -82,9 +80,9 @@ public class IntrospectedTableMyBatis3SimpleImpl extends IntrospectedTableMyBati
     protected void calculateJavaModelGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
 
-        AbstractJavaGenerator javaGenerator = new SimpleModelGenerator(getModelProject());
+        AbstractJavaGenerator javaGenerator = new SimpleModelGenerator();
         initializeAbstractGenerator(javaGenerator, warnings,
                 progressCallback);
-        javaGenerators.add(javaGenerator);
+        javaModelGenerators.add(javaGenerator);
     }
 }

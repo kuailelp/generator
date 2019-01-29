@@ -31,7 +31,7 @@ import org.mybatis.generator.config.Context;
  * Plugin interface. Clients may extend this class to implement some or all of
  * the methods in a plugin.
  * 
- * <p>This adapter does not implement the <code>validate</code> method - all plugins
+ * <p>This adapter does not implement the <tt>validate</tt> method - all plugins
  * must perform validation.
  * 
  * @author Jeff Butler
@@ -128,8 +128,20 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientCountByExampleMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientDeleteByExampleMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
+    public boolean clientDeleteByExampleMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;
     }
 
@@ -140,13 +152,26 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientInsertMethodGenerated(Method method, Interface interfaze,
             IntrospectedTable introspectedTable) {
         return true;
     }
 
     @Override
+    public boolean clientInsertMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientGenerated(Interface interfaze,
+            TopLevelClass topLevelClass,
             IntrospectedTable introspectedTable) {
         return true;
     }
@@ -158,8 +183,20 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientSelectByExampleWithBLOBsMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientSelectByExampleWithoutBLOBsMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
+    public boolean clientSelectByExampleWithoutBLOBsMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;
     }
 
@@ -170,8 +207,20 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientSelectByPrimaryKeyMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientUpdateByExampleSelectiveMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
+    public boolean clientUpdateByExampleSelectiveMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;
     }
 
@@ -182,8 +231,20 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientUpdateByExampleWithBLOBsMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientUpdateByExampleWithoutBLOBsMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
+    public boolean clientUpdateByExampleWithoutBLOBsMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;
     }
 
@@ -194,14 +255,33 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
         return true;
     }
 
     @Override
+    public boolean clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public boolean clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
             Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
+    public boolean clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
+            Method method, TopLevelClass topLevelClass,
             IntrospectedTable introspectedTable) {
         return true;
     }
@@ -375,6 +455,12 @@ public abstract class PluginAdapter implements Plugin {
     }
 
     @Override
+    public boolean clientInsertSelectiveMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
     public void initialized(IntrospectedTable introspectedTable) {
     }
 
@@ -465,6 +551,12 @@ public abstract class PluginAdapter implements Plugin {
     @Override
     public boolean clientSelectAllMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
+        return true;
+    }
+
+    @Override
+    public boolean clientSelectAllMethodGenerated(Method method,
+            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;
     }
 

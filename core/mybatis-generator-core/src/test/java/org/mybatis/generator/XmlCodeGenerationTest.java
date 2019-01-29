@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.mybatis.generator;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -25,8 +25,10 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -38,11 +40,17 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+@RunWith(Parameterized.class)
 public class XmlCodeGenerationTest {
 
-    @ParameterizedTest
-    @MethodSource("generateXmlFiles")
-    public void testXmlParse(GeneratedXmlFile generatedXmlFile) {
+    private GeneratedXmlFile generatedXmlFile;
+
+    public XmlCodeGenerationTest(GeneratedXmlFile generatedXmlFile) {
+        this.generatedXmlFile = generatedXmlFile;
+    }
+
+    @Test
+    public void testXmlParse() {
         ByteArrayInputStream is = new ByteArrayInputStream(
                 generatedXmlFile.getFormattedContent().getBytes());
         try {
@@ -57,9 +65,11 @@ public class XmlCodeGenerationTest {
         }
     }
 
+    @Parameters
     public static List<GeneratedXmlFile> generateXmlFiles() throws Exception {
-        List<GeneratedXmlFile> generatedFiles = new ArrayList<>();
+        List<GeneratedXmlFile> generatedFiles = new ArrayList<GeneratedXmlFile>();
         generatedFiles.addAll(generateXmlFilesMybatis());
+        generatedFiles.addAll(generateXmlFilesIbatis());
         return generatedFiles;
     }
 
@@ -68,8 +78,13 @@ public class XmlCodeGenerationTest {
         return generateXmlFiles("/scripts/generatorConfig.xml");
     }
 
+    private static List<GeneratedXmlFile> generateXmlFilesIbatis() throws Exception {
+        JavaCodeGenerationTest.createDatabase();
+        return generateXmlFiles("/scripts/ibatorConfig.xml");
+    }
+
     private static List<GeneratedXmlFile> generateXmlFiles(String configFile) throws Exception {
-        List<String> warnings = new ArrayList<>();
+        List<String> warnings = new ArrayList<String>();
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(JavaCodeGenerationTest.class.getResourceAsStream(configFile));
 
@@ -91,8 +106,8 @@ public class XmlCodeGenerationTest {
 
     public static class TestErrorHandler implements ErrorHandler {
 
-        private List<String> errors = new ArrayList<>();
-        private List<String> warnings = new ArrayList<>();
+        private List<String> errors = new ArrayList<String>();
+        private List<String> warnings = new ArrayList<String>();
 
         @Override
         public void warning(SAXParseException exception) throws SAXException {

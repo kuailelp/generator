@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -15,14 +15,16 @@
  */
 package org.mybatis.generator.api.dom.java;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
-import org.mybatis.generator.api.dom.java.render.TopLevelInterfaceRenderer;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.hamcrest.core.Is.*;
 
 public class InterfaceTest {
 
@@ -49,7 +51,7 @@ public class InterfaceTest {
     public void testAddImportedTypes() {
 
         Interface interfaze = new Interface("com.foo.UserInterface");
-        Set<FullyQualifiedJavaType> importedTypes = new HashSet<>();
+        Set<FullyQualifiedJavaType> importedTypes = new HashSet<FullyQualifiedJavaType>();
 
         FullyQualifiedJavaType arrayList = FullyQualifiedJavaType.getNewArrayListInstance();
         FullyQualifiedJavaType hashMap = FullyQualifiedJavaType.getNewHashMapInstance();
@@ -90,7 +92,7 @@ public class InterfaceTest {
     public void testAddStaticImports() {
 
         Interface interfaze = new Interface("com.foo.UserInterface");
-        Set<String> staticImports = new HashSet<>();
+        Set<String> staticImports = new HashSet<String>();
         staticImports.add("com.foo.StaticUtil1");
         staticImports.add("com.foo.StaticUtil2");
         interfaze.addStaticImports(staticImports);
@@ -117,11 +119,10 @@ public class InterfaceTest {
         String expected = "package foo;" + System.getProperty("line.separator")
             + System.getProperty("line.separator")
             + "public interface Bar {" + System.getProperty("line.separator")
-            + "    String EMPTY_STRING = \"\";" + System.getProperty("line.separator") + System.getProperty("line.separator")
+            + "    String EMPTY_STRING = \"\";" + System.getProperty("line.separator")
             + "    String ONE = \"one\";" + System.getProperty("line.separator")
             + "}";
 
-        TopLevelInterfaceRenderer renderer = new TopLevelInterfaceRenderer();
-        assertThat(renderer.render(interfaze)).isEqualTo(expected);
+        assertThat(interfaze.getFormattedContent(), is(expected));
     }
 }

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2016 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -40,15 +40,14 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
 
     @Override
     public void addInterfaceElements(Interface interfaze) {
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getExampleType());
         importedTypes.add(type);
         importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
 
-        Method method = new Method(introspectedTable.getSelectByExampleStatementId());
+        Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
-        method.setAbstract(true);
 
         FullyQualifiedJavaType returnType = FullyQualifiedJavaType
                 .getNewListInstance();
@@ -67,6 +66,7 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         returnType.addTypeArgument(listType);
         method.setReturnType(returnType);
 
+        method.setName(introspectedTable.getSelectByExampleStatementId());
         method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,

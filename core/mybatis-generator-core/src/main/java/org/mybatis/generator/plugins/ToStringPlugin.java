@@ -67,10 +67,13 @@ public class ToStringPlugin extends PluginAdapter {
 
     private void generateToString(IntrospectedTable introspectedTable,
             TopLevelClass topLevelClass) {
-        Method method = new Method("toString"); //$NON-NLS-1$
+        Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getStringInstance());
-        method.addAnnotation("@Override"); //$NON-NLS-1$
+        method.setName("toString"); //$NON-NLS-1$
+        if (introspectedTable.isJava5Targeted()) {
+            method.addAnnotation("@Override"); //$NON-NLS-1$
+        }
 
         if (introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3_DSQL) {
             context.getCommentGenerator().addGeneralMethodAnnotation(method,

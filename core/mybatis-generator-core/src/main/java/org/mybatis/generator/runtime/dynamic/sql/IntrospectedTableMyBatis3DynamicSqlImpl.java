@@ -47,17 +47,17 @@ public class IntrospectedTableMyBatis3DynamicSqlImpl extends IntrospectedTableMy
             return null;
         }
 
-        return new DynamicSqlMapperGenerator(getClientProject());
+        return new DynamicSqlMapperGenerator();
     }
 
     @Override
     protected void calculateJavaModelGenerators(List<String> warnings,
             ProgressCallback progressCallback) {
 
-        AbstractJavaGenerator javaGenerator = new DynamicSqlModelGenerator(getModelProject());
+        AbstractJavaGenerator javaGenerator = new DynamicSqlModelGenerator();
         initializeAbstractGenerator(javaGenerator, warnings,
                 progressCallback);
-        javaGenerators.add(javaGenerator);
+        javaModelGenerators.add(javaGenerator);
     }
 
     @Override

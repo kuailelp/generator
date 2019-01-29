@@ -50,9 +50,10 @@ public class FluentBuilderMethodsPlugin extends PluginAdapter {
             IntrospectedTable introspectedTable,
             ModelClassType modelClassType) {
         
-        Method fluentMethod = new Method("with" + method.getName().substring(3)); //$NON-NLS-1$
+        Method fluentMethod = new Method();
         fluentMethod.setVisibility(JavaVisibility.PUBLIC);
         fluentMethod.setReturnType(topLevelClass.getType());
+        fluentMethod.setName("with" + method.getName().substring(3)); //$NON-NLS-1$
         fluentMethod.getParameters().addAll(method.getParameters());
          
         if (introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3_DSQL) {

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2018 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -40,11 +40,11 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
 
     @Override
     public void addInterfaceElements(Interface interfaze) {
-        Method method = new Method(introspectedTable.getInsertStatementId());
+        Method method = new Method();
 
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
-        method.setAbstract(true);
+        method.setName(introspectedTable.getInsertStatementId());
 
         FullyQualifiedJavaType parameterType;
         if (isSimple) {
@@ -55,7 +55,7 @@ public class InsertMethodGenerator extends AbstractJavaMapperMethodGenerator {
                     .calculateAllFieldsClass();
         }
 
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<>();
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         importedTypes.add(parameterType);
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 

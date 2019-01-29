@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-       Copyright 2006-2018 the original author or authors.
+       Copyright 2006-2017 the original author or authors.
 
        Licensed under the Apache License, Version 2.0 (the "License");
        you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@
   tables.
 -->
 <!ELEMENT context (property*, plugin*, commentGenerator?, (connectionFactory | jdbcConnection), javaTypeResolver?,
-                         javaModelGenerator, sqlMapGenerator?, javaClientGenerator?, table+)>
+                         javaModelGenerator, sqlMapGenerator?, javaClientGenerator?,table+)>
 <!ATTLIST context id ID #REQUIRED
   defaultModelType CDATA #IMPLIED
   targetRuntime CDATA #IMPLIED
@@ -125,8 +125,8 @@
 
 <!--
   The sqlMapGenerator element is used to define properties of the SQL Map Generator.
-  The SQL Map Generator builds an XML file for each table that conforms to MyBatis'
-  SQL Mapper DTD.
+  The SQL Map Generator builds an XML file for each table that conforms to iBATIS'
+  SqlMap DTD.
 -->
 <!ELEMENT sqlMapGenerator (property*)>
 <!ATTLIST sqlMapGenerator
@@ -145,6 +145,8 @@
   targetPackage CDATA #REQUIRED
   targetProject CDATA #REQUIRED
   implementationPackage CDATA #IMPLIED>
+ 
+  
 
 <!--
   The table element is used to specify a database table that will be the source information
