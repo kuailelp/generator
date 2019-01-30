@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC
+ "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+ "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<classPathEntry
+		location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar" />
+
+	<context id="MyBatis3XMLMapper" targetRuntime="MyBatis3"
+		defaultModelType="flat">
+		<plugin
+			type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://90.90.90.3:3306/act_development"
+			userId="act" password="act" />
+
+		<javaModelGenerator
+			targetPackage="ibatortest.generated.flat.java5.model"
+			targetProject="target/generated-sources/mybatis-generator/mybatis3">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="ibatortest.generated.flat.java5.client"
+			targetProject="target/generated-sources/mybatis-generator/mybatis3">
+		</javaClientGenerator>
+
+		<table tableName="SYS_YH" />
+
+	</context>
+</generatorConfiguration>

@@ -50,6 +50,11 @@ public class FullyQualifiedTable {
     private DomainObjectRenamingRule domainObjectRenamingRule;
 
     /**
+     *  数据库表备注信息
+     */
+    private String remark;
+
+    /**
      * This object is used to hold information related to the table itself, not the columns in the
      * table.
      *
@@ -400,5 +405,13 @@ public class FullyQualifiedTable {
 
     public String getDomainObjectSubPackage() {
         return domainObjectSubPackage;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

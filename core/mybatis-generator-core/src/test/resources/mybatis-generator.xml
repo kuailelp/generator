@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!-- !!!! Driver Class Path !!!! -->
+    <classPathEntry
+            location="D:\m2\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"/>
+
+    <context id="context" targetRuntime="MyBatis3">
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter"
+                  value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter"
+                  value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!--开启抑制类型的警告信息 -->
+        <property name="suppressTypeWarnings" value="true"/>
+        <!--插件 ：用来给Java模型生成equals和hashcode方法 -->
+        <plugin
+                type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!--插件 ：用来为生成的Java模型类添加序列化接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--插件 ：用来为生成的Java模型 toString 方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--插件 ：修改查询名称为 Criteria -->
+        <plugin
+                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+        <!--插件 ：修改生成Service接口和实现 -->
+        <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">
+            <!--参数 ：接口包 -->
+            <property name="implementationPackage"
+                      value="temp.services.impl"/>
+            <!--参数 ：实现包 -->
+            <property name="targetPackage"
+                      value="temp.services"/>
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="src/test/java"/>
+        </plugin>
+        <!--插件 ：修改生成Controller -->
+        <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
+            <!--参数 ：包名 -->
+            <property name="targetPackage"
+                      value="temp.controller"/>
+            <!--参数 ：引用Service包名 -->
+            <property name="servicePackage" value="temp.services"/>
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="src/test/java"/>
+        </plugin>
+        <!--插件 ：创建集成Mapper类 -->
+        <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+            <property name="author" value="liaopeng"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+        </commentGenerator>
+
+        <!-- !!!! Database Configurations !!!! -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://90.90.90.2:3307/auth" userId="root"
+                        password="root"/>
+        <!--<jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="jdbc:oracle:thin:@90.90.90.3:1521:orlc"
+            userId="auths" password="auths"/> -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- !!!! Model Configurations !!!! -->
+        <javaModelGenerator
+                targetPackage="temp.entity"
+                targetProject="src/test/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+
+        <!-- !!!! Mapper XML Configurations !!!! -->
+        <sqlMapGenerator
+                targetPackage="temp.mapper"
+                targetProject="src/test/java">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- !!!! Mapper Interface Configurations !!!! -->
+        <javaClientGenerator
+                targetPackage="temp.dao"
+                targetProject="src/test/java"
+                type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+
+        <table alias="qx" tableName="SYS_YH"
+               domainObjectName="SysQXEntity" escapeWildcards="true"/>
+
+    </context>
+</generatorConfiguration>

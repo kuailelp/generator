@@ -64,7 +64,6 @@ public class Context extends PropertyHolder {
 
 	private JavaClientGeneratorConfiguration javaClientGeneratorConfiguration;
 
-	private JavaServiceGeneratorConfiguration javaServiceGeneratorConfiguration;
 
 	private ArrayList<TableConfiguration> tableConfigurations;
 
@@ -129,9 +128,7 @@ public class Context extends PropertyHolder {
 		return sqlMapGeneratorConfiguration;
 	}
 
-	public JavaServiceGeneratorConfiguration getJavaServiceGeneratorConfiguration() {
-		return javaServiceGeneratorConfiguration;
-	}
+
 
 	public void addPluginConfiguration(PluginConfiguration pluginConfiguration) {
 		pluginConfigurations.add(pluginConfiguration);
@@ -169,10 +166,6 @@ public class Context extends PropertyHolder {
 
 		if (javaClientGeneratorConfiguration != null) {
 			javaClientGeneratorConfiguration.validate(errors, id);
-		}
-
-		if (javaServiceGeneratorConfiguration != null) {
-//        	javaServiceGeneratorConfiguration
 		}
 
 		IntrospectedTable it = null;
@@ -233,10 +226,6 @@ public class Context extends PropertyHolder {
 		this.sqlMapGeneratorConfiguration = sqlMapGeneratorConfiguration;
 	}
 
-	public void setJavaServiceGeneratorConfiguration(
-			JavaServiceGeneratorConfiguration javaServiceGeneratorConfiguration) {
-		this.javaServiceGeneratorConfiguration = javaServiceGeneratorConfiguration;
-	}
 
 	public ModelType getDefaultModelType() {
 		return defaultModelType;
