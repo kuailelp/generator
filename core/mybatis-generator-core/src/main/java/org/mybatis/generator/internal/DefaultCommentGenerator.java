@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2018 the original author or authors.
+ * Copyright 2006-2019 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -263,30 +263,33 @@ public class DefaultCommentGenerator implements CommentGenerator {
             return;
         }
 
-        field.addJavaDocLine("/**"); //$NON-NLS-1$
-
-        String remarks = introspectedColumn.getRemarks();
-        if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
-            field.addJavaDocLine(" * 数据库列的注释:"); //$NON-NLS-1$
-            String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
-            for (String remarkLine : remarkLines) {
-                field.addJavaDocLine(" *   " + remarkLine); //$NON-NLS-1$
-            }
-        }
-
-        field.addJavaDocLine(" *"); //$NON-NLS-1$
-        field.addJavaDocLine(" * 这个字段有Mybatis生成器生成"); //$NON-NLS-1$
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(" * 此字段对应于数据库列 "); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable());
-        sb.append('.');
-        sb.append(introspectedColumn.getActualColumnName());
-        field.addJavaDocLine(sb.toString());
-
-        addJavadocTag(field, false);
-
-        field.addJavaDocLine(" */"); //$NON-NLS-1$
+//        field.addJavaDocLine("/**"); //$NON-NLS-1$
+//
+//        String remarks = introspectedColumn.getRemarks();
+//        if (addRemarkComments && StringUtility.stringHasValue(remarks)) {
+//            field.addJavaDocLine(" * 数据库列的注释:"); //$NON-NLS-1$
+//            String[] remarkLines = remarks.split(System.getProperty("line.separator")); //$NON-NLS-1$
+//            for (String remarkLine : remarkLines) {
+//                field.addJavaDocLine(" *   " + remarkLine); //$NON-NLS-1$
+//            }
+//        }
+//
+//        field.addJavaDocLine(" *"); //$NON-NLS-1$
+//        field.addJavaDocLine(" * 这个字段有Mybatis生成器生成"); //$NON-NLS-1$
+//
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(" * 此字段对应于数据库列 "); //$NON-NLS-1$
+//        sb.append(introspectedTable.getFullyQualifiedTable());
+//        sb.append('.');
+//        sb.append(introspectedColumn.getActualColumnName());
+//        field.addJavaDocLine(sb.toString());
+//
+//        addJavadocTag(field, false);
+//
+//        field.addJavaDocLine(" */"); //$NON-NLS-1$
+        field.addJavaDocLine("/**");
+        field.addJavaDocLine(" * @Fields " + field.getName() + " " + introspectedColumn.getRemarks());
+        field.addJavaDocLine(" */");
     }
 
     @Override
@@ -478,7 +481,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
         if (!suppressDate && !suppressAllComments) {
             buffer.append(", date=\""); //$NON-NLS-1$
-            buffer.append(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(ZonedDateTime.now()));
+            buffer.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             buffer.append('\"');
         }
 

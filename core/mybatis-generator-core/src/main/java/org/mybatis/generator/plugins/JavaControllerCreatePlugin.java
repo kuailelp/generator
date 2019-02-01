@@ -1,3 +1,18 @@
+/**
+ *    Copyright 2006-2019 the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 package org.mybatis.generator.plugins;
 
 import org.mybatis.generator.api.GeneratedJavaFile;
@@ -35,6 +50,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
     private String servicePack;
     private String project;
     private String pojoUrl;
+
+    // 主键
+    private IntrospectedColumn introspectedColumn;
 
     private List<Method> methods;
 
@@ -225,12 +243,19 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         topLevelClass.addField(field);
     }
 
+    private void setIntrospectedColumn(IntrospectedTable introspectedTable) {
+        if (introspectedTable.getPrimaryKeyColumns().size() > 0) {
+            introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        }
+    }
+
 
     /**
      * 描述：添加查询条目数方法 <br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 8:40 <br>
      */
     private Method countByExample(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("countByExample");
         method.addAnnotation("@RequestMapping(value = \"count_by_example\",produces = \"text/plain;charset=UTF-8\")");
@@ -257,6 +282,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 10:36 <br>
      */
     private Method deleteByExample(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("deleteByExample");
         method.addAnnotation("@RequestMapping(value = \"delete_by_example\",produces = \"text/plain;charset=UTF-8\")");
@@ -283,7 +309,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 10:52 <br>
      */
     private Method deleteByPrimaryKey(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("deleteByPrimaryKey");
         method.addAnnotation("@RequestMapping(value = \"delete_by_primarykey\",produces = \"text/plain;charset=UTF-8\")");
@@ -312,7 +338,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:03 <br>
      */
     private Method insert(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("insert");
         method.addAnnotation("@RequestMapping(value = \"insert\",produces = \"text/plain;charset=UTF-8\")");
@@ -343,7 +369,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:03 <br>
      */
     private Method insertSelective(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("insertSelective");
         method.addAnnotation("@RequestMapping(value = \"insert_selective\",produces = \"text/plain;charset=UTF-8\")");
@@ -373,7 +399,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:38 <br>
      */
     private Method selectByExample(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("selectByExample");
         method.addAnnotation("@RequestMapping(value = \"select_by_example\",produces = \"text/plain;charset=UTF-8\")");
@@ -401,7 +427,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:38 <br>
      */
     private Method selectByPrimaryKey(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("selectByPrimaryKey");
         method.addAnnotation("@RequestMapping(value = \"select_by_primarykey\",produces = \"text/plain;charset=UTF-8\")");
@@ -434,7 +460,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:09 <br>
      */
     private Method updateByExample(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByExample");
         method.addAnnotation("@RequestMapping(value = \"update_by_example\",produces = \"text/plain;charset=UTF-8\")");
@@ -464,7 +490,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 14:44 <br>
      */
     private Method updateByExampleSelective(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByExampleSelective");
         method.addAnnotation("@RequestMapping(value = \"update_by_ex_sel\",produces = \"text/plain;charset=UTF-8\")");
@@ -494,7 +520,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:21 <br>
      */
     private Method updateByPrimaryKeySelective(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByPrimaryKeySelective");
         method.addAnnotation("@RequestMapping(value = \"update_by_primary_key_sel\",produces = \"text/plain;charset=UTF-8\")");
@@ -523,7 +549,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:21 <br>
      */
     private Method updateByPrimaryKey(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByPrimaryKey");
         method.addAnnotation("@RequestMapping(value = \"update_by_primary_key\",produces = \"text/plain;charset=UTF-8\")");
@@ -552,7 +578,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:37 <br>
      */
     private Method selectByPage(IntrospectedTable introspectedTable, String tableName) {
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("selectByPage");
         method.addAnnotation("@RequestMapping(value = \"select_by_page\",produces = \"text/plain;charset=UTF-8\")");

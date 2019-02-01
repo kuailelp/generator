@@ -1,5 +1,5 @@
 /**
- * Copyright 2006-2018 the original author or authors.
+ * Copyright 2006-2019 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -536,6 +536,22 @@ public class DatabaseIntrospector {
                     .setNullable(rs.getInt("NULLABLE") == DatabaseMetaData.columnNullable); //$NON-NLS-1$
             introspectedColumn.setScale(rs.getInt("DECIMAL_DIGITS")); //$NON-NLS-1$
             introspectedColumn.setRemarks(rs.getString("REMARKS")); //$NON-NLS-1$
+            if ("ORACLE".equals(databaseProductName)) {
+                //start oracle,获取oracle的表备注
+                Statement stmt = this.databaseMetaData.getConnection().createStatement();
+                ResultSet mrs = stmt.executeQuery(
+                        new StringBuilder()
+                                .append("select * from user_col_comments where Table_Name='")
+                                .append(tc.getTableName() + "' AND COLUMN_NAME='")
+                                .append(rs.getString("COLUMN_NAME") + "'")
+                                .toString());
+                while (mrs.next())
+                    introspectedColumn.setRemarks(mrs.getString("COMMENTS"));
+                closeResultSet(mrs);
+                stmt.close();
+                //end
+            }
+
             introspectedColumn.setDefaultValue(rs.getString("COLUMN_DEF")); //$NON-NLS-1$
 
             if (supportsIsAutoIncrement) {

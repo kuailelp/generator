@@ -1,3 +1,18 @@
+/**
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.mybatis.generator.plugins;
 
 import org.mybatis.generator.api.*;
@@ -32,6 +47,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private String serviceImplPack;
     private String project;
     private String pojoUrl;
+
+    // 主键
+    private IntrospectedColumn introspectedColumn;
 
     private List<Method> methods;
 
@@ -297,6 +315,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         topLevelClass.addImportedType(pageHelpType);
     }
 
+    private void setIntrospectedColumn(IntrospectedTable introspectedTable) {
+        if (introspectedTable.getPrimaryKeyColumns().size() > 0) {
+            introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
+        }
+    }
+
     /**
      * 导入logger
      */
@@ -326,9 +350,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * 描述：查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "条目数 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" *");
-        method.getParameters().forEach(item -> {
-            method.addJavaDocLine(" * @param " + item.getName() + " 查询参数");
-        });
+        method.addJavaDocLine(" * @param    params  查询参数");
         method.addJavaDocLine(" */");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
@@ -342,6 +364,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 10:36 <br>
      */
     private Method deleteByExample(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("deleteByExample");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
@@ -352,9 +375,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * 描述：根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "<br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" *");
-        method.getParameters().forEach(item -> {
-            method.addJavaDocLine(" * @param " + item.getName() + " 删除参数");
-        });
+        method.addJavaDocLine(" * @param    params   删除参数");
         method.addJavaDocLine(" */");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
@@ -368,11 +389,11 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 10:52 <br>
      */
     private Method deleteByPrimaryKey(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("deleteByPrimaryKey");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(),
                 introspectedColumn.getJavaProperty()));
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -384,6 +405,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" *");
         method.addJavaDocLine(" * @param " + introspectedColumn.getJavaProperty() + " " + introspectedColumn.getRemarks());
         method.addJavaDocLine(" */");
+
         return method;
     }
 
@@ -392,14 +414,15 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:03 <br>
      */
     private Method insert(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("insert");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(pojoType, "record"));
-        FullyQualifiedJavaType key = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType();
-        String idkey = introspectedTable.getPrimaryKeyColumns().get(0).getJavaProperty();
+        FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
+        String idkey = introspectedColumn.getJavaProperty();
         if (key.equals(FullyQualifiedJavaType.getStringInstance())) {
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getIdStr()" + ");");
         } else {
@@ -422,14 +445,15 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:03 <br>
      */
     private Method insertSelective(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("insertSelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(pojoType, "record"));
-        FullyQualifiedJavaType key = introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType();
-        String idkey = introspectedTable.getPrimaryKeyColumns().get(0).getJavaProperty();
+        FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
+        String idkey = introspectedColumn.getJavaProperty();
         if (key.equals(FullyQualifiedJavaType.getStringInstance())) {
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getIdStr()" + ");");
         } else {
@@ -451,6 +475,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:38 <br>
      */
     private Method selectByExample(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("selectByExample");
@@ -459,7 +484,10 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
-        method.addBodyLine("return " + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getSelectByExampleWithBLOBsStatementId() + "(criteria);");
+        method.addBodyLine("return " + toLowerCase(daoType.getShortName()) + "." +
+                (introspectedTable.getRules().generateResultMapWithBLOBs() ?
+                        introspectedTable.getSelectByExampleWithBLOBsStatementId()
+                        : introspectedTable.getSelectByExampleStatementId()) + "(criteria);");
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：条件查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -476,10 +504,10 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 11:38 <br>
      */
     private Method selectByPrimaryKey(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("selectByPrimaryKey");
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.setReturnType(new FullyQualifiedJavaType(pojoType.getShortName()));
         method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
@@ -501,12 +529,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:09 <br>
      */
     private Method updateByExample(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("updateByExample");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.addParameter(new Parameter(pojoType, "record"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
@@ -537,12 +565,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 14:44 <br>
      */
     private Method updateByExampleSelective(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("updateByExampleSelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.addParameter(new Parameter(pojoType, "record"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
@@ -571,12 +599,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:21 <br>
      */
     private Method updateByPrimaryKeySelective(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("updateByPrimaryKeySelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.addParameter(new Parameter(pojoType, "record"));
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
                 toLowerCase(daoType.getShortName()) + "." + (
@@ -600,12 +628,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:21 <br>
      */
     private Method updateByPrimaryKey(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("updateByPrimaryKey");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.addParameter(new Parameter(pojoType, "record"));
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
                 toLowerCase(daoType.getShortName()) + "." + (
@@ -631,12 +659,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:37 <br>
      */
     private Method selectByPage(IntrospectedTable introspectedTable, String tableName) {
+        setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("selectByPage");
         method.setReturnType(new FullyQualifiedJavaType("Page<" + tableName + "Exp>"));
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        IntrospectedColumn introspectedColumn = introspectedTable.getPrimaryKeyColumns().get(0);
         method.addParameter(new Parameter(pageType, "page"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");

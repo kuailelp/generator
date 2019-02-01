@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2006-2019 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 
     <!-- !!!! Driver Class Path !!!! -->
-    <classPathEntry
-            location="D:\m2\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"/>
-
+    <!--<classPathEntry-->
+    <!--location="D:\m2\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar"/>-->
+    <classPathEntry location="D:\m2\repository\com\oracle\ojdbc6\11.2.0.3\ojdbc6-11.2.0.3.jar"/>
     <context id="context" targetRuntime="MyBatis3">
         <!-- 生成的Java文件的编码 -->
         <property name="javaFileEncoding" value="UTF-8"/>
@@ -41,7 +58,7 @@
             <property name="targetPackage"
                       value="temp.services"/>
             <!--参数 ：文件生成路径 -->
-            <property name="targetProject" value="src/test/java"/>
+            <property name="targetProject" value="tempbar"/>
         </plugin>
         <!--插件 ：修改生成Controller -->
         <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
@@ -51,7 +68,7 @@
             <!--参数 ：引用Service包名 -->
             <property name="servicePackage" value="temp.services"/>
             <!--参数 ：文件生成路径 -->
-            <property name="targetProject" value="src/test/java"/>
+            <property name="targetProject" value="tempbar"/>
         </plugin>
         <!--插件 ：创建集成Mapper类 -->
         <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
@@ -65,9 +82,12 @@
         </commentGenerator>
 
         <!-- !!!! Database Configurations !!!! -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://90.90.90.2:3307/auth" userId="root"
-                        password="root"/>
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+        <!--connectionURL="jdbc:mysql://90.90.90.2:3307/auth" userId="root"-->
+        <!--password="root"/>-->
+        <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@111.12.148.101:1521:wdzhxx"
+                        userId="labor_relation" password="labor_relation"/>
         <!--<jdbcConnection driverClass="oracle.jdbc.OracleDriver" connectionURL="jdbc:oracle:thin:@90.90.90.3:1521:orlc"
             userId="auths" password="auths"/> -->
         <javaTypeResolver>
@@ -77,7 +97,7 @@
         <!-- !!!! Model Configurations !!!! -->
         <javaModelGenerator
                 targetPackage="temp.entity"
-                targetProject="src/test/java">
+                targetProject="tempbar">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -86,21 +106,24 @@
         <!-- !!!! Mapper XML Configurations !!!! -->
         <sqlMapGenerator
                 targetPackage="temp.mapper"
-                targetProject="src/test/java">
+                targetProject="tempbar">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- !!!! Mapper Interface Configurations !!!! -->
         <javaClientGenerator
                 targetPackage="temp.dao"
-                targetProject="src/test/java"
+                targetProject="tempbar"
                 type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
 
-        <table alias="qx" tableName="SYS_YH"
-               domainObjectName="SysQXEntity" escapeWildcards="true"/>
+        <!--<table alias="qx" tableName="SYS_YH"-->
+        <!--domainObjectName="SysQXEntity" escapeWildcards="true"/>-->
+        <table tableName="EC03" alias="ec03" domainObjectName="Ec03"
+               schema="LABOR_RELATION"
+               escapeWildcards="true"/>
 
     </context>
 </generatorConfiguration>
