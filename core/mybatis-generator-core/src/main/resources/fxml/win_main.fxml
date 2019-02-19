@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minWidth="-Infinity" prefHeight="600.0" prefWidth="1075.0" stylesheets="@/fcss/winmain.css"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.jfx.client.ui.WinMain">
+    <children>
+        <ChoiceBox id="datatype" fx:id="dataType" layoutX="104.0" layoutY="14.0" prefWidth="150.0"/>
+        <Label layoutX="14.0" layoutY="19.0" text="数据库类型："/>
+        <Label layoutX="265.0" layoutY="19.0" text="用户名："/>
+        <TextField fx:id="username" layoutX="325.0" layoutY="14.0"/>
+        <Label layoutX="544.0" layoutY="19.0" text="密码："/>
+        <TextField fx:id="password" layoutX="604.0" layoutY="14.0"/>
+        <Button fx:id="buttonCreate" layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#createCode"
+                text="生成CODE"/>
+        <TabPane layoutX="14.0" layoutY="92.0" prefHeight="487.0" prefWidth="1043.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="数据库">
+                    <content>
+                        <VBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <TableView fx:id="datatable" prefHeight="489.0" prefWidth="1043.0">
+                                    <columns>
+                                        <TableColumn id="selectcell" fx:id="create" prefWidth="75.0" text="选择"/>
+                                        <TableColumn fx:id="tableName" prefWidth="75.0" text="表名"/>
+                                        <TableColumn fx:id="tableRemark" prefWidth="75.0" text="注释"/>
+                                        <TableColumn id="viewcell" fx:id="tableViews" prefWidth="75.0" text="视图"/>
+                                        <TableColumn fx:id="tableAslis" prefWidth="75.0" text="别称"/>
+                                    </columns>
+                                </TableView>
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                    <children>
+                                        <Button fx:id="allT" mnemonicParsing="false" onAction="#selectAll"
+                                                text="全    选"/>
+                                        <Button mnemonicParsing="false" text="全选表"/>
+                                        <Button mnemonicParsing="false" text="全选视图"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab text="生成配置">
+                    <content>
+                        <VBox fx:id="createConfigure"/>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Button layoutX="910.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchData" text="扫描"/>
+        <TextField fx:id="host" layoutX="104.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0"/>
+        <Label layoutX="14.0" layoutY="59.0" text="HOST："/>
+        <Label layoutX="544.0" layoutY="59.0" text="数据库："/>
+        <TextField fx:id="databases" layoutX="604.0" layoutY="54.0" prefHeight="30.0" prefWidth="202.0"/>
+        <Label layoutX="265.0" layoutY="59.0" text="端口："/>
+        <TextField fx:id="port" layoutX="325.0" layoutY="54.0"/>
+    </children>
+</AnchorPane>
