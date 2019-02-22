@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.plugins;
 
@@ -84,9 +84,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         String table = introspectedTable.getBaseRecordType();
         String tableName = table.replaceAll(this.pojoUrl + ".", "");
         tableName = tableName.replace("base.", "");
-        interfaceType = new FullyQualifiedJavaType(servicePack + "." + tableName + "Service");
         daoType = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
-        serviceType = new FullyQualifiedJavaType(serviceImplPack + "." + tableName + "ServiceImpl");
+        if (servicePack != null && servicePack.length() > 0) {
+            serviceType = new FullyQualifiedJavaType(serviceImplPack + "." + tableName + "ServiceImpl");
+        } else {
+            serviceType = new FullyQualifiedJavaType(serviceImplPack + "." + tableName + "Service");
+        }
         pojoType = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
         pageType = new FullyQualifiedJavaType("com.wonders.common.base.Page");
         pojoCriteriaType = new FullyQualifiedJavaType(pojoUrl + "."
@@ -96,12 +99,17 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         wonderType = new FullyQualifiedJavaType("com.wonders.common.util.WonderParams");
         idworkType = new FullyQualifiedJavaType("com.baomidou.mybatisplus.toolkit.IdWorker");
         pageHelpType = new FullyQualifiedJavaType("com.wonders.common.util.PageHelper");
-        Interface interface1 = new Interface(interfaceType);
         TopLevelClass topLevelClass = new TopLevelClass(serviceType);
-        // 导入必要的类
-        addImport(interface1, topLevelClass);
-        // 接口
-        addService(interface1, introspectedTable, tableName, files);
+        if (servicePack != null && servicePack.length() > 0) {
+            interfaceType = new FullyQualifiedJavaType(servicePack + "." + tableName + "Service");
+            Interface interface1 = new Interface(interfaceType);
+            // 导入必要的类
+            addImport(interface1, topLevelClass);
+            // 接口
+            addService(interface1, introspectedTable, tableName, files);
+        } else {
+            addImport(null, topLevelClass);
+        }
         // 实现类
         addServiceImpl(topLevelClass, introspectedTable, tableName, files);
         // 添加日志信息
@@ -197,7 +205,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     protected void addServiceImpl(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName, List<GeneratedJavaFile> files) {
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         // 设置实现的接口
-        topLevelClass.addSuperInterface(interfaceType);
+        if (servicePack != null && servicePack.length() > 0) {
+            topLevelClass.addSuperInterface(interfaceType);
+        }
         // 添加注解
         topLevelClass.addAnnotation("@Component");
         topLevelClass.addImportedType(service);
@@ -294,10 +304,12 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      */
     private void addImport(Interface interfaces, TopLevelClass topLevelClass) {
         // 接口包导入
-        interfaces.addImportedType(pojoType);
-        interfaces.addImportedType(listType);
-        interfaces.addImportedType(pageType);
-        interfaces.addImportedType(mapType);
+        if (servicePack != null && servicePack.length() > 0 && interfaces != null) {
+            interfaces.addImportedType(pojoType);
+            interfaces.addImportedType(listType);
+            interfaces.addImportedType(pageType);
+            interfaces.addImportedType(mapType);
+        }
         // 实现包导入
         topLevelClass.addImportedType(daoType);
         topLevelClass.addImportedType(interfaceType);

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- 引入配置文件,非必须 -->
+    <!-- !!!! Driver Class Path !!!! -->
+    <classPathEntry
+            location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
+    <context id="context" targetRuntime="MyBatis3">
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter"
+                  value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter"
+                  value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!--开启抑制类型的警告信息 -->
+        <property name="suppressTypeWarnings" value="true"/>
+        <!--插件 ：用来给Java模型生成equals和hashcode方法 -->
+        <plugin
+                type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!--插件 ：用来为生成的Java模型类添加序列化接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--插件 ：用来为生成的Java模型 toString 方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--插件 ：修改查询名称为 Criteria -->
+        <plugin
+                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+        <!--插件 ：修改生成Service接口和实现 -->
+        <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">
+            <!--参数 ：实现包 -->
+            <property name="implementationPackage"
+                      value="com.wonders.runtimes.service"/>
+            <!--参数 ：接口包 -->
+            <!--<property name="targetPackage"
+                      value="com.wonders.runtimes.service"/>-->
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="src/main/java"/>
+        </plugin>
+        <!--插件 ：修改生成Controller -->
+        <!--<plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
+            &lt;!&ndash;参数 ：包名 &ndash;&gt;
+            <property name="targetPackage"
+                      value="com.wonders.runtimes.controller"/>
+            &lt;!&ndash;参数 ：引用Service包名 &ndash;&gt;
+            <property name="servicePackage" value="com.wonders.runtimes.service"/>
+            &lt;!&ndash;参数 ：文件生成路径 &ndash;&gt;
+            <property name="targetProject" value="src/main/java"/>
+        </plugin>-->
+        <!--插件 ：创建集成Mapper类 -->
+        <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
+
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+        </commentGenerator>
+        <!-- !!!! Database Configurations !!!! -->
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://218.95.173.161:53306/nxlagc_test_jk"
+                        userId="nxlagctest" password="wonDErsteStDb20!8"/>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- !!!! Model Configurations !!!! -->
+        <javaModelGenerator targetPackage="com.wonders.runtimes.entity"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- !!!! Mapper XML Configurations !!!! -->
+        <sqlMapGenerator targetPackage="com.wonders.runtimes.mapping"
+                         targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- !!!! Mapper Interface Configurations !!!! -->
+        <javaClientGenerator targetPackage="com.wonders.runtimes.mapper"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table tableName="jk_ms" alias="ms" domainObjectName="JkMsEntity"
+               escapeWildcards="true"/>
+
+    </context>
+</generatorConfiguration>

@@ -32,7 +32,7 @@ public class RunTest {
         // String currentPath2=test.getClass().getResource("").getFile().toString();
         // 当前目录的上级目录路径
         // String parentPath=test.getClass().getResource("../").getFile().toString();
-        String[] arg = new String[]{"-configfile", rootPath + "mybatis-generator.xml",
+        String[] arg = new String[]{"-configfile", rootPath + "mybatis-generator_01.xml",
                 "-overwrite", "-verbose"};
         // String[] arg = new String[]{"-configfile", rootPath +
         // "test/generatorConfigForMySql.xml", "-overwrite"};
