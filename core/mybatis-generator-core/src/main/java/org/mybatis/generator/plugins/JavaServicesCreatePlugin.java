@@ -38,6 +38,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private FullyQualifiedJavaType listType;
     private FullyQualifiedJavaType autowired;
     private FullyQualifiedJavaType service;
+    private FullyQualifiedJavaType transactional;
     private FullyQualifiedJavaType mapType;
     private FullyQualifiedJavaType wonderType;
     private FullyQualifiedJavaType idworkType;
@@ -70,6 +71,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         pojoUrl = context.getJavaModelGeneratorConfiguration().getTargetPackage();
         autowired = new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.Autowired");
         service = new FullyQualifiedJavaType("org.springframework.stereotype.Component");
+        transactional = new FullyQualifiedJavaType("org.springframework.transaction.annotation.Transactional");
         return true;
     }
 
@@ -210,7 +212,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         }
         // 添加注解
         topLevelClass.addAnnotation("@Component");
+        topLevelClass.addAnnotation("@Transactional(rollbackFor = Exception.class)");
         topLevelClass.addImportedType(service);
+        topLevelClass.addImportedType(transactional);
         // 添加引用dao
         addField(topLevelClass, tableName);
         // 添加条目数查询
@@ -319,6 +323,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         topLevelClass.addImportedType(slf4jLogger);
         topLevelClass.addImportedType(slf4jLoggerFactory);
         topLevelClass.addImportedType(service);
+        topLevelClass.addImportedType(transactional);
         topLevelClass.addImportedType(autowired);
         topLevelClass.addImportedType(pageType);
         topLevelClass.addImportedType(mapType);

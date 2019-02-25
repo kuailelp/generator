@@ -1,32 +1,19 @@
 package org.jfx.client.ui;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.jfx.client.main.App;
-import org.jfx.client.main.AppData;
 import org.jfx.client.model.DataTable;
+import org.jfx.client.ui.auxiliary.CreateContext;
 import org.jfx.client.ui.auxiliary.ScannData;
 import org.jfx.client.ui.auxiliary.SwitchSql;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 
 public class WinMain {
@@ -78,7 +65,7 @@ public class WinMain {
         port.setText("3306");
         scannData = new ScannData();
         switchSql = new SwitchSql();
-        buttonCreate.setDisable(true);
+//        buttonCreate.setDisable(true);
         getRenderingCreateConfigure();
 
     }
@@ -114,7 +101,8 @@ public class WinMain {
      * 创建人：廖鹏 | 创建日期：2019/2/19 8:43 <br>
      */
     public void createCode() {
-
+        CreateContext createContext = new CreateContext();
+        createContext.init();
     }
 
     /**

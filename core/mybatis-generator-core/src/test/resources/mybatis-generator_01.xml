@@ -39,18 +39,18 @@
             <!--<property name="targetPackage"
                       value="com.wonders.runtimes.service"/>-->
             <!--参数 ：文件生成路径 -->
-            <property name="targetProject" value="src/main/java"/>
+            <property name="targetProject" value="tempbar"/>
         </plugin>
         <!--插件 ：修改生成Controller -->
-        <!--<plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
-            &lt;!&ndash;参数 ：包名 &ndash;&gt;
+        <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
+            <!--参数 ：包名 -->
             <property name="targetPackage"
                       value="com.wonders.runtimes.controller"/>
-            &lt;!&ndash;参数 ：引用Service包名 &ndash;&gt;
+            <!--参数 ：引用Service包名 -->
             <property name="servicePackage" value="com.wonders.runtimes.service"/>
-            &lt;!&ndash;参数 ：文件生成路径 &ndash;&gt;
-            <property name="targetProject" value="src/main/java"/>
-        </plugin>-->
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="tempbar"/>
+        </plugin>
         <!--插件 ：创建集成Mapper类 -->
         <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
 
@@ -71,25 +71,27 @@
         </javaTypeResolver>
         <!-- !!!! Model Configurations !!!! -->
         <javaModelGenerator targetPackage="com.wonders.runtimes.entity"
-                            targetProject="src/main/java">
+                            targetProject="tempbar">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- !!!! Mapper XML Configurations !!!! -->
         <sqlMapGenerator targetPackage="com.wonders.runtimes.mapping"
-                         targetProject="src/main/java">
+                         targetProject="tempbar">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- !!!! Mapper Interface Configurations !!!! -->
         <javaClientGenerator targetPackage="com.wonders.runtimes.mapper"
-                             targetProject="src/main/java"
+                             targetProject="tempbar"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table tableName="jk_ms" alias="ms" domainObjectName="JkMsEntity"
-               escapeWildcards="true"/>
+        <!--<table tableName="jk_ms" alias="ms" domainObjectName="JkMsEntity"
+               escapeWildcards="true"/>-->
 
+        <table tableName="jk_dyls" alias="dyls" domainObjectName="JkDylsEntity"
+               escapeWildcards="true"/>
     </context>
 </generatorConfiguration>
