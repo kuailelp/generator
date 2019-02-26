@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.plugins;
 
@@ -258,7 +258,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("countByExample");
-        method.addAnnotation("@RequestMapping(value = \"count_by_example\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"count_by_example\")");
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addBodyLine("try {");
@@ -285,7 +285,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("deleteByExample");
-        method.addAnnotation("@RequestMapping(value = \"delete_by_example\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"delete_by_example\")");
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addBodyLine("try {");
@@ -312,7 +312,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("deleteByPrimaryKey");
-        method.addAnnotation("@RequestMapping(value = \"delete_by_primarykey\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"delete_by_primarykey\")");
         method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(),
                 introspectedColumn.getJavaProperty(), "@RequestParam(value = \"" + introspectedColumn.getJavaProperty() + "\")"));
         method.setReturnType(resultType);
@@ -341,7 +341,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("insert");
-        method.addAnnotation("@RequestMapping(value = \"insert\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"insert\")");
         method.addParameter(new Parameter(pojoType, "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -372,7 +372,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("insertSelective");
-        method.addAnnotation("@RequestMapping(value = \"insert_selective\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"insert_selective\")");
         method.addParameter(new Parameter(pojoType, "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -402,7 +402,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("selectByExample");
-        method.addAnnotation("@RequestMapping(value = \"select_by_example\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"select_by_example\")");
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addBodyLine("try {");
@@ -430,7 +430,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("selectByPrimaryKey");
-        method.addAnnotation("@RequestMapping(value = \"select_by_primarykey\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"select_by_primarykey\")");
         method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(),
                 introspectedColumn.getJavaProperty(), "@RequestParam(value = \"" + introspectedColumn.getJavaProperty() + "\")"));
         method.setReturnType(resultType);
@@ -463,7 +463,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByExample");
-        method.addAnnotation("@RequestMapping(value = \"update_by_example\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"update_by_example\")");
         method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -493,7 +493,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByExampleSelective");
-        method.addAnnotation("@RequestMapping(value = \"update_by_ex_sel\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"update_by_ex_sel\")");
         method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -523,7 +523,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByPrimaryKeySelective");
-        method.addAnnotation("@RequestMapping(value = \"update_by_primary_key_sel\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"update_by_primary_key_sel\")");
         method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -552,7 +552,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("updateByPrimaryKey");
-        method.addAnnotation("@RequestMapping(value = \"update_by_primary_key\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"update_by_primary_key\")");
         method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
@@ -581,7 +581,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
         method.setName("selectByPage");
-        method.addAnnotation("@RequestMapping(value = \"select_by_page\",produces = \"text/plain;charset=UTF-8\")");
+        method.addAnnotation("@RequestMapping(value = \"select_by_page\")");
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addBodyLine("try {");
