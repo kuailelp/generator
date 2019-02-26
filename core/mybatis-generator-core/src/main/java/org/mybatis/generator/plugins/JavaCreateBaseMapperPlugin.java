@@ -24,6 +24,7 @@ import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.config.Context;
 import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
 import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
@@ -161,13 +162,16 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
      * 创建人：廖鹏 | 创建日期：2019/1/30 21:55 <br>
      */
     private GeneratedXmlFile createExpXml(IntrospectedTable introspectedTable) {
-        Document document = new Document();
+        Document document = new Document(
+                XmlConstants.MYBATIS3_MAPPER_PUBLIC_ID,
+                XmlConstants.MYBATIS3_MAPPER_SYSTEM_ID);
         XmlElement rootElement = new XmlElement("mapper");
         rootElement.addAttribute(new Attribute("namespace", mapperType.getFullyQualifiedNameWithoutTypeParameters()));
         //创建集成数据集
         XmlElement resultMap = new XmlElement("resultMap");
-        resultMap.addAttribute(new Attribute("extends", mapperBaseType.getFullyQualifiedNameWithoutTypeParameters() + ".BaseResultMap"));
         resultMap.addAttribute(new Attribute("id", "BaseResultExpMap"));
+        resultMap.addAttribute(new Attribute("type", modelType.getFullyQualifiedNameWithoutTypeParameters()));
+        resultMap.addAttribute(new Attribute("extends", mapperBaseType.getFullyQualifiedNameWithoutTypeParameters() + ".BaseResultMap"));
         rootElement.addElement(resultMap);
         document.setRootElement(rootElement);
         GeneratedXmlFile file = new GeneratedXmlFile(document,
