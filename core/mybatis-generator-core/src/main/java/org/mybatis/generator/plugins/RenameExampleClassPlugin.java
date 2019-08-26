@@ -29,28 +29,28 @@ import org.mybatis.generator.api.PluginAdapter;
  * This plugin demonstrates overriding the initialized() method to rename the
  * generated example classes. Instead of xxxExample, the classes will be named
  * xxxCriteria.
- * 
+ *
  * <p>This plugin accepts two properties:
- * 
+ *
  * <ul>
  * <li><tt>searchString</tt> (required) the regular expression of the name
  * search.</li>
  * <li><tt>replaceString</tt> (required) the replacement String.</li>
  * </ul>
- * 
+ *
  * <p>For example, to change the name of the generated Example classes from
  * xxxExample to xxxCriteria, specify the following:
- * 
+ *
  * <dl>
  * <dt>searchString</dt>
  * <dd>Example$</dd>
  * <dt>replaceString</dt>
  * <dd>Criteria</dd>
  * </dl>
- * 
- * 
+ *
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class RenameExampleClassPlugin extends PluginAdapter {
     private String searchString;
@@ -62,7 +62,7 @@ public class RenameExampleClassPlugin extends PluginAdapter {
 
     @Override
     public boolean validate(List<String> warnings) {
-
+        // todo:替换多功能搜索独立名称
         searchString = properties.getProperty("searchString"); //$NON-NLS-1$
         replaceString = properties.getProperty("replaceString"); //$NON-NLS-1$
 

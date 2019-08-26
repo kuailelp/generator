@@ -15,7 +15,7 @@
         <Label layoutX="544.0" layoutY="19.0" text="密码：" />
         <TextField fx:id="password" layoutX="604.0" layoutY="14.0" />
         <Button fx:id="buttonCreate" layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#createCode" text="生成CODE" />
-        <TabPane layoutX="14.0" layoutY="92.0" prefHeight="487.0" prefWidth="1043.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane layoutX="14.0" layoutY="126.0" prefHeight="453.0" prefWidth="1043.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="数据库">
                     <content>
@@ -55,5 +55,8 @@
         <TextField fx:id="databases" layoutX="604.0" layoutY="54.0" prefHeight="30.0" prefWidth="202.0" />
         <Label layoutX="265.0" layoutY="59.0" text="端口：" />
         <TextField fx:id="port" layoutX="325.0" layoutY="54.0" />
+      <Label layoutX="14.0" layoutY="95.0" text="JAR文件：" />
+      <TextField layoutX="104.0" layoutY="90.0" prefHeight="30.0" prefWidth="704.0" />
+      <Button layoutX="832.0" layoutY="90.0" mnemonicParsing="false" text="选择" />
     </children>
 </AnchorPane>

@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 public class JavaServicesCreatePlugin extends PluginAdapter {
 
@@ -33,6 +32,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private FullyQualifiedJavaType daoType;
     private FullyQualifiedJavaType interfaceType;
     private FullyQualifiedJavaType pojoType;
+    private FullyQualifiedJavaType pojoTypeExp;
     private FullyQualifiedJavaType pojoCriteriaType;
 
     private FullyQualifiedJavaType listType;
@@ -92,14 +92,15 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         } else {
             serviceType = new FullyQualifiedJavaType(serviceImplPack + "." + tableName + "Service");
         }
-        pojoType = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
+        pojoType = new FullyQualifiedJavaType(pojoUrl + "." + tableName);
+        pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
         pageType = new FullyQualifiedJavaType("com.wonders.common.base.Page");
         pojoCriteriaType = new FullyQualifiedJavaType(pojoUrl + "."
                 + table.replaceAll(this.pojoUrl + ".", "") + "Criteria");
         listType = new FullyQualifiedJavaType("java.util.List");
         mapType = new FullyQualifiedJavaType("java.util.Map");
         wonderType = new FullyQualifiedJavaType("com.wonders.common.util.WonderParams");
-        idworkType = new FullyQualifiedJavaType("com.baomidou.mybatisplus.toolkit.IdWorker");
+        idworkType = new FullyQualifiedJavaType("com.wonders.common.util.IdWorker");
         pageHelpType = new FullyQualifiedJavaType("com.wonders.common.util.PageHelper");
         TopLevelClass topLevelClass = new TopLevelClass(serviceType);
         if (servicePack != null && servicePack.length() > 0) {
@@ -254,7 +255,6 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         topLevelClass.addJavaDocLine(" * 修改内容：");
         topLevelClass.addJavaDocLine(" * 1.;");
         topLevelClass.addJavaDocLine(" **/");
-        Properties properties = context.getJavaClientGeneratorConfiguration().getProperties();
         file = new GeneratedJavaFile(topLevelClass, project, context.getJavaFormatter());
         files.add(file);
     }
@@ -309,7 +309,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private void addImport(Interface interfaces, TopLevelClass topLevelClass) {
         // 接口包导入
         if (servicePack != null && servicePack.length() > 0 && interfaces != null) {
-            interfaces.addImportedType(pojoType);
+            interfaces.addImportedType(pojoTypeExp);
             interfaces.addImportedType(listType);
             interfaces.addImportedType(pageType);
             interfaces.addImportedType(mapType);
@@ -317,7 +317,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         // 实现包导入
         topLevelClass.addImportedType(daoType);
         topLevelClass.addImportedType(interfaceType);
-        topLevelClass.addImportedType(pojoType);
+        topLevelClass.addImportedType(pojoTypeExp);
         topLevelClass.addImportedType(pojoCriteriaType);
         topLevelClass.addImportedType(listType);
         topLevelClass.addImportedType(slf4jLogger);
@@ -369,6 +369,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" *");
         method.addJavaDocLine(" * @param    params  查询参数");
         method.addJavaDocLine(" */");
+        method.addBodyLine("logger.debug(\"查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "条目数\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine("long count = " + toLowerCase(daoType.getShortName()) + ".countByExample(criteria);");
@@ -394,6 +395,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" *");
         method.addJavaDocLine(" * @param    params   删除参数");
         method.addJavaDocLine(" */");
+        method.addBodyLine("logger.debug(\"根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + ".deleteByExample(criteria);");
@@ -414,6 +416,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(),
                 introspectedColumn.getJavaProperty()));
         method.setVisibility(JavaVisibility.PUBLIC);
+        method.addBodyLine("logger.debug(\"根据主键删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "\");");
         method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + ".deleteByPrimaryKey(" + introspectedColumn.getJavaProperty() + ");");
         method.addBodyLine("return result;");
         method.addJavaDocLine("/**");
@@ -437,9 +440,10 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("insert");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
+        method.addParameter(new Parameter(pojoTypeExp, "record"));
         FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
         String idkey = introspectedColumn.getJavaProperty();
+        method.addBodyLine("logger.debug(\"全局新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         if (key.equals(FullyQualifiedJavaType.getStringInstance())) {
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getIdStr()" + ");");
         } else {
@@ -468,9 +472,10 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("insertSelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
+        method.addParameter(new Parameter(pojoTypeExp, "record"));
         FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
         String idkey = introspectedColumn.getJavaProperty();
+        method.addBodyLine("logger.debug(\"条件新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         if (key.equals(FullyQualifiedJavaType.getStringInstance())) {
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getIdStr()" + ");");
         } else {
@@ -499,6 +504,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setReturnType(new FullyQualifiedJavaType("List"));
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
+        method.addBodyLine("logger.debug(\"条件查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine("return " + toLowerCase(daoType.getShortName()) + "." +
@@ -528,7 +534,8 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setReturnType(new FullyQualifiedJavaType(pojoType.getShortName()));
         method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty()));
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addBodyLine("return (" + tableName + "Exp)" + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getSelectByPrimaryKeyStatementId() + "(" + introspectedColumn.getJavaProperty() + ");");
+        method.addBodyLine("logger.debug(\"根据主键查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
+        method.addBodyLine("return " + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getSelectByPrimaryKeyStatementId() + "(" + introspectedColumn.getJavaProperty() + ");");
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据主键查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -552,8 +559,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByExample");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
+        method.addParameter(new Parameter(pojoTypeExp, "record"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
+        method.addBodyLine("logger.debug(\"根据条件修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
@@ -588,8 +596,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByExampleSelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
+        method.addParameter(new Parameter(pojoTypeExp, "record"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
+        method.addBodyLine("logger.debug(\"根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
@@ -622,7 +631,8 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByPrimaryKeySelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
+        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addBodyLine("logger.debug(\"根据单一对象主键修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
                 toLowerCase(daoType.getShortName()) + "." + (
                 introspectedTable.getUpdateByPrimaryKeySelectiveStatementId()
@@ -651,7 +661,8 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByPrimaryKey");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
+        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addBodyLine("logger.debug(\"根据单一对象主键修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
                 toLowerCase(daoType.getShortName()) + "." + (
                 introspectedTable.getRules().generateResultMapWithBLOBs() ?
@@ -684,6 +695,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(pageType, "page"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
+        method.addBodyLine("logger.debug(\"分页查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine(pageHelpType.getShortName() + ".setPagination(page);");

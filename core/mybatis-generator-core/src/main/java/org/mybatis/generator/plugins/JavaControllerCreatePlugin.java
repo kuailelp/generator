@@ -99,6 +99,8 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         resultType = new FullyQualifiedJavaType("com.wonders.common.base.Return");
         superClassType = new FullyQualifiedJavaType("com.wonders.common.action.PagesController");
         TopLevelClass topLevelClass = new TopLevelClass(controllerType);
+        topLevelClass.addAnnotation("@KSPage");
+        topLevelClass.addImportedType("com.wonders.aops.controller.KSPage");
         // 导入必要的类
         addImport(topLevelClass);
         // 实现类

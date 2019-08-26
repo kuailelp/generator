@@ -30,7 +30,9 @@ import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
 import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
 import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -140,6 +142,16 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
         topLevelClass.setSuperClass(modelBaseType);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         topLevelClass.addImportedType(modelBaseType);
+        topLevelClass.addJavaDocLine("/**");
+        topLevelClass.addJavaDocLine(" * 文件名：" + topLevelClass.getType().getShortName() + ".java <br>");
+        topLevelClass.addJavaDocLine(" * 描述：" + introspectedTable.getFullyQualifiedTable().getRemark() + " 扩展属性类 <br>");
+        topLevelClass.addJavaDocLine(" * 创建人：Mybatis Genertor <br>");
+        topLevelClass.addJavaDocLine(" * 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "<br>");
+        topLevelClass.addJavaDocLine(" * 修改人：");
+        topLevelClass.addJavaDocLine(" * 修改日期：");
+        topLevelClass.addJavaDocLine(" * 修改内容：");
+        topLevelClass.addJavaDocLine(" * ");
+        topLevelClass.addJavaDocLine(" */");
         GeneratedJavaFile file = new GeneratedJavaFile(topLevelClass, projectMode, context.getJavaFormatter());
         return file;
     }
@@ -153,6 +165,16 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
         interface1.addSuperInterface(mapperBaseType);
         interface1.setVisibility(JavaVisibility.PUBLIC);
         interface1.addImportedType(mapperBaseType);
+        interface1.addJavaDocLine("/**");
+        interface1.addJavaDocLine(" * 文件名：" + interface1.getType().getShortName() + ".java <br>");
+        interface1.addJavaDocLine(" * 描述：" + introspectedTable.getFullyQualifiedTable().getRemark() + " Mapper自定义方法接口 <br>");
+        interface1.addJavaDocLine(" * 创建人：Mybatis Genertor <br>");
+        interface1.addJavaDocLine(" * 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "<br>");
+        interface1.addJavaDocLine(" * 修改人：");
+        interface1.addJavaDocLine(" * 修改日期：");
+        interface1.addJavaDocLine(" * 修改内容：");
+        interface1.addJavaDocLine(" * ");
+        interface1.addJavaDocLine(" */");
         GeneratedJavaFile file = new GeneratedJavaFile(interface1, projectMapper, context.getJavaFormatter());
         return file;
     }
@@ -174,6 +196,7 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
         resultMap.addAttribute(new Attribute("extends", mapperBaseType.getFullyQualifiedNameWithoutTypeParameters() + ".BaseResultMap"));
         rootElement.addElement(resultMap);
         document.setRootElement(rootElement);
+
         GeneratedXmlFile file = new GeneratedXmlFile(document,
                 mapperType.getShortName() + ".xml", packageXML, projectMode,
                 true, context.getXmlFormatter());

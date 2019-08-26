@@ -2,6 +2,16 @@ package org.jfx.client.ui.auxiliary;
 
 import org.jfx.client.main.AppData;
 
+/**
+ * 文件名：SwitchSql.java
+ * 描述：切换sql查询
+ * 创建人：廖鹏
+ * 创建日期：2019/3/26 9:02
+ * 修改人：
+ * 修改日期：
+ * 修改内容：
+ * 1.;
+ */
 public class SwitchSql {
 
     private String host;

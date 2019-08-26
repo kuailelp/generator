@@ -8,6 +8,8 @@
     <!-- !!!! Driver Class Path !!!! -->
     <classPathEntry
             location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
+    <!--    <classPathEntry-->
+    <!--            location="D:/m2/repository/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>-->
     <context id="context" targetRuntime="MyBatis3">
         <!-- 格式化java代码 -->
         <property name="javaFormatter"
@@ -15,6 +17,8 @@
         <!-- 格式化XML代码 -->
         <property name="xmlFormatter"
                   value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!-- 是否生成Example Java 代码 -->
+        <property name="exampleCreateJava" value="false"/>
         <!--开启抑制类型的警告信息 -->
         <property name="suppressTypeWarnings" value="true"/>
         <!--插件 ：用来给Java模型生成equals和hashcode方法 -->
@@ -34,26 +38,26 @@
         <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">
             <!--参数 ：实现包 -->
             <property name="implementationPackage"
-                      value="com.wonders.api.service.impl"/>
+                      value="com.wonders.archive.personinfo.servicesimpl"/>
             <!--参数 ：接口包 -->
             <property name="targetPackage"
-                      value="com.wonders.api.service"/>
+                      value="com.wonders.archive.personinfo.services"/>
+            <!--参数：是否生成内部基础方法 -->
             <!--参数 ：文件生成路径 -->
-            <property name="targetProject" value="tempbar"/>
+            <property name="targetProject" value="E:/tmp"/>
         </plugin>
         <!--插件 ：修改生成Controller -->
         <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
             <!--参数 ：包名 -->
             <property name="targetPackage"
-                      value="com.wonders.api.controller"/>
+                      value="com.wonders.archive.personinfo.controller"/>
             <!--参数 ：引用Service包名 -->
-            <property name="servicePackage" value="com.wonders.api.service"/>
+            <property name="servicePackage" value="com.wonders.archive.personinfo.services"/>
             <!--参数 ：文件生成路径 -->
-            <property name="targetProject" value="tempbar"/>
+            <property name="targetProject" value="E:/tmp"/>
         </plugin>
         <!--插件 ：创建集成Mapper类 -->
         <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
-
 
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
@@ -64,43 +68,32 @@
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://218.95.173.161:53306/nxlagc_test_jk"
-                        userId="nxlagctest" password="wonDErsteStDb20!8"/>
+                        connectionURL="jdbc:mysql://90.90.90.3:33060/nxrkjda"
+                        userId="nxrkjda" password="$yda44F@GLC$"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- !!!! Model Configurations !!!! -->
-        <javaModelGenerator targetPackage="com.wonders.api.entity"
-                            targetProject="tempbar">
-            <property name="enableSubPackages" value="false"/>
+        <javaModelGenerator targetPackage="com.wonders.archive.personinfo.entity"
+                            targetProject="E:/tmp">
+            <!--            <property name="enableSubPackages" value="true"/>-->
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- !!!! Mapper XML Configurations !!!! -->
-        <sqlMapGenerator targetPackage="com.wonders.api.mapping"
-                         targetProject="tempbar">
-            <property name="enableSubPackages" value="false"/>
-
+        <sqlMapGenerator targetPackage="com.wonders.archive.personinfo.mapping"
+                         targetProject="E:/tmp">
+            <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- !!!! Mapper Interface Configurations !!!! -->
-        <javaClientGenerator targetPackage="com.wonders.api.mapper"
-                             targetProject="tempbar"
+        <javaClientGenerator targetPackage="com.wonders.archive.personinfo.mapper"
+                             targetProject="E:/tmp"
                              type="XMLMAPPER">
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="jk_ms" alias="ms" domainObjectName="JkMsEty"
-               escapeWildcards="true"/>
-        <table tableName="jk_group" alias="group" domainObjectName="JkGroupEty"
-               escapeWildcards="true"/>
-        <table tableName="jk_dyqx" alias="dyqx" domainObjectName="JkDyqxEty"
-               escapeWildcards="true"/>
-        <table tableName="jk_dylss" alias="dylss" domainObjectName="JkDylssEty"
-               escapeWildcards="true"/>
-        <table tableName="jk_dyls" alias="dyls" domainObjectName="JkDylsEty"
-               escapeWildcards="true"/>
-        <table tableName="jk_cspz" alias="cspz" domainObjectName="JkCspzEty"
-               escapeWildcards="true"/>
-
+<!--        <table tableName="ac01" domainObjectName="Ac01Entity" alias="ac01"/>-->
+<!--        <table tableName="ac95" domainObjectName="Ac95Entity" alias="ac95"/>-->
+        <table tableName="cd60" domainObjectName="Cd60Entity" alias="cd60"/>
     </context>
 </generatorConfiguration>
