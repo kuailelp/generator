@@ -20,9 +20,9 @@ import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class DeleteByExampleElementGenerator extends
         AbstractXmlElementGenerator {
@@ -36,7 +36,7 @@ public class DeleteByExampleElementGenerator extends
         XmlElement answer = new XmlElement("delete"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getDeleteByExampleStatementId())); //$NON-NLS-1$
+                "id", introspectedTable.getExampleDeleteWhereClauseId())); //$NON-NLS-1$
         answer.addAttribute(new Attribute(
                 "parameterClass", introspectedTable.getExampleType())); //$NON-NLS-1$
 

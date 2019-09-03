@@ -1,40 +1,47 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2016 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
-
 import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 
+import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
+
 /**
- *
  * @author Jeff Butler
- *
  */
-public class ExampleWhereClauseElementGenerator extends
+public class ExampleDeleteWhereClauseElementGenerator extends
         AbstractXmlElementGenerator {
 
     private boolean isForUpdateByExample;
+    private IntrospectedTable introspectedTable;
+    private String alias;
 
-    public ExampleWhereClauseElementGenerator(boolean isForUpdateByExample) {
+    public ExampleDeleteWhereClauseElementGenerator(boolean isForUpdateByExample) {
         super();
         this.isForUpdateByExample = isForUpdateByExample;
+    }
+
+    public ExampleDeleteWhereClauseElementGenerator(boolean isForUpdateByExample, IntrospectedTable introspectedTable) {
+        super();
+        this.isForUpdateByExample = isForUpdateByExample;
+        this.introspectedTable = introspectedTable;
     }
 
     @Override
@@ -44,10 +51,10 @@ public class ExampleWhereClauseElementGenerator extends
         if (isForUpdateByExample) {
             answer
                     .addAttribute(new Attribute(
-                            "id", introspectedTable.getMyBatis3UpdateByExampleWhereClauseId())); //$NON-NLS-1$
+                            "id", introspectedTable.getExampleDeleteWhereClauseId())); //$NON-NLS-1$
         } else {
             answer.addAttribute(new Attribute(
-                    "id", introspectedTable.getExampleWhereClauseId())); //$NON-NLS-1$
+                    "id", introspectedTable.getExampleDeleteWhereClauseId())); //$NON-NLS-1$
         }
 
         context.getCommentGenerator().addComment(answer);
@@ -70,7 +77,7 @@ public class ExampleWhereClauseElementGenerator extends
         XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
         ifElement.addAttribute(new Attribute("test", "criteria.valid")); //$NON-NLS-1$ //$NON-NLS-2$
         outerForEachElement.addElement(ifElement);
-
+        alias = introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime().split(" ")[1];
         XmlElement trimElement = new XmlElement("trim"); //$NON-NLS-1$
         trimElement.addAttribute(new Attribute("prefix", "(")); //$NON-NLS-1$ //$NON-NLS-2$
         trimElement.addAttribute(new Attribute("suffix", ")")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -131,13 +138,13 @@ public class ExampleWhereClauseElementGenerator extends
 
         XmlElement when = new XmlElement("when"); //$NON-NLS-1$
         when.addAttribute(new Attribute("test", "criterion.noValue")); //$NON-NLS-1$ //$NON-NLS-2$
-        when.addElement(new TextElement("and ${criterion.condition}")); //$NON-NLS-1$
+        when.addElement(new TextElement("and ${criterion.condition.replace('" + alias + ".',' ')}")); //$NON-NLS-1$
         chooseElement.addElement(when);
 
         when = new XmlElement("when"); //$NON-NLS-1$
         when.addAttribute(new Attribute("test", "criterion.singleValue")); //$NON-NLS-1$ //$NON-NLS-2$
         sb.setLength(0);
-        sb.append("and ${criterion.condition} #{criterion.value"); //$NON-NLS-1$
+        sb.append("and ${criterion.condition.replace('" + alias + ".','')} #{criterion.value"); //$NON-NLS-1$
         if (typeHandled) {
             sb.append(typeHandlerString);
         }
@@ -148,7 +155,7 @@ public class ExampleWhereClauseElementGenerator extends
         when = new XmlElement("when"); //$NON-NLS-1$
         when.addAttribute(new Attribute("test", "criterion.betweenValue")); //$NON-NLS-1$ //$NON-NLS-2$
         sb.setLength(0);
-        sb.append("and ${criterion.condition} #{criterion.value"); //$NON-NLS-1$
+        sb.append("and ${criterion.condition.replace('" + alias + ".','')} #{criterion.value"); //$NON-NLS-1$
         if (typeHandled) {
             sb.append(typeHandlerString);
         }
@@ -162,7 +169,7 @@ public class ExampleWhereClauseElementGenerator extends
 
         when = new XmlElement("when"); //$NON-NLS-1$
         when.addAttribute(new Attribute("test", "criterion.listValue")); //$NON-NLS-1$ //$NON-NLS-2$
-        when.addElement(new TextElement("and ${criterion.condition}")); //$NON-NLS-1$
+        when.addElement(new TextElement("and ${criterion.condition.replace('" + alias + ".','')}")); //$NON-NLS-1$
         XmlElement innerForEach = new XmlElement("foreach"); //$NON-NLS-1$
         innerForEach
                 .addAttribute(new Attribute("collection", "criterion.value")); //$NON-NLS-1$ //$NON-NLS-2$

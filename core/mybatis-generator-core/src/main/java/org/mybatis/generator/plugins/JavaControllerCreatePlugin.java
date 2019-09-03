@@ -35,6 +35,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
     private FullyQualifiedJavaType serviceType;
     private FullyQualifiedJavaType controllerType;
     private FullyQualifiedJavaType pojoType;
+//    private FullyQualifiedJavaType pojoTypeExp;
     private FullyQualifiedJavaType superClassType;
 
 
@@ -92,7 +93,8 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         tableName = tableName.replace("base.", "");
         serviceType = new FullyQualifiedJavaType(servicePack + "." + tableName + "Service");
         controllerType = new FullyQualifiedJavaType(controllerPack + "." + tableName + "Controller");
-        pojoType = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
+        pojoType = new FullyQualifiedJavaType(pojoUrl + ".base." + tableName);
+//        pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
         pageType = new FullyQualifiedJavaType("com.wonders.common.base.Page");
         listType = new FullyQualifiedJavaType("java.util.List");
         mapType = new FullyQualifiedJavaType("java.util.Map");
@@ -219,6 +221,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      */
     private void addImport(TopLevelClass topLevelClass) {
         topLevelClass.addImportedType(pojoType);
+//        topLevelClass.addImportedType(pojoTypeExp);
         topLevelClass.addImportedType(listType);
         topLevelClass.addImportedType(slf4jLogger);
         topLevelClass.addImportedType(slf4jLoggerFactory);
@@ -438,7 +441,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addBodyLine("try {");
-        method.addBodyLine(tableName + "Exp result = " + toLowerCase(serviceType.getShortName()) +
+        method.addBodyLine(tableName + " result = " + toLowerCase(serviceType.getShortName()) +
                 ".selectByPrimaryKey(" + introspectedColumn.getJavaProperty() + ");");
         method.addBodyLine("return Return.build().setCode(Return.SUSSESS_CODE).setData(result).setMsg(\"查询数据成功！\");");
         method.addBodyLine("} catch (Exception e) {");
@@ -587,7 +590,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addBodyLine("try {");
-        method.addBodyLine("Page<" + tableName + "Exp> result = " + toLowerCase(serviceType.getShortName()) + ".selectByPage(getPage(),getParams());");
+        method.addBodyLine("Page<" + tableName + "> result = " + toLowerCase(serviceType.getShortName()) + ".selectByPage(getPage(),getParams());");
         method.addBodyLine("return Return.build().setCode(Return.SUSSESS_CODE).setData(result).setMsg(\"查询数据成功！\");");
         method.addBodyLine("} catch (Exception e) {");
         method.addBodyLine("e.printStackTrace();");

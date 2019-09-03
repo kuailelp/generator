@@ -32,7 +32,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private FullyQualifiedJavaType daoType;
     private FullyQualifiedJavaType interfaceType;
     private FullyQualifiedJavaType pojoType;
-    private FullyQualifiedJavaType pojoTypeExp;
+//    private FullyQualifiedJavaType pojoTypeExp;
     private FullyQualifiedJavaType pojoCriteriaType;
 
     private FullyQualifiedJavaType listType;
@@ -48,6 +48,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private String serviceImplPack;
     private String project;
     private String pojoUrl;
+    private String mapper;
 
     // 主键
     private IntrospectedColumn introspectedColumn;
@@ -69,6 +70,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         serviceImplPack = properties.getProperty("implementationPackage");
         project = properties.getProperty("targetProject");
         pojoUrl = context.getJavaModelGeneratorConfiguration().getTargetPackage();
+        mapper = context.getJavaClientGeneratorConfiguration().getTargetPackage();
         autowired = new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.Autowired");
         service = new FullyQualifiedJavaType("org.springframework.stereotype.Component");
         transactional = new FullyQualifiedJavaType("org.springframework.transaction.annotation.Transactional");
@@ -86,14 +88,15 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         String table = introspectedTable.getBaseRecordType();
         String tableName = table.replaceAll(this.pojoUrl + ".", "");
         tableName = tableName.replace("base.", "");
-        daoType = new FullyQualifiedJavaType(introspectedTable.getMyBatis3JavaMapperType());
+        mapper = mapper.replace(".base", "");
+        daoType = new FullyQualifiedJavaType(mapper + "." + tableName + "ExpMapper");
         if (servicePack != null && servicePack.length() > 0) {
             serviceType = new FullyQualifiedJavaType(serviceImplPack + "." + tableName + "ServiceImpl");
         } else {
             serviceType = new FullyQualifiedJavaType(serviceImplPack + "." + tableName + "Service");
         }
-        pojoType = new FullyQualifiedJavaType(pojoUrl + "." + tableName);
-        pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
+        pojoType = new FullyQualifiedJavaType(pojoUrl + ".base." + tableName);
+//        pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
         pageType = new FullyQualifiedJavaType("com.wonders.common.base.Page");
         pojoCriteriaType = new FullyQualifiedJavaType(pojoUrl + "."
                 + table.replaceAll(this.pojoUrl + ".", "") + "Criteria");
@@ -309,7 +312,8 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private void addImport(Interface interfaces, TopLevelClass topLevelClass) {
         // 接口包导入
         if (servicePack != null && servicePack.length() > 0 && interfaces != null) {
-            interfaces.addImportedType(pojoTypeExp);
+            interfaces.addImportedType(pojoType);
+//            interfaces.addImportedType(pojoTypeExp);
             interfaces.addImportedType(listType);
             interfaces.addImportedType(pageType);
             interfaces.addImportedType(mapType);
@@ -317,7 +321,8 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         // 实现包导入
         topLevelClass.addImportedType(daoType);
         topLevelClass.addImportedType(interfaceType);
-        topLevelClass.addImportedType(pojoTypeExp);
+        topLevelClass.addImportedType(pojoType);
+//        topLevelClass.addImportedType(pojoTypeExp);
         topLevelClass.addImportedType(pojoCriteriaType);
         topLevelClass.addImportedType(listType);
         topLevelClass.addImportedType(slf4jLogger);
@@ -440,7 +445,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("insert");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addParameter(new Parameter(pojoType, "record"));
         FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
         String idkey = introspectedColumn.getJavaProperty();
         method.addBodyLine("logger.debug(\"全局新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
@@ -472,7 +477,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("insertSelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addParameter(new Parameter(pojoType, "record"));
         FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
         String idkey = introspectedColumn.getJavaProperty();
         method.addBodyLine("logger.debug(\"条件新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
@@ -559,7 +564,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByExample");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addParameter(new Parameter(pojoType, "record"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
         method.addBodyLine("logger.debug(\"根据条件修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
@@ -596,7 +601,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByExampleSelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addParameter(new Parameter(pojoType, "record"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
         method.addBodyLine("logger.debug(\"根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
@@ -631,7 +636,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByPrimaryKeySelective");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addParameter(new Parameter(pojoType, "record"));
         method.addBodyLine("logger.debug(\"根据单一对象主键修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
                 toLowerCase(daoType.getShortName()) + "." + (
@@ -661,7 +666,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.setName("updateByPrimaryKey");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoTypeExp, "record"));
+        method.addParameter(new Parameter(pojoType, "record"));
         method.addBodyLine("logger.debug(\"根据单一对象主键修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
                 toLowerCase(daoType.getShortName()) + "." + (
@@ -691,7 +696,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("selectByPage");
-        method.setReturnType(new FullyQualifiedJavaType("Page<" + tableName + "Exp>"));
+        method.setReturnType(new FullyQualifiedJavaType("Page<" + tableName + ">"));
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(pageType, "page"));
         method.addParameter(new Parameter(FullyQualifiedJavaType.getNewMapInstance(), "params"));
@@ -699,7 +704,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
         method.addBodyLine(wonderType.getShortName() + ".parseExample(params,criteria.createCriteria());");
         method.addBodyLine(pageHelpType.getShortName() + ".setPagination(page);");
-        method.addBodyLine("Page<" + tableName + "Exp> result = new Page(" +
+        method.addBodyLine("Page<" + tableName + "> result = new Page(" +
                 toLowerCase(daoType.getShortName()) + "." + (
                 introspectedTable.getRules().generateResultMapWithBLOBs() ?
                         introspectedTable.getSelectByExampleWithBLOBsStatementId() :

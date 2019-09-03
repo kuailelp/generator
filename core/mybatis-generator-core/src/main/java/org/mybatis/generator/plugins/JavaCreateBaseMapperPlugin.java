@@ -15,10 +15,7 @@
  */
 package org.mybatis.generator.plugins;
 
-import org.mybatis.generator.api.GeneratedJavaFile;
-import org.mybatis.generator.api.GeneratedXmlFile;
-import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.PluginAdapter;
+import org.mybatis.generator.api.*;
 import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
@@ -29,6 +26,7 @@ import org.mybatis.generator.config.Context;
 import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
 import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
 import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
+import org.mybatis.generator.internal.util.JavaBeansUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +35,7 @@ import java.util.List;
 
 /**
  * 修改生成对象位置
+ * FIXME: 生成扩展类
  */
 public class JavaCreateBaseMapperPlugin extends PluginAdapter {
 
@@ -152,9 +151,48 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
         topLevelClass.addJavaDocLine(" * 修改内容：");
         topLevelClass.addJavaDocLine(" * ");
         topLevelClass.addJavaDocLine(" */");
+        createConstructor(topLevelClass, introspectedTable, tableName);
+        createSetMet(topLevelClass, introspectedTable, tableName);
         GeneratedJavaFile file = new GeneratedJavaFile(topLevelClass, projectMode, context.getJavaFormatter());
         return file;
     }
+
+    private void createConstructor(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName) {
+        Method method = new Method();
+        method.setName(topLevelClass.getType().getShortName());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setConstructor(true);
+        method.addBodyLine("// 空的构造函数");
+        topLevelClass.addMethod(method);
+    }
+
+    private void createSetMet(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName) {
+        Method method = new Method();
+        method.setConstructor(true);
+        method.addJavaDocLine("/** ");
+        method.addJavaDocLine("  * 实体移植构造 将父类移植到子类中 ");
+        method.addJavaDocLine("  * ");
+        method.addJavaDocLine("  */ ");
+        method.setName(topLevelClass.getType().getShortName());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.addParameter(new Parameter(new FullyQualifiedJavaType(packageModel + "." + tableName), "entity"));
+        List<IntrospectedColumn> list = introspectedTable.getAllColumns();
+        list.forEach(introspectedColumn -> {
+            System.out.println(introspectedColumn.getTypeHandler());
+            method.addBodyLine("// 移植 " + introspectedColumn.getRemarks().trim() + " 参数");
+            method.addBodyLine(
+                    "this." +
+                            JavaBeansUtil.getSetterMethodName(introspectedColumn.getJavaProperty() + "(" +
+                                    "entity." +
+                                    JavaBeansUtil.getGetterMethodName(
+                                            introspectedColumn.getJavaProperty(),
+                                            introspectedColumn.getFullyQualifiedJavaType()) + "());"
+                            )
+            );
+        });
+        topLevelClass.addMethod(method);
+    }
+
 
     /**
      * 描述：生成扩展接口属性 <br>

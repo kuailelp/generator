@@ -95,5 +95,7 @@
         <table tableName="cd81" domainObjectName="Cd81Entity" alias="cd81"/>
         <table tableName="cd82" domainObjectName="Cd82Entity" alias="cd82"/>
         <table tableName="cd83" domainObjectName="Cd83Entity" alias="cd83"/>
+        <table tableName="cc60" domainObjectName="Cc60Entity" alias="cc60"/>
+        <table tableName="cc61" domainObjectName="Cc61Entity" alias="cc61"/>
     </context>
 </generatorConfiguration>
