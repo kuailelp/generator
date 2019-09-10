@@ -92,28 +92,31 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="cc70" domainObjectName="Cc70Entity" alias="cc70"/>
+        <!--        <table tableName="cc70" domainObjectName="Cc70Entity" alias="cc70"/>-->
         <table tableName="cc71" domainObjectName="Cc71Entity" alias="cc71"/>
-        <table tableName="cc72" domainObjectName="Cc72Entity" alias="cc72"/>
-        <table tableName="cc73" domainObjectName="Cc73Entity" alias="cc73"/>
-        <table tableName="cc74" domainObjectName="Cc74Entity" alias="cc74"/>
-        <table tableName="cc75" domainObjectName="Cc75Entity" alias="cc75"/>
-        <table tableName="cc76" domainObjectName="Cc76Entity" alias="cc76"/>
-        <table tableName="cc77" domainObjectName="Cc77Entity" alias="cc77"/>
-        <table tableName="cc78" domainObjectName="Cc78Entity" alias="cc78"/>
-        <table tableName="cc79" domainObjectName="Cc79Entity" alias="cc79"/>
-        <table tableName="ze22" domainObjectName="Ze22Entity" alias="ze22"/>
-        <table tableName="ze23" domainObjectName="Ze23Entity" alias="ze23"/>
-        <table tableName="ze30" domainObjectName="Ze30Entity" alias="ze30"/>
-        <table tableName="cd70" domainObjectName="Cd70Entity" alias="cd70"/>
-        <table tableName="cd71" domainObjectName="Cd71Entity" alias="cd71"/>
-        <table tableName="cd72" domainObjectName="Cd72Entity" alias="cd72"/>
-        <table tableName="cd75" domainObjectName="Cd75Entity" alias="cd72"/>
-        <table tableName="cc90" domainObjectName="Cc90Entity" alias="cc90"/>
-        <table tableName="cc91" domainObjectName="Cc91Entity" alias="cc91"/>
-        <table tableName="cd50" domainObjectName="Cd50Entity" alias="cd50"/>
-        <table tableName="cd51" domainObjectName="Cd51Entity" alias="cd51"/>
-        <table tableName="cd40" domainObjectName="Cd40Entity" alias="cd40"/>
-        <table tableName="cd41" domainObjectName="Cd41Entity" alias="cd41"/>
+        <!--        <table tableName="cc72" domainObjectName="Cc72Entity" alias="cc72"/>-->
+        <!--        <table tableName="cc73" domainObjectName="Cc73Entity" alias="cc73"/>-->
+        <!--        <table tableName="cc74" domainObjectName="Cc74Entity" alias="cc74"/>-->
+        <!--        <table tableName="cc75" domainObjectName="Cc75Entity" alias="cc75"/>-->
+        <!--        <table tableName="cc76" domainObjectName="Cc76Entity" alias="cc76"/>-->
+        <!--        <table tableName="cc77" domainObjectName="Cc77Entity" alias="cc77"/>-->
+        <!--        <table tableName="cc78" domainObjectName="Cc78Entity" alias="cc78"/>-->
+        <!--        <table tableName="cc79" domainObjectName="Cc79Entity" alias="cc79"/>-->
+        <!--        <table tableName="ze22" domainObjectName="Ze22Entity" alias="ze22"/>-->
+        <!--        <table tableName="ze23" domainObjectName="Ze23Entity" alias="ze23"/>-->
+        <!--        <table tableName="ze30" domainObjectName="Ze30Entity" alias="ze30"/>-->
+        <!--        <table tableName="cd70" domainObjectName="Cd70Entity" alias="cd70"/>-->
+        <!--        <table tableName="cd71" domainObjectName="Cd71Entity" alias="cd71"/>-->
+        <!--        <table tableName="cd72" domainObjectName="Cd72Entity" alias="cd72"/>-->
+        <!--        <table tableName="cd75" domainObjectName="Cd75Entity" alias="cd72"/>-->
+        <!--        <table tableName="cc90" domainObjectName="Cc90Entity" alias="cc90"/>-->
+        <!--        <table tableName="cc91" domainObjectName="Cc91Entity" alias="cc91"/>-->
+        <!--        <table tableName="cd50" domainObjectName="Cd50Entity" alias="cd50"/>-->
+        <!--        <table tableName="cd51" domainObjectName="Cd51Entity" alias="cd51"/>-->
+        <!--        <table tableName="cd40" domainObjectName="Cd40Entity" alias="cd40"/>-->
+        <!--        <table tableName="cd41" domainObjectName="Cd41Entity" alias="cd41"/>-->
+        <!--        <table tableName="cc94" domainObjectName="Cc94Entity" alias="cc94"/>-->
+        <!--        <table tableName="cc95" domainObjectName="Cc95Entity" alias="cc95"/>-->
+        <!--        <table tableName="ze35" domainObjectName="Ze35Entity" alias="ze35"/>-->
     </context>
 </generatorConfiguration>

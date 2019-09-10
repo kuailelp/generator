@@ -92,14 +92,17 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="ac01" domainObjectName="Ac01Entity" alias="ac01"/>
-        <table tableName="ac95" domainObjectName="Ac95Entity" alias="ac95"/>
-        <table tableName="cd60" domainObjectName="Cd60Entity" alias="cd60"/>
-        <table tableName="cd65" domainObjectName="Cd65Entity" alias="cd65"/>
-        <table tableName="ze62" domainObjectName="Ze62Entity" alias="ze62"/>
-        <table tableName="cd66" domainObjectName="Cd66Entity" alias="cd66"/>
-        <table tableName="cd67" domainObjectName="Cd67Entity" alias="cd67"/>
-        <table tableName="cd68" domainObjectName="Cd68Entity" alias="cd68"/>
-        <table tableName="ze63" domainObjectName="Ze63Entity" alias="ze63"/>
+        <!--        <table tableName="ac01" domainObjectName="Ac01Entity" alias="ac01"/>-->
+        <!--        <table tableName="ac95" domainObjectName="Ac95Entity" alias="ac95"/>-->
+        <!--        <table tableName="cd60" domainObjectName="Cd60Entity" alias="cd60"/>-->
+        <!--        <table tableName="cd65" domainObjectName="Cd65Entity" alias="cd65"/>-->
+        <!--        <table tableName="ze62" domainObjectName="Ze62Entity" alias="ze62"/>-->
+        <!--        <table tableName="cd66" domainObjectName="Cd66Entity" alias="cd66"/>-->
+        <!--        <table tableName="cd67" domainObjectName="Cd67Entity" alias="cd67"/>-->
+        <!--        <table tableName="cd68" domainObjectName="Cd68Entity" alias="cd68"/>-->
+        <!--        <table tableName="ze63" domainObjectName="Ze63Entity" alias="ze63"/>-->
+<!--        <table tableName="cd55" domainObjectName="Cd55Entity" alias="cd55"/>-->
+<!--        <table tableName="cd56" domainObjectName="Cd56Entity" alias="cd56"/>-->
+        <table tableName="cd57" domainObjectName="Cd57Entity" alias="cd57"/>
     </context>
 </generatorConfiguration>

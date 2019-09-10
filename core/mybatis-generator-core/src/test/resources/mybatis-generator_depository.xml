@@ -91,11 +91,12 @@
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="cd80" domainObjectName="Cd80Entity" alias="cd80"/>
-        <table tableName="cd81" domainObjectName="Cd81Entity" alias="cd81"/>
-        <table tableName="cd82" domainObjectName="Cd82Entity" alias="cd82"/>
-        <table tableName="cd83" domainObjectName="Cd83Entity" alias="cd83"/>
-        <table tableName="cc60" domainObjectName="Cc60Entity" alias="cc60"/>
-        <table tableName="cc61" domainObjectName="Cc61Entity" alias="cc61"/>
+        <!--        <table tableName="cd80" domainObjectName="Cd80Entity" alias="cd80"/>-->
+        <!--        <table tableName="cd81" domainObjectName="Cd81Entity" alias="cd81"/>-->
+        <!--        <table tableName="cd82" domainObjectName="Cd82Entity" alias="cd82"/>-->
+        <!--        <table tableName="cd83" domainObjectName="Cd83Entity" alias="cd83"/>-->
+        <!--        <table tableName="cc60" domainObjectName="Cc60Entity" alias="cc60"/>-->
+        <!--        <table tableName="cc61" domainObjectName="Cc61Entity" alias="cc61"/>-->
+        <table tableName="cc62" domainObjectName="Cc62Entity" alias="cc62"/>
     </context>
 </generatorConfiguration>

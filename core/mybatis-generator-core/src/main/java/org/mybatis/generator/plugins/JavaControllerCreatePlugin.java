@@ -35,7 +35,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
     private FullyQualifiedJavaType serviceType;
     private FullyQualifiedJavaType controllerType;
     private FullyQualifiedJavaType pojoType;
-//    private FullyQualifiedJavaType pojoTypeExp;
+    private FullyQualifiedJavaType pojoTypeExp;
     private FullyQualifiedJavaType superClassType;
 
 
@@ -94,7 +94,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         serviceType = new FullyQualifiedJavaType(servicePack + "." + tableName + "Service");
         controllerType = new FullyQualifiedJavaType(controllerPack + "." + tableName + "Controller");
         pojoType = new FullyQualifiedJavaType(pojoUrl + ".base." + tableName);
-//        pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
+        pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
         pageType = new FullyQualifiedJavaType("com.wonders.common.base.Page");
         listType = new FullyQualifiedJavaType("java.util.List");
         mapType = new FullyQualifiedJavaType("java.util.Map");
@@ -221,7 +221,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      */
     private void addImport(TopLevelClass topLevelClass) {
         topLevelClass.addImportedType(pojoType);
-//        topLevelClass.addImportedType(pojoTypeExp);
+        topLevelClass.addImportedType(pojoTypeExp);
         topLevelClass.addImportedType(listType);
         topLevelClass.addImportedType(slf4jLogger);
         topLevelClass.addImportedType(slf4jLoggerFactory);
