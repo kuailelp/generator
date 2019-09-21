@@ -39,9 +39,9 @@ import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class ExampleGenerator extends AbstractJavaGenerator {
 
@@ -60,6 +60,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
                 introspectedTable.getExampleType());
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+        topLevelClass.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
         commentGenerator.addJavaFileComment(topLevelClass);
 
         // add default constructor
@@ -192,6 +193,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         topLevelClass.addMethod(method);
 
         // now generate the inner class that holds the AND conditions
+        // FIXME:增加 Example 内部类
         topLevelClass
                 .addInnerClass(getGeneratedCriteriaInnerClass(topLevelClass));
 
@@ -214,7 +216,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         answer.setStatic(true);
         context.getCommentGenerator().addClassComment(answer,
                 introspectedTable);
-
+        answer.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
         Field field = new Field();
         field.setName("condition"); //$NON-NLS-1$
         field.setType(FullyQualifiedJavaType.getStringInstance());
@@ -354,7 +356,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
     private InnerClass getCriteriaInnerClass() {
         InnerClass answer = new InnerClass(FullyQualifiedJavaType
                 .getCriteriaInstance());
-
+        answer.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
         answer.setVisibility(JavaVisibility.PUBLIC);
         answer.setStatic(true);
         answer.setSuperClass(FullyQualifiedJavaType
@@ -379,7 +381,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
 
         InnerClass answer = new InnerClass(FullyQualifiedJavaType
                 .getGeneratedCriteriaInstance());
-
+        answer.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
         answer.setVisibility(JavaVisibility.PROTECTED);
         answer.setStatic(true);
         answer.setAbstract(true);
@@ -443,7 +445,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
             field.setVisibility(JavaVisibility.PROTECTED);
             answer.addField(field);
         }
-        
+
         method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("getAllCriteria"); //$NON-NLS-1$
@@ -798,7 +800,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
 
     /**
      * Generates methods that set between and not between conditions
-     * 
+     *
      * @param introspectedColumn the introspected column
      * @param betweenMethod true if between, else not between
      * @return a generated method for the between or not between method
@@ -859,7 +861,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
 
     /**
      * Generates an In or NotIn method.
-     * 
+     *
      * @param introspectedColumn the introspected column
      * @param inMethod
      *            if true generates an "in" method, else generates a "not in"
@@ -952,7 +954,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
     /**
      * This method adds all the extra methods and fields required to support a
      * user defined type handler on some column.
-     * 
+     *
      * @param introspectedColumn the introspected column
      * @param constructor the constructor
      * @param innerClass the enclosing class
@@ -1045,7 +1047,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         method.addBodyLine(
                 String.format("%s.add(new Criterion(condition, value1, value2, \"%s\"));", //$NON-NLS-1$
                         field.getName(), introspectedColumn.getTypeHandler()));
-        
+
         method.addBodyLine("allCriteria = null;"); //$NON-NLS-1$
         innerClass.addMethod(method);
 

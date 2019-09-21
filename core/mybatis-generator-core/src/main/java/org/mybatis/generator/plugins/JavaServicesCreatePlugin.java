@@ -32,7 +32,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
     private FullyQualifiedJavaType daoType;
     private FullyQualifiedJavaType interfaceType;
     private FullyQualifiedJavaType pojoType;
-//    private FullyQualifiedJavaType pojoTypeExp;
+    //    private FullyQualifiedJavaType pojoTypeExp;
     private FullyQualifiedJavaType pojoCriteriaType;
 
     private FullyQualifiedJavaType listType;
@@ -450,9 +450,13 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         String idkey = introspectedColumn.getJavaProperty();
         method.addBodyLine("logger.debug(\"全局新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         if (key.equals(FullyQualifiedJavaType.getStringInstance())) {
+            method.addBodyLine("if (null == record.get" + toUpperCase(idkey) + "() || \"\".equals(record.get" + toUpperCase(idkey) + "())) {");
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getIdStr()" + ");");
+            method.addBodyLine("}");
         } else {
+            method.addBodyLine("if (null == record.get" + toUpperCase(idkey) + "() || record.get" + toUpperCase(idkey) + "()<=0) {");
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getId()" + ");");
+            method.addBodyLine("}");
         }
         method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getInsertStatementId() + "(record);");
         method.addBodyLine("return result;");
@@ -482,9 +486,13 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         String idkey = introspectedColumn.getJavaProperty();
         method.addBodyLine("logger.debug(\"条件新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
         if (key.equals(FullyQualifiedJavaType.getStringInstance())) {
+            method.addBodyLine("if (null == record.get" + toUpperCase(idkey) + "() || \"\".equals(record.get" + toUpperCase(idkey) + "())) {");
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getIdStr()" + ");");
+            method.addBodyLine("}");
         } else {
+            method.addBodyLine("if (null == record.get" + toUpperCase(idkey) + "() || record.get" + toUpperCase(idkey) + "()<=0) {");
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".getId()" + ");");
+            method.addBodyLine("}");
         }
         method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getInsertSelectiveStatementId() + "(record);");
         method.addBodyLine("return result;");
