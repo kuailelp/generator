@@ -6,10 +6,10 @@
 
     <!-- 引入配置文件,非必须 -->
     <!-- !!!! Driver Class Path !!!! -->
-    <!--    <classPathEntry-->
-    <!--            location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>-->
     <classPathEntry
-            location="D:/m2/repository/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>
+            location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
+    <!--    <classPathEntry-->
+    <!--            location="D:/m2/repository/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>-->
     <context id="context" targetRuntime="MyBatis3">
         <!-- 格式化java代码 -->
         <property name="javaFormatter"
@@ -17,6 +17,8 @@
         <!-- 格式化XML代码 -->
         <property name="xmlFormatter"
                   value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!-- 是否生成Example Java 代码 -->
+        <property name="exampleCreateJava" value="false"/>
         <!--开启抑制类型的警告信息 -->
         <property name="suppressTypeWarnings" value="true"/>
         <!--插件 ：用来给Java模型生成equals和hashcode方法 -->
@@ -27,19 +29,20 @@
         <!--插件 ：用来为生成的Java模型 toString 方法 -->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--插件 ：修改查询名称为 Criteria -->
-        <!--        <plugin-->
-        <!--                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">-->
-        <!--            <property name="searchString" value="Example$"/>-->
-        <!--            <property name="replaceString" value="Criteria"/>-->
-        <!--        </plugin>-->
+        <plugin
+                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
         <!--插件 ：修改生成Service接口和实现 -->
         <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">
             <!--参数 ：实现包 -->
             <property name="implementationPackage"
-                      value="com.wonders.labor.arbitration.serviceimpl"/>
+                      value="com.wonders.archive.business.servicesimpl"/>
             <!--参数 ：接口包 -->
             <property name="targetPackage"
-                      value="com.wonders.labor.arbitration.service"/>
+                      value="com.wonders.archive.business.services"/>
+            <!--参数：是否生成内部基础方法 -->
             <!--参数 ：文件生成路径 -->
             <property name="targetProject" value="E:/tmp"/>
         </plugin>
@@ -47,15 +50,14 @@
         <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
             <!--参数 ：包名 -->
             <property name="targetPackage"
-                      value="com.wonders.labor.arbitration.controller"/>
+                      value="com.wonders.archive.business.controller"/>
             <!--参数 ：引用Service包名 -->
-            <property name="servicePackage" value="com.wonders.labor.arbitration.service"/>
+            <property name="servicePackage" value="com.wonders.archive.business.services"/>
             <!--参数 ：文件生成路径 -->
             <property name="targetProject" value="E:/tmp"/>
         </plugin>
         <!--插件 ：创建集成Mapper类 -->
         <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
-
 
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
@@ -65,81 +67,74 @@
         </commentGenerator>
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
-        <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
-        <!--                        connectionURL="jdbc:mysql://218.95.173.161:53306/nxlagc_test_jk"-->
-        <!--                        userId="nxlagctest" password="wonDErsteStDb20!8"/>-->
-        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-                        connectionURL="jdbc:oracle:thin:@111.12.148.101:1521:wdzhxx"
-                        userId="labor_tjzc" password="labor_tjzc"/>
-
-        <!--        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"-->
-        <!--                        connectionURL="jdbc:oracle:thin:@90.90.90.3:1521:EE"-->
-        <!--                        userId="labor_tjzc" password="labor_tjzc"/>-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://218.95.172.112:33060/nxrkjda"
+                        userId="nxrkjda" password="$yda44F@GLC$"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- !!!! Model Configurations !!!! -->
-        <javaModelGenerator targetPackage="com.wonders.labor.arbitration.entity"
+        <javaModelGenerator targetPackage="com.wonders.archive.business.entity"
                             targetProject="E:/tmp">
-            <property name="enableSubPackages" value="false"/>
+            <!--            <property name="enableSubPackages" value="true"/>-->
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- !!!! Mapper XML Configurations !!!! -->
-        <sqlMapGenerator targetPackage="com.wonders.labor.arbitration.mapping"
+        <sqlMapGenerator targetPackage="com.wonders.archive.business.mapping"
                          targetProject="E:/tmp">
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- !!!! Mapper Interface Configurations !!!! -->
-        <javaClientGenerator targetPackage="com.wonders.labor.arbitration.mapper"
+        <javaClientGenerator targetPackage="com.wonders.archive.business.mapper"
                              targetProject="E:/tmp"
                              type="XMLMAPPER">
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <table tableName="ABZ03" domainObjectName="ABZ03" alias="ABZ03" schema="LABOR_TJZC">
             <generatedKey column="ABZ002" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
         </table>
-<!--        <table tableName="ABZ04" domainObjectName="ABZ04" alias="ABZ04" schema="LABOR_TJZC">-->
-<!--            <generatedKey column="ABZ001" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-<!--        </table>-->
-        <!--        <table tableName="ABZ10" domainObjectName="ABZ10" alias="ABZ10" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BBE482" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ11" domainObjectName="ABZ11" alias="ABZ11" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BBE488" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ02" domainObjectName="ABZ02" alias="ABZ02" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="AAC001" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ01" domainObjectName="ABZ01" alias="ABZ01" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="AAB001" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ55" domainObjectName="ABZ55" alias="ABZ55" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BBZ050" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ43" domainObjectName="ABZ43" alias="ABZ43" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="ABZ200" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ08" domainObjectName="ABZ08" alias="ABZ08" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BBZ009" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ06" domainObjectName="ABZ06" alias="ABZ06" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BBE474" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ09" domainObjectName="ABZ09" alias="ABZ09" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="ABZ197" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="ABZ12" domainObjectName="ABZ12" alias="ABZ12" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BBE497" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="BZ10" domainObjectName="BZ10" alias="BZ10" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BEZ100" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="BZ20" domainObjectName="BZ20" alias="BZ20" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BEZ200" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
-        <!--        <table tableName="BZ11" domainObjectName="BZ11" alias="BZ11" schema="LABOR_TJZC">-->
-        <!--            <generatedKey column="BEZ105" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        <!--        </table>-->
+        <table tableName="ABZ04" domainObjectName="ABZ04" alias="ABZ04" schema="LABOR_TJZC">
+            <generatedKey column="ABZ001" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ10" domainObjectName="ABZ10" alias="ABZ10" schema="LABOR_TJZC">
+            <generatedKey column="BBE482" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ11" domainObjectName="ABZ11" alias="ABZ11" schema="LABOR_TJZC">
+            <generatedKey column="BBE488" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ02" domainObjectName="ABZ02" alias="ABZ02" schema="LABOR_TJZC">
+            <generatedKey column="AAC001" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ01" domainObjectName="ABZ01" alias="ABZ01" schema="LABOR_TJZC">
+            <generatedKey column="AAB001" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ55" domainObjectName="ABZ55" alias="ABZ55" schema="LABOR_TJZC">
+            <generatedKey column="BBZ050" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ43" domainObjectName="ABZ43" alias="ABZ43" schema="LABOR_TJZC">
+            <generatedKey column="ABZ200" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ08" domainObjectName="ABZ08" alias="ABZ08" schema="LABOR_TJZC">
+            <generatedKey column="BBZ009" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ06" domainObjectName="ABZ06" alias="ABZ06" schema="LABOR_TJZC">
+            <generatedKey column="BBE474" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ09" domainObjectName="ABZ09" alias="ABZ09" schema="LABOR_TJZC">
+            <generatedKey column="ABZ197" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="ABZ12" domainObjectName="ABZ12" alias="ABZ12" schema="LABOR_TJZC">
+            <generatedKey column="BBE497" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="BZ10" domainObjectName="BZ10" alias="BZ10" schema="LABOR_TJZC">
+            <generatedKey column="BEZ100" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="BZ20" domainObjectName="BZ20" alias="BZ20" schema="LABOR_TJZC">
+            <generatedKey column="BEZ200" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
+        <table tableName="BZ11" domainObjectName="BZ11" alias="BZ11" schema="LABOR_TJZC">
+            <generatedKey column="BEZ105" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>
+        </table>
     </context>
 </generatorConfiguration>

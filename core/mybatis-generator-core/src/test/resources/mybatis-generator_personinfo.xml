@@ -68,7 +68,7 @@
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://90.90.90.3:33060/nxrkjda"
+                        connectionURL="jdbc:mysql://218.95.172.112:33060/nxrkjda"
                         userId="nxrkjda" password="$yda44F@GLC$"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -99,10 +99,12 @@
         <!--        <table tableName="ze62" domainObjectName="Ze62Entity" alias="ze62"/>-->
         <!--        <table tableName="cd66" domainObjectName="Cd66Entity" alias="cd66"/>-->
         <!--        <table tableName="cd67" domainObjectName="Cd67Entity" alias="cd67"/>-->
-        <!--        <table tableName="cd68" domainObjectName="Cd68Entity" alias="cd68"/>-->
+        <table tableName="cd68" domainObjectName="Cd68Entity" alias="cd68"/>
         <!--        <table tableName="ze63" domainObjectName="Ze63Entity" alias="ze63"/>-->
-<!--        <table tableName="cd55" domainObjectName="Cd55Entity" alias="cd55"/>-->
-<!--        <table tableName="cd56" domainObjectName="Cd56Entity" alias="cd56"/>-->
-        <table tableName="cd57" domainObjectName="Cd57Entity" alias="cd57"/>
+        <!--        <table tableName="cd55" domainObjectName="Cd55Entity" alias="cd55"/>-->
+        <!--        <table tableName="cd56" domainObjectName="Cd56Entity" alias="cd56"/>-->
+        <!--        <table tableName="cd57" domainObjectName="Cd57Entity" alias="cd57"/>-->
+        <!--        <table tableName="ab01" domainObjectName="Ab01Entity" alias="ab01"/>-->
+        <!--        <table tableName="cd58" domainObjectName="Cd58Entity" alias="cd58"/>-->
     </context>
 </generatorConfiguration>

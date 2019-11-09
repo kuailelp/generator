@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- 引入配置文件,非必须 -->
+    <!-- !!!! Driver Class Path !!!! -->
+    <classPathEntry
+            location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
+    <!--    <classPathEntry-->
+    <!--            location="D:/m2/repository/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>-->
+    <context id="context" targetRuntime="MyBatis3">
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter"
+                  value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter"
+                  value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!-- 是否生成Example Java 代码 -->
+        <property name="exampleCreateJava" value="false"/>
+        <!--开启抑制类型的警告信息 -->
+        <property name="suppressTypeWarnings" value="true"/>
+        <!--插件 ：用来给Java模型生成equals和hashcode方法 -->
+        <plugin
+                type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!--插件 ：用来为生成的Java模型类添加序列化接口 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--插件 ：用来为生成的Java模型 toString 方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--插件 ：修改查询名称为 Criteria -->
+        <plugin
+                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+        <!--插件 ：修改生成Service接口和实现 -->
+        <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">
+            <!--参数 ：实现包 -->
+            <!--            <property name="implementationPackage"-->
+            <!--                      value="com.wonders.nxlagc.xnkh.servicesimpl"/>-->
+            <property name="implementationPackage"
+                      value="com.wonders.nxlagc.oa.sms.servicesimpl"/>
+            <!--参数 ：接口包 -->
+            <!--            <property name="targetPackage"-->
+            <!--                      value="com.wonders.nxlagc.xnkh.services"/>-->
+            <property name="targetPackage"
+                      value="com.wonders.nxlagc.oa.sms.services"/>
+            <!--参数：是否生成内部基础方法 -->
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="E:/tmp"/>
+        </plugin>
+        <!--插件 ：修改生成Controller -->
+        <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
+            <!--参数 ：包名 -->
+            <!--            <property name="targetPackage"-->
+            <!--                      value="com.wonders.nxlagc.xnkh.controller"/>-->
+            <property name="targetPackage"
+                      value="com.wonders.nxlagc.oa.sms.controller"/>
+            <!--参数 ：引用Service包名 -->
+            <!--            <property name="servicePackage" value="com.wonders.nxlagc.xnkh.services"/>-->
+            <property name="servicePackage" value="com.wonders.nxlagc.oa.sms.services"/>
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="E:/tmp"/>
+        </plugin>
+        <!--插件 ：创建集成Mapper类 -->
+        <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+        </commentGenerator>
+        <!-- !!!! Database Configurations !!!! -->
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://218.95.173.161:53306/nxlagc_test"
+                        userId="nxlagctest" password="wonDErsteStDb20!8"/>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- !!!! Model Configurations !!!! -->
+        <!--        <javaModelGenerator targetPackage="com.wonders.nxlagc.xnkh.entity"-->
+        <!--                            targetProject="E:/tmp">-->
+        <!--            &lt;!&ndash;            <property name="enableSubPackages" value="true"/>&ndash;&gt;-->
+        <!--            <property name="trimStrings" value="true"/>-->
+        <!--        </javaModelGenerator>-->
+        <javaModelGenerator targetPackage="com.wonders.nxlagc.oa.sms.entity"
+                            targetProject="E:/tmp">
+            <!--            <property name="enableSubPackages" value="true"/>-->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- !!!! Mapper XML Configurations !!!! -->
+        <!--        <sqlMapGenerator targetPackage="com.wonders.nxlagc.xnkh.mapping"-->
+        <!--                         targetProject="E:/tmp">-->
+        <!--            <property name="enableSubPackages" value="true"/>-->
+        <!--        </sqlMapGenerator>-->
+        <sqlMapGenerator targetPackage="com.wonders.nxlagc.oa.sms.mapping"
+                         targetProject="E:/tmp">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- !!!! Mapper Interface Configurations !!!! -->
+        <!--        <javaClientGenerator targetPackage="com.wonders.nxlagc.xnkh.mapper"-->
+        <!--                             targetProject="E:/tmp"-->
+        <!--                             type="XMLMAPPER">-->
+        <!--            <property name="enableSubPackages" value="true"/>-->
+        <!--        </javaClientGenerator>-->
+
+        <javaClientGenerator targetPackage="com.wonders.nxlagc.oa.sms.mapper"
+                             targetProject="E:/tmp"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--        <table tableName="bgq_xngl_dwtb" domainObjectName="BgqXnglDwtbBo" alias="bgq_xngl_dwtb">-->
+        <!--            <generatedKey column="dwtb_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_xngl" domainObjectName="BgsXnglBo" alias="bgs_xngl">-->
+        <!--            <generatedKey column="xngl_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_xngl_mx" domainObjectName="BgsXnglMxBo" alias="bgs_xngl_mx">-->
+        <!--            <generatedKey column="xngl_mx_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_xngl_tbq" domainObjectName="BgsXnglTbqBo" alias="bgs_xngl_tbq">-->
+        <!--            <generatedKey column="tbq_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_fjxx" domainObjectName="BgsFjxxBo" alias="bgs_fjxx">-->
+        <!--            <generatedKey column="fjxx_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_yfbz" domainObjectName="BgsYfbzBo" alias="bgs_yfbz">-->
+        <!--            <generatedKey column="yfbz_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_ry_yfxx" domainObjectName="BgsRyYfxxBo" alias="bgs_ry_yfxx">-->
+        <!--            <generatedKey column="yfxx_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="bgs_xngl_dwtb_his" domainObjectName="BgsXnglDwtbHisBo" alias="bgs_xngl_dwtb_his">-->
+        <!--            <generatedKey column="id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <table tableName="sys_dx_log" domainObjectName="SysDxLogBo" alias="sys_dx_log">
+            <generatedKey column="dx_log_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        </table>
+        <table tableName="sys_dx_mb" domainObjectName="SysDxMbBo" alias="sys_dx_mb">
+            <generatedKey column="mb_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        </table>
+    </context>
+</generatorConfiguration>

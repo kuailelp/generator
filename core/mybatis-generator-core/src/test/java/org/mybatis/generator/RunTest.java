@@ -78,4 +78,28 @@ public class RunTest {
         ShellRunner.main(arg);
     }
 
+
+    @Test
+    public void run_auths() {
+        RunTest test = new RunTest();
+        String rootPath = test.getClass().getResource("/").getFile().toString();
+        String[] arg = new String[]{"-configfile", rootPath + "mybatis-generator_auths.xml",
+                "-overwrite", "-verbose"};
+        ShellRunner.main(arg);
+    }
+
+
+
+
+    @Test
+    public void run_nxlagc() {
+        RunTest test = new RunTest();
+        String rootPath = test.getClass().getResource("/").getFile().toString();
+        String[] arg = new String[]{"-configfile", rootPath + "mybatis-generator_nxlagc.xml",
+                "-overwrite", "-verbose"};
+        ShellRunner.main(arg);
+    }
+
+
+
 }

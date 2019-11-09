@@ -68,7 +68,7 @@
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://90.90.90.3:33060/nxrkjda"
+                        connectionURL="jdbc:mysql://218.95.172.112:33060/nxrkjda"
                         userId="nxrkjda" password="$yda44F@GLC$"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -93,7 +93,7 @@
         </javaClientGenerator>
 
         <!--        <table tableName="cc70" domainObjectName="Cc70Entity" alias="cc70"/>-->
-        <table tableName="cc71" domainObjectName="Cc71Entity" alias="cc71"/>
+        <!--        <table tableName="cc71" domainObjectName="Cc71Entity" alias="cc71"/>-->
         <!--        <table tableName="cc72" domainObjectName="Cc72Entity" alias="cc72"/>-->
         <!--        <table tableName="cc73" domainObjectName="Cc73Entity" alias="cc73"/>-->
         <!--        <table tableName="cc74" domainObjectName="Cc74Entity" alias="cc74"/>-->
@@ -118,5 +118,9 @@
         <!--        <table tableName="cc94" domainObjectName="Cc94Entity" alias="cc94"/>-->
         <!--        <table tableName="cc95" domainObjectName="Cc95Entity" alias="cc95"/>-->
         <!--        <table tableName="ze35" domainObjectName="Ze35Entity" alias="ze35"/>-->
+        <!--        <table tableName="ze35" domainObjectName="Ze35Entity" alias="ze35"/>-->
+        <!--        <table tableName="cc92" domainObjectName="Cc92Entity" alias="cc92"/>-->
+        <!--        <table tableName="cc98" domainObjectName="Cc98Entity" alias="cc98"/>-->
+
     </context>
 </generatorConfiguration>

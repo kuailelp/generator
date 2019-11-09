@@ -68,7 +68,7 @@
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://90.90.90.3:33060/nxrkjda"
+                        connectionURL="jdbc:mysql://218.95.172.112:33060/nxrkjda"
                         userId="nxrkjda" password="$yda44F@GLC$"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
