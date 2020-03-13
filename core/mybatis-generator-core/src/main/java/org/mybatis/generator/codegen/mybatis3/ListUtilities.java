@@ -24,11 +24,11 @@ import org.mybatis.generator.api.IntrospectedColumn;
  * Couple of little utility methods to make dealing with generated always
  * columns easier.  If a column is GENERATED ALWAYS, it should not
  * be references on an insert or update method.
- * 
+ *
  * <p>If a column is identity, it should not be referenced on an insert method.
- *  
- * <p>TODO - Replace this with Lambdas when we get to Java 8
- * 
+ *
+ * <p>
+ *
  * @author Jeff Butler
  *
  */

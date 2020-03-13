@@ -91,9 +91,8 @@
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-
-
         <table tableName="cc80" domainObjectName="Cc80Entity" alias="cc80"/>
-        <table tableName="cc81" domainObjectName="Cc81Entity" alias="cc81"/>
+        <!--        <table tableName="cc81" domainObjectName="Cc81Entity" alias="cc81"/>-->
+        <!--        <table tableName="cd87" domainObjectName="Cd87Entity" alias="cd87"/>-->
     </context>
 </generatorConfiguration>

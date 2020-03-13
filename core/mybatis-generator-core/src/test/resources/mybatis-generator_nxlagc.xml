@@ -40,12 +40,12 @@
             <!--            <property name="implementationPackage"-->
             <!--                      value="com.wonders.nxlagc.xnkh.servicesimpl"/>-->
             <property name="implementationPackage"
-                      value="com.wonders.nxlagc.oa.sms.servicesimpl"/>
+                      value="com.wonders.nxlagc.lt.hly.servicesimpl"/>
             <!--参数 ：接口包 -->
             <!--            <property name="targetPackage"-->
             <!--                      value="com.wonders.nxlagc.xnkh.services"/>-->
             <property name="targetPackage"
-                      value="com.wonders.nxlagc.oa.sms.services"/>
+                      value="com.wonders.nxlagc.lt.hly.services"/>
             <!--参数：是否生成内部基础方法 -->
             <!--参数 ：文件生成路径 -->
             <property name="targetProject" value="E:/tmp"/>
@@ -56,10 +56,10 @@
             <!--            <property name="targetPackage"-->
             <!--                      value="com.wonders.nxlagc.xnkh.controller"/>-->
             <property name="targetPackage"
-                      value="com.wonders.nxlagc.oa.sms.controller"/>
+                      value="com.wonders.nxlagc.lt.hly.controller"/>
             <!--参数 ：引用Service包名 -->
             <!--            <property name="servicePackage" value="com.wonders.nxlagc.xnkh.services"/>-->
-            <property name="servicePackage" value="com.wonders.nxlagc.oa.sms.services"/>
+            <property name="servicePackage" value="com.wonders.nxlagc.lt.hly.services"/>
             <!--参数 ：文件生成路径 -->
             <property name="targetProject" value="E:/tmp"/>
         </plugin>
@@ -86,7 +86,7 @@
         <!--            &lt;!&ndash;            <property name="enableSubPackages" value="true"/>&ndash;&gt;-->
         <!--            <property name="trimStrings" value="true"/>-->
         <!--        </javaModelGenerator>-->
-        <javaModelGenerator targetPackage="com.wonders.nxlagc.oa.sms.entity"
+        <javaModelGenerator targetPackage="com.wonders.nxlagc.lt.hly.entity"
                             targetProject="E:/tmp">
             <!--            <property name="enableSubPackages" value="true"/>-->
             <property name="trimStrings" value="true"/>
@@ -96,7 +96,7 @@
         <!--                         targetProject="E:/tmp">-->
         <!--            <property name="enableSubPackages" value="true"/>-->
         <!--        </sqlMapGenerator>-->
-        <sqlMapGenerator targetPackage="com.wonders.nxlagc.oa.sms.mapping"
+        <sqlMapGenerator targetPackage="com.wonders.nxlagc.lt.hly.mapping"
                          targetProject="E:/tmp">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
@@ -108,7 +108,7 @@
         <!--            <property name="enableSubPackages" value="true"/>-->
         <!--        </javaClientGenerator>-->
 
-        <javaClientGenerator targetPackage="com.wonders.nxlagc.oa.sms.mapper"
+        <javaClientGenerator targetPackage="com.wonders.nxlagc.lt.hly.mapper"
                              targetProject="E:/tmp"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
@@ -137,11 +137,31 @@
         <!--        <table tableName="bgs_xngl_dwtb_his" domainObjectName="BgsXnglDwtbHisBo" alias="bgs_xngl_dwtb_his">-->
         <!--            <generatedKey column="id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
         <!--        </table>-->
-        <table tableName="sys_dx_log" domainObjectName="SysDxLogBo" alias="sys_dx_log">
-            <generatedKey column="dx_log_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        <!--        <table tableName="sys_dx_log" domainObjectName="SysDxLogBo" alias="sys_dx_log">-->
+        <!--            <generatedKey column="dx_log_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="sys_dx_mb" domainObjectName="SysDxMbBo" alias="sys_dx_mb">-->
+        <!--            <generatedKey column="mb_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>-->
+        <!--        </table>-->
+      <!--  <table tableName="sl_qyhlysb" domainObjectName="AlGyhlysbBo" alias="sl_qyhlysb">
+            <generatedKey column="hlysb_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
         </table>
-        <table tableName="sys_dx_mb" domainObjectName="SysDxMbBo" alias="sys_dx_mb">
-            <generatedKey column="mb_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        <table tableName="sl_hlybz" domainObjectName="AlHlybzBo" alias="sl_hlybz">
+            <generatedKey column="hlybz_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        </table>
+        <table tableName="sl_hlycjb" domainObjectName="AlHlycjbBo" alias="sl_hlycjb">
+            <generatedKey column="hlycjb_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        </table>
+        <table tableName="sl_hlyxcpjb" domainObjectName="AlHlyxcpjbBo" alias="sl_hlyxcpjb">
+            <generatedKey column="hlypx_id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        </table>
+        <table tableName="sl_hlyzc" domainObjectName="AlHlyzcBo" alias="sl_hlyzc">
+            <generatedKey column="id" sqlStatement="SELECT replace(UUID(),'-','')" identity="false"/>
+        </table>-->
+        <table tableName="sl_hlyssfa" domainObjectName="AlHlyssfaBo" alias="sl_hlyssfa">
+
+        </table>
+        <table tableName="sl_hlyssfahz" domainObjectName="AlHlyssfahzBo" alias="sl_hlyssfahz">
         </table>
     </context>
 </generatorConfiguration>

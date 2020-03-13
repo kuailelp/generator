@@ -19,7 +19,6 @@ import org.mybatis.generator.api.*;
 import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
-import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.config.Context;
@@ -201,7 +200,9 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
     private GeneratedJavaFile createExpMapper(IntrospectedTable introspectedTable, String tableName) {
         Interface interface1 = new Interface(mapperType);
         interface1.addSuperInterface(mapperBaseType);
+        interface1.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         interface1.setVisibility(JavaVisibility.PUBLIC);
+        interface1.addAnnotation("@Mapper");
         interface1.addImportedType(mapperBaseType);
         interface1.addJavaDocLine("/**");
         interface1.addJavaDocLine(" * 文件名：" + interface1.getType().getShortName() + ".java <br>");

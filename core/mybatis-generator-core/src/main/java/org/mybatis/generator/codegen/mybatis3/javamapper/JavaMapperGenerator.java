@@ -47,8 +47,9 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.XMLMapperGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 
 /**
+ * // FIXME: Mapper 生成
  * @author Jeff Butler
- * 
+ *
  */
 public class JavaMapperGenerator extends AbstractJavaClientGenerator {
 
@@ -70,6 +71,8 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
                 introspectedTable.getMyBatis3JavaMapperType());
         Interface interfaze = new Interface(type);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
+        interfaze.addAnnotation("@Mapper");
         commentGenerator.addJavaFileComment(interfaze);
 
         String rootInterface = introspectedTable

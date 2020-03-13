@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO - Delete Me
- * 
+ *
+ *
  * @author Jeff Butler
  */
 public class JdbcTypeNameTranslator {
@@ -113,7 +113,7 @@ public class JdbcTypeNameTranslator {
     /**
      * Translates from a java.sql.Types values to the proper iBATIS string
      * representation of the type.
-     * 
+     *
      * @param jdbcType
      *            a value from java.sql.Types
      * @return the iBATIS String representation of a JDBC type
@@ -130,7 +130,7 @@ public class JdbcTypeNameTranslator {
     /**
      * Translates from the string representation of the type to the
      * java.sql.Types value.
-     * 
+     *
      * @param jdbcTypeName
      *            the iBATIS String representation of a JDBC type
      * @return a value from java.sql.Types

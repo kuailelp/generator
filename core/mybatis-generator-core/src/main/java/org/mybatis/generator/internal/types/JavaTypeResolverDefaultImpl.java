@@ -31,7 +31,7 @@ import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.util.StringUtility;
 
 /**
- * 
+ *
  * @author Jeff Butler
  */
 public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
@@ -46,8 +46,8 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
     protected boolean useJSR310Types;
 
     protected Map<Integer, JdbcTypeInformation> typeMap;
-    
-    // TODO - remove when we get to JDK 8
+
+
     private static final int TIME_WITH_TIMEZONE = 2013;
     private static final int TIMESTAMP_WITH_TIMEZONE = 2014;
 
@@ -157,7 +157,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 
         return answer;
     }
-    
+
     protected FullyQualifiedJavaType overrideDefaultType(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer = defaultType;
 
@@ -184,40 +184,40 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 
         return answer;
     }
-    
+
     protected FullyQualifiedJavaType calculateDateType(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer;
-        
+
         if (useJSR310Types) {
             answer = new FullyQualifiedJavaType("java.time.LocalDate"); //$NON-NLS-1$
         } else {
             answer = defaultType;
         }
-        
+
         return answer;
     }
 
     protected FullyQualifiedJavaType calculateTimeType(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer;
-        
+
         if (useJSR310Types) {
             answer = new FullyQualifiedJavaType("java.time.LocalTime"); //$NON-NLS-1$
         } else {
             answer = defaultType;
         }
-        
+
         return answer;
     }
 
     protected FullyQualifiedJavaType calculateTimestampType(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer;
-        
+
         if (useJSR310Types) {
             answer = new FullyQualifiedJavaType("java.time.LocalDateTime"); //$NON-NLS-1$
         } else {
             answer = defaultType;
         }
-        
+
         return answer;
     }
 
@@ -232,7 +232,7 @@ public class JavaTypeResolverDefaultImpl implements JavaTypeResolver {
 
         return answer;
     }
-    
+
     protected FullyQualifiedJavaType calculateBigDecimalReplacement(IntrospectedColumn column, FullyQualifiedJavaType defaultType) {
         FullyQualifiedJavaType answer;
 

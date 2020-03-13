@@ -90,6 +90,18 @@ public class RunTest {
 
 
 
+    @Test
+    public void run_common() {
+        RunTest test = new RunTest();
+        String rootPath = test.getClass().getResource("/").getFile().toString();
+        String[] arg = new String[]{"-configfile", rootPath + "mybatis-generator_common.xml",
+                "-overwrite", "-verbose"};
+        ShellRunner.main(arg);
+    }
+
+
+
+
 
     @Test
     public void run_nxlagc() {
@@ -99,6 +111,17 @@ public class RunTest {
                 "-overwrite", "-verbose"};
         ShellRunner.main(arg);
     }
+
+
+    @Test
+    public void run_mzy() {
+        RunTest test = new RunTest();
+        String rootPath = test.getClass().getResource("/").getFile().toString();
+        String[] arg = new String[]{"-configfile", rootPath + "mybatis-generator_mzy.xml",
+                "-overwrite", "-verbose"};
+        ShellRunner.main(arg);
+    }
+
 
 
 
