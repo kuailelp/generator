@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.codegen.mybatis3.model;
 
@@ -27,21 +27,12 @@ import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.FullyQualifiedTable;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.OutputUtilities;
-import org.mybatis.generator.api.dom.java.CompilationUnit;
-import org.mybatis.generator.api.dom.java.Field;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.api.dom.java.InnerClass;
-import org.mybatis.generator.api.dom.java.JavaVisibility;
-import org.mybatis.generator.api.dom.java.Method;
-import org.mybatis.generator.api.dom.java.Parameter;
-import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
- *
  * @author Jeff Butler
- *
  */
 public class ExampleGenerator extends AbstractJavaGenerator {
 
@@ -62,6 +53,10 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         topLevelClass.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
         commentGenerator.addJavaFileComment(topLevelClass);
+
+//        InnerEnum innerEnum = new InnerEnum(new FullyQualifiedJavaType("Property"));
+//        topLevelClass.addInnerEnum(innerEnum);
+
 
         // add default constructor
         Method method = new Method();
@@ -200,6 +195,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         topLevelClass.addInnerClass(getCriteriaInnerClass());
 
         topLevelClass.addInnerClass(getCriterionInnerClass());
+
 
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
         if (context.getPlugins().modelExampleClassGenerated(
@@ -395,6 +391,9 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         method.addBodyLine("super();"); //$NON-NLS-1$
         method.addBodyLine("criteria = new ArrayList<Criterion>();"); //$NON-NLS-1$
         answer.addMethod(method);
+
+//        InnerEnum innerEnum = new InnerEnum(new FullyQualifiedJavaType("Property"));
+//        topLevelClass.addInnerEnum(innerEnum);
 
         List<String> criteriaLists = new ArrayList<String>();
         criteriaLists.add("criteria"); //$NON-NLS-1$
@@ -755,7 +754,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
     }
 
     private Method getSingleValueMethod(IntrospectedColumn introspectedColumn,
-            String nameFragment, String operator) {
+                                        String nameFragment, String operator) {
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.addParameter(new Parameter(introspectedColumn
@@ -802,7 +801,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
      * Generates methods that set between and not between conditions
      *
      * @param introspectedColumn the introspected column
-     * @param betweenMethod true if between, else not between
+     * @param betweenMethod      true if between, else not between
      * @return a generated method for the between or not between method
      */
     private Method getSetBetweenOrNotBetweenMethod(
@@ -863,13 +862,12 @@ public class ExampleGenerator extends AbstractJavaGenerator {
      * Generates an In or NotIn method.
      *
      * @param introspectedColumn the introspected column
-     * @param inMethod
-     *            if true generates an "in" method, else generates a "not in"
-     *            method
+     * @param inMethod           if true generates an "in" method, else generates a "not in"
+     *                           method
      * @return a generated method for the in or not in method
      */
     private Method getSetInOrNotInMethod(IntrospectedColumn introspectedColumn,
-            boolean inMethod) {
+                                         boolean inMethod) {
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         FullyQualifiedJavaType type = FullyQualifiedJavaType
@@ -928,7 +926,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
     }
 
     private Method getNoValueMethod(IntrospectedColumn introspectedColumn,
-            String nameFragment, String operator) {
+                                    String nameFragment, String operator) {
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         StringBuilder sb = new StringBuilder();
@@ -956,8 +954,8 @@ public class ExampleGenerator extends AbstractJavaGenerator {
      * user defined type handler on some column.
      *
      * @param introspectedColumn the introspected column
-     * @param constructor the constructor
-     * @param innerClass the enclosing class
+     * @param constructor        the constructor
+     * @param innerClass         the enclosing class
      * @return the name of the List added to the class by this method
      */
     private String addtypeHandledObjectsAndMethods(
@@ -1040,7 +1038,7 @@ public class ExampleGenerator extends AbstractJavaGenerator {
         if (!introspectedColumn.getFullyQualifiedJavaType().isPrimitive()) {
             method.addBodyLine("if (value1 == null || value2 == null) {"); //$NON-NLS-1$
             method
-                .addBodyLine("throw new RuntimeException(\"Between values for \" + property + \" cannot be null\");"); //$NON-NLS-1$
+                    .addBodyLine("throw new RuntimeException(\"Between values for \" + property + \" cannot be null\");"); //$NON-NLS-1$
             method.addBodyLine("}"); //$NON-NLS-1$
         }
 

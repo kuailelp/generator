@@ -41,7 +41,7 @@
                       value="com.wonders.xbei.cloud.sae.services.impl"/>
             <!--参数 ：接口包 -->
             <property name="targetPackage"
-                      value="com.wonders.xbei.cloud.sae.services"/>
+                      value="com.wonders.xbei.cloud.sae.api.services"/>
             <!--参数：是否生成内部基础方法 -->
             <!--参数 ：文件生成路径 -->
             <property name="targetProject" value="E:/tmp"/>
@@ -53,6 +53,16 @@
                       value="com.wonders.xbei.cloud.sae.controller"/>
             <!--参数 ：引用Service包名 -->
             <property name="servicePackage" value="com.wonders.xbei.cloud.sae.services"/>
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="E:/tmp"/>
+        </plugin>
+        <!--插件 ：修改生成Controller 微服务接口 -->
+        <plugin type="org.mybatis.generator.plugins.JavaControllerCloudCreatePlugin">
+            <!--参数 ：包名 -->
+            <property name="targetPackage"
+                      value="com.wonders.xbei.cloud.sae.api.action"/>
+            <!--参数 ：引用Service包名 -->
+            <!--            <property name="servicePackage" value="com.wonders.xbei.cloud.sae.services"/>-->
             <!--参数 ：文件生成路径 -->
             <property name="targetProject" value="E:/tmp"/>
         </plugin>
@@ -74,7 +84,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- !!!! Model Configurations !!!! -->
-        <javaModelGenerator targetPackage="com.wonders.xbei.cloud.sae.entity"
+        <javaModelGenerator targetPackage="com.wonders.xbei.cloud.sae.api.entity"
                             targetProject="E:/tmp">
             <!--            <property name="enableSubPackages" value="true"/>-->
             <property name="trimStrings" value="true"/>

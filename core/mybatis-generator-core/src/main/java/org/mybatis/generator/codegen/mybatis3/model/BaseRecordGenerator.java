@@ -1,17 +1,17 @@
 /**
- *    Copyright 2006-2019 the original author or authors.
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+ * Copyright 2006-2019 the original author or authors.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.mybatis.generator.codegen.mybatis3.model;
 
@@ -24,24 +24,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.mybatis.generator.api.CommentGenerator;
-import org.mybatis.generator.api.FullyQualifiedTable;
-import org.mybatis.generator.api.IntrospectedColumn;
-import org.mybatis.generator.api.Plugin;
-import org.mybatis.generator.api.dom.java.CompilationUnit;
-import org.mybatis.generator.api.dom.java.Field;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.api.dom.java.JavaVisibility;
-import org.mybatis.generator.api.dom.java.Method;
-import org.mybatis.generator.api.dom.java.Parameter;
-import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.api.*;
+import org.mybatis.generator.api.dom.java.*;
 import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.RootClassInfo;
 
 /**
- * 
  * @author Jeff Butler
- * 
+ * // TODO: Entity 类生成
  */
 public class BaseRecordGenerator extends AbstractJavaGenerator {
 
@@ -62,7 +52,8 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         TopLevelClass topLevelClass = new TopLevelClass(type);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
-
+        // 生成枚举
+        createEnum(topLevelClass, introspectedTable, table.getIntrospectedTableName());
         FullyQualifiedJavaType superClass = getSuperClass();
         if (superClass != null) {
             topLevelClass.setSuperClass(superClass);
@@ -123,6 +114,25 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         }
         return answer;
     }
+
+    /**
+     * 描述：生成枚举内容 <br>
+     * 创建人：廖鹏 | 创建日期：2020/3/23 9:27 <br>
+     */
+    private void createEnum(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName) {
+        InnerEnum innerEnum = new InnerEnum(new FullyQualifiedJavaType("Property"));
+        innerEnum.addJavaDocLine("/**");
+        innerEnum.addJavaDocLine(" * 实体属性名称枚举信息");
+        innerEnum.addJavaDocLine(" * 方便微服务接口调用时使用");
+        innerEnum.addJavaDocLine(" */");
+        innerEnum.setVisibility(JavaVisibility.PUBLIC);
+        for (IntrospectedColumn allColumn : introspectedTable.getAllColumns()) {
+            innerEnum.addEnumConstant("//" + allColumn.getRemarks());
+            innerEnum.addEnumConstant(allColumn.getJavaProperty());
+        }
+        topLevelClass.addInnerEnum(innerEnum);
+    }
+
 
     private FullyQualifiedJavaType getSuperClass() {
         FullyQualifiedJavaType superClass;
@@ -195,6 +205,12 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         }
 
         topLevelClass.addMethod(method);
+
+        InnerEnum innerEnum = new InnerEnum(new FullyQualifiedJavaType("Property"));
+        innerEnum.addEnumConstant("ssss");
+        topLevelClass.addInnerEnum(innerEnum);
+
+
     }
 
     private List<IntrospectedColumn> getColumnsInThisClass() {

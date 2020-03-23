@@ -77,6 +77,7 @@ public class ExampleDeleteWhereClauseElementGenerator extends
         XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
         ifElement.addAttribute(new Attribute("test", "criteria.valid")); //$NON-NLS-1$ //$NON-NLS-2$
         outerForEachElement.addElement(ifElement);
+        String a = introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime();
         alias = introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime().split(" ")[1];
         XmlElement trimElement = new XmlElement("trim"); //$NON-NLS-1$
         trimElement.addAttribute(new Attribute("prefix", "(")); //$NON-NLS-1$ //$NON-NLS-2$

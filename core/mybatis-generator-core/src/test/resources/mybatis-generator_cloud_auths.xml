@@ -17,6 +17,8 @@
         <!-- 格式化XML代码 -->
         <property name="xmlFormatter"
                   value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!-- 是否生成Example Java 代码 -->
+        <property name="exampleCreateJava" value="false"/>
         <!--开启抑制类型的警告信息 -->
         <property name="suppressTypeWarnings" value="true"/>
         <!--插件 ：用来给Java模型生成equals和hashcode方法 -->
@@ -27,35 +29,45 @@
         <!--插件 ：用来为生成的Java模型 toString 方法 -->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--插件 ：修改查询名称为 Criteria -->
-        <!--        <plugin-->
-        <!--                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">-->
-        <!--            <property name="searchString" value="Example$"/>-->
-        <!--            <property name="replaceString" value="Criteria"/>-->
-        <!--        </plugin>-->
+        <plugin
+                type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
         <!--插件 ：修改生成Service接口和实现 -->
-        <!--        <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">-->
-        <!--            &lt;!&ndash;参数 ：实现包 &ndash;&gt;-->
-        <!--            <property name="implementationPackage"-->
-        <!--                      value="com.wonders.auths.serviceimpl"/>-->
-        <!--            &lt;!&ndash;参数 ：接口包 &ndash;&gt;-->
-        <!--            <property name="targetPackage"-->
-        <!--                      value="com.wonders.auths.service"/>-->
-        <!--            &lt;!&ndash;参数 ：文件生成路径 &ndash;&gt;-->
-        <!--            <property name="targetProject" value="E:/tmp"/>-->
-        <!--        </plugin>-->
+        <plugin type="org.mybatis.generator.plugins.JavaServicesCreatePlugin">
+            <!--参数 ：实现包 -->
+            <property name="implementationPackage"
+                      value="com.wonders.auths.services.impl"/>
+            <!--参数 ：接口包 -->
+            <property name="targetPackage"
+                      value="com.wonders.auths.services"/>
+            <!--参数：是否生成内部基础方法 -->
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="E:/tmp"/>
+        </plugin>
         <!--插件 ：修改生成Controller -->
-        <!--        <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">-->
-        <!--            &lt;!&ndash;参数 ：包名 &ndash;&gt;-->
-        <!--            <property name="targetPackage"-->
-        <!--                      value="com.wonders.labor.arbitration.controller"/>-->
-        <!--            &lt;!&ndash;参数 ：引用Service包名 &ndash;&gt;-->
-        <!--            <property name="servicePackage" value="com.wonders.labor.arbitration.service"/>-->
-        <!--            &lt;!&ndash;参数 ：文件生成路径 &ndash;&gt;-->
-        <!--            <property name="targetProject" value="E:/tmp"/>-->
-        <!--        </plugin>-->
+        <plugin type="org.mybatis.generator.plugins.JavaControllerCreatePlugin">
+            <!--参数 ：包名 -->
+            <property name="targetPackage"
+                      value="com.wonders.auths.controller"/>
+            <!--参数 ：引用Service包名 -->
+            <property name="servicePackage" value="com.wonders.xbei.cloud.sae.services"/>
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="E:/tmp"/>
+        </plugin>
+        <!--插件 ：修改生成Controller 微服务接口 -->
+        <plugin type="org.mybatis.generator.plugins.JavaControllerCloudCreatePlugin">
+            <!--参数 ：包名 -->
+            <property name="targetPackage"
+                      value="com.wonders.auths.action"/>
+            <!--参数 ：引用Service包名 -->
+            <!--            <property name="servicePackage" value="com.wonders.xbei.cloud.sae.services"/>-->
+            <!--参数 ：文件生成路径 -->
+            <property name="targetProject" value="E:/tmp"/>
+        </plugin>
         <!--插件 ：创建集成Mapper类 -->
-        <!--        <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>-->
-
+        <plugin type="org.mybatis.generator.plugins.JavaCreateBaseMapperPlugin"/>
 
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
@@ -65,41 +77,37 @@
         </commentGenerator>
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
-        <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
-        <!--                        connectionURL="jdbc:mysql://218.95.173.161:53306/nxlagc_test_jk"-->
-        <!--                        userId="nxlagctest" password="wonDErsteStDb20!8"/>-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://218.95.172.112:33060/nxrkjda"
-                        userId="nxrkjda" password="$yda44F@GLC$"/>
-        <!--        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"-->
-        <!--                        connectionURL="jdbc:oracle:thin:@90.90.90.3:1521:EE"-->
-        <!--                        userId="labor_tjzc" password="labor_tjzc"/>-->
+                        connectionURL="jdbc:mysql://90.90.90.3:3306/auth"
+                        userId="auth" password="auth"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- !!!! Model Configurations !!!! -->
         <javaModelGenerator targetPackage="com.wonders.auths.entity"
                             targetProject="E:/tmp">
-            <property name="enableSubPackages" value="false"/>
+            <!--            <property name="enableSubPackages" value="true"/>-->
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- !!!! Mapper XML Configurations !!!! -->
         <sqlMapGenerator targetPackage="com.wonders.auths.mapping"
                          targetProject="E:/tmp">
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- !!!! Mapper Interface Configurations !!!! -->
         <javaClientGenerator targetPackage="com.wonders.auths.mapper"
                              targetProject="E:/tmp"
                              type="XMLMAPPER">
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-
-
-
-        <table tableName="sys_file" domainObjectName="SysFileEntity" alias="sf ">
-<!--            <generatedKey column="BEZ105" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
-        </table>
+        <table tableName="sys_yh" domainObjectName="SysYHEntity" alias="yh"/>
+        <table tableName="sys_sj" domainObjectName="SysSJEntity" alias="sj"/>
+        <table tableName="sys_qx" domainObjectName="SysQXEntity" alias="qx"/>
+        <table tableName="sys_js" domainObjectName="SysJSEntity" alias="js"/>
+        <table tableName="sys_jg" domainObjectName="SysJGEntity" alias="jg"/>
+        <table tableName="sys_cd" domainObjectName="SysCDEntity" alias="cd"/>
+        <!--        <table tableName="fj_jbxx" domainObjectName="fjJbxx" alias="jbxx"/>-->
+        <!--        <table tableName="fj_pzxx" domainObjectName="fjPzxx" alias="pzxx"/>-->
     </context>
 </generatorConfiguration>

@@ -77,7 +77,6 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
         packageMapper = context.getJavaClientGeneratorConfiguration().getTargetPackage();
         packageMapper = packageMapper.replace(".base", "");
         projectMapper = context.getJavaClientGeneratorConfiguration().getTargetProject();
-
         return true;
     }
 
@@ -150,10 +149,29 @@ public class JavaCreateBaseMapperPlugin extends PluginAdapter {
         topLevelClass.addJavaDocLine(" * 修改内容：");
         topLevelClass.addJavaDocLine(" * ");
         topLevelClass.addJavaDocLine(" */");
+        createEnum(topLevelClass, introspectedTable, tableName);
         createConstructor(topLevelClass, introspectedTable, tableName);
         createSetMet(topLevelClass, introspectedTable, tableName);
         GeneratedJavaFile file = new GeneratedJavaFile(topLevelClass, projectMode, context.getJavaFormatter());
         return file;
+    }
+
+    /**
+     * 描述：生成枚举内容 <br>
+     * 创建人：廖鹏 | 创建日期：2020/3/23 9:27 <br>
+     */
+    private void createEnum(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName) {
+        InnerEnum innerEnum = new InnerEnum(new FullyQualifiedJavaType("Property"));
+        innerEnum.addJavaDocLine("/**");
+        innerEnum.addJavaDocLine(" * 实体属性名称枚举信息");
+        innerEnum.addJavaDocLine(" * 方便微服务接口调用时使用");
+        innerEnum.addJavaDocLine(" */");
+        innerEnum.setVisibility(JavaVisibility.PUBLIC);
+        for (IntrospectedColumn allColumn : introspectedTable.getAllColumns()) {
+            innerEnum.addEnumConstant("//" + allColumn.getRemarks());
+            innerEnum.addEnumConstant(allColumn.getJavaProperty());
+        }
+        topLevelClass.addInnerEnum(innerEnum);
     }
 
     private void createConstructor(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName) {

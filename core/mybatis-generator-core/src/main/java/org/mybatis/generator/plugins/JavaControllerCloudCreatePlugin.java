@@ -25,39 +25,33 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-// FIXME: Controller 生成器
-public class JavaControllerCreatePlugin extends PluginAdapter {
+// FIXME: Controller 微服务 接口 生成器
+public class JavaControllerCloudCreatePlugin extends PluginAdapter {
 
 
-    private FullyQualifiedJavaType slf4jLogger;
-    private FullyQualifiedJavaType slf4jLoggerFactory;
-    private FullyQualifiedJavaType serviceType;
-    private FullyQualifiedJavaType controllerType;
-    private FullyQualifiedJavaType pojoType;
+    private FullyQualifiedJavaType actionType;
     private FullyQualifiedJavaType pojoTypeExp;
-    private FullyQualifiedJavaType superClassType;
-    private FullyQualifiedJavaType state;
-    private FullyQualifiedJavaType api = new FullyQualifiedJavaType("io.swagger.annotations.Api");
-    private FullyQualifiedJavaType apiOperation = new FullyQualifiedJavaType("io.swagger.annotations.ApiOperation");
-    private FullyQualifiedJavaType apiImplicitParams = new FullyQualifiedJavaType("io.swagger.annotations.ApiImplicitParams");
-    private FullyQualifiedJavaType apiImplicitParam = new FullyQualifiedJavaType("io.swagger.annotations.ApiImplicitParam");
+    private FullyQualifiedJavaType getMapping;
+    private FullyQualifiedJavaType postMapping;
+    private FullyQualifiedJavaType fBody;
+    private FullyQualifiedJavaType fHeaders;
 
 
     private FullyQualifiedJavaType listType;
-    private FullyQualifiedJavaType autowired;
-    //    private FullyQualifiedJavaType controller;
-    private FullyQualifiedJavaType mvcMapping;
-    //    private FullyQualifiedJavaType requestParamType;
-//    private FullyQualifiedJavaType mapType;
+    private FullyQualifiedJavaType component;
+    private FullyQualifiedJavaType feignClient;
     private FullyQualifiedJavaType resultType;
+    private FullyQualifiedJavaType resultTypePojo;
+    private FullyQualifiedJavaType resultTypeLong;
+    private FullyQualifiedJavaType resultTypePage;
+    private FullyQualifiedJavaType resultTypeList;
+    private FullyQualifiedJavaType bodys;
+    private FullyQualifiedJavaType bodysPorp;
     private FullyQualifiedJavaType pageType;
     private String controllerPack;
-    private String servicePack;
     private String project;
     private String pojoUrl;
-    private boolean createCloud;
 
     // 主键
     private IntrospectedColumn introspectedColumn;
@@ -65,11 +59,8 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
     private List<Method> methods;
 
 
-    public JavaControllerCreatePlugin() {
+    public JavaControllerCloudCreatePlugin() {
         super();
-        // 默认是slf4j
-        slf4jLogger = new FullyQualifiedJavaType("org.slf4j.Logger");
-        slf4jLoggerFactory = new FullyQualifiedJavaType("org.slf4j.LoggerFactory");
         methods = new ArrayList();
     }
 
@@ -77,13 +68,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
     public boolean validate(List<String> warnings) {
         controllerPack = properties.getProperty("targetPackage");
         project = properties.getProperty("targetProject");
-        servicePack = properties.getProperty("servicePackage");
-        createCloud = (boolean) properties.getOrDefault("createCloud", false);
         pojoUrl = context.getJavaModelGeneratorConfiguration().getTargetPackage();
-        autowired = new FullyQualifiedJavaType("org.springframework.beans.factory.annotation.Autowired");
-//        controller = new FullyQualifiedJavaType("org.springframework.web.bind.annotation.RestController");
-        mvcMapping = new FullyQualifiedJavaType("org.springframework.web.bind.annotation.*");
-//        requestParamType = new FullyQualifiedJavaType("org.springframework.web.bind.annotation.RequestParam");
+        component = new FullyQualifiedJavaType("org.springframework.stereotype.Component");
+        feignClient = new FullyQualifiedJavaType("org.springframework.cloud.openfeign.FeignClient");
         return true;
     }
 
@@ -98,64 +85,45 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         String table = introspectedTable.getBaseRecordType();
         String tableName = table.replaceAll(this.pojoUrl + ".", "");
         tableName = tableName.replace("base.", "");
-        serviceType = new FullyQualifiedJavaType(servicePack + "." + tableName + "Service");
-        controllerType = new FullyQualifiedJavaType(controllerPack + "." + tableName + "Controller");
-        pojoType = new FullyQualifiedJavaType(pojoUrl + ".base." + tableName);
+        actionType = new FullyQualifiedJavaType(controllerPack + "." + tableName + "Action");
         pojoTypeExp = new FullyQualifiedJavaType(pojoUrl + "." + tableName + "Exp");
         pageType = new FullyQualifiedJavaType("com.wonders.toolkit.model.PageInfo");
         listType = new FullyQualifiedJavaType("java.util.List");
-//        mapType = new FullyQualifiedJavaType("java.util.Map");
         resultType = new FullyQualifiedJavaType("com.wonders.toolkit.model.Return");
-        superClassType = new FullyQualifiedJavaType("com.wonders.toolkit.model.PageBase");
-        state = new FullyQualifiedJavaType(" com.wonders.toolkit.em.State");
-        TopLevelClass topLevelClass = new TopLevelClass(controllerType);
-//        topLevelClass.addAnnotation("@KSPage");
-//        topLevelClass.addImportedType("com.wonders.aops.controller.KSPage");
+        resultTypePage = new FullyQualifiedJavaType("com.wonders.toolkit.model.Return<PageInfo>");
+        resultTypeLong = new FullyQualifiedJavaType("com.wonders.toolkit.model.Return<Long>");
+        resultTypePojo = new FullyQualifiedJavaType("com.wonders.toolkit.model.Return<" + pojoTypeExp.getShortName() + ">");
+        resultTypeList = new FullyQualifiedJavaType("com.wonders.toolkit.model.Return<List<" + pojoTypeExp.getShortName() + ">>");
+        bodys = new FullyQualifiedJavaType("com.wonders.toolkit.model.Bodys");
+        bodysPorp = new FullyQualifiedJavaType("com.wonders.toolkit.model.Bodys<" + pojoTypeExp.getShortName() + ".Property,String>");
+        postMapping = new FullyQualifiedJavaType("org.springframework.web.bind.annotation.PostMapping");
+        fBody = new FullyQualifiedJavaType("feign.Body");
+        fHeaders = new FullyQualifiedJavaType("feign.Headers");
+        Interface in = new Interface(actionType);
         // 导入必要的类
-        addImport(topLevelClass);
+        addImport(in);
         // 实现类
-        addController(topLevelClass, introspectedTable, tableName, files);
-        // 添加日志信息
-        addLogger(topLevelClass);
+        addController(in, introspectedTable, tableName, files);
+
         return files;
     }
 
     /**
      * 导入需要的类
      */
-    private void addImport(TopLevelClass topLevelClass) {
-        topLevelClass.addImportedType(pojoType);
+    private void addImport(Interface topLevelClass) {
         topLevelClass.addImportedType(pojoTypeExp);
         topLevelClass.addImportedType(listType);
-        topLevelClass.addImportedType(slf4jLogger);
-        topLevelClass.addImportedType(slf4jLoggerFactory);
-//        topLevelClass.addImportedType(controller);
-        topLevelClass.addImportedType(mvcMapping);
-//        topLevelClass.addImportedType(requestParamType);
-        topLevelClass.addImportedType(autowired);
+        topLevelClass.addImportedType(feignClient);
+        topLevelClass.addImportedType(component);
         topLevelClass.addImportedType(pageType);
         topLevelClass.addImportedType(resultType);
-        topLevelClass.addImportedType(superClassType);
-        topLevelClass.addImportedType(state);
-        topLevelClass.addImportedType(api);
-        topLevelClass.addImportedType(apiOperation);
-        topLevelClass.addImportedType(apiImplicitParams);
-        topLevelClass.addImportedType(apiImplicitParam);
+        topLevelClass.addImportedType(getMapping);
+        topLevelClass.addImportedType(postMapping);
+        topLevelClass.addImportedType(bodys);
+        topLevelClass.addImportedType(fBody);
+        topLevelClass.addImportedType(fHeaders);
 
-    }
-
-    /**
-     * 导入logger
-     */
-    private void addLogger(TopLevelClass topLevelClass) {
-        Field field = new Field();
-        field.setFinal(true);
-        field.setInitializationString("LoggerFactory.getLogger(" + topLevelClass.getType().getShortName() + ".class)"); // 设置值
-        field.setName("logger"); // 设置变量名
-        field.setStatic(true);
-        field.setType(new FullyQualifiedJavaType("Logger")); // 类型
-        field.setVisibility(JavaVisibility.PRIVATE);
-        topLevelClass.addField(field);
     }
 
 
@@ -166,17 +134,11 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * @param tableName
      * @param files
      */
-    protected void addController(TopLevelClass topLevelClass, IntrospectedTable introspectedTable, String tableName, List<GeneratedJavaFile> files) {
+    protected void addController(Interface topLevelClass, IntrospectedTable introspectedTable, String tableName, List<GeneratedJavaFile> files) {
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
-        // 设置父类
-        topLevelClass.setSuperClass(superClassType);
         // 添加注解
-        topLevelClass.addAnnotation("@RestController");
-//        topLevelClass.addImportedType(controller);
-        topLevelClass.addAnnotation("@RequestMapping(\"" + introspectedTable.getFullyQualifiedTable().getIntrospectedTableName().toLowerCase() + "\")");
-        topLevelClass.addAnnotation("@Api(tags = \"#接口名称 > " + introspectedTable.getFullyQualifiedTable().getRemark() + " 接口\",protocols = \"#接口说明\")");
-        // 添加引用Services
-        addField(topLevelClass, tableName);
+        topLevelClass.addAnnotation("@Component");
+        topLevelClass.addAnnotation("@FeignClient( name = #微服编号 , path = \"#请求'REST APIs'地址/" + introspectedTable.getFullyQualifiedTable().getIntrospectedTableName().toLowerCase() + "\")");
         // 添加条目数查询
         topLevelClass.addMethod(countByExample(introspectedTable, tableName));
         // 根据条件删除
@@ -206,7 +168,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
 
         topLevelClass.addJavaDocLine("/**");
         topLevelClass.addJavaDocLine(" * 文件名：" + file.getFileName() + " <br>");
-        topLevelClass.addJavaDocLine(" * 描述：" + introspectedTable.getFullyQualifiedTable().getRemark() + " 业务数据传输层 <br>");
+        topLevelClass.addJavaDocLine(" * 描述：" + introspectedTable.getFullyQualifiedTable().getRemark() + " 微服调用接口 <br>");
         topLevelClass.addJavaDocLine(" * 创建人：Mybatis Genertor <br>");
         topLevelClass.addJavaDocLine(" * 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         topLevelClass.addJavaDocLine(" * 修改人：");
@@ -214,28 +176,8 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         topLevelClass.addJavaDocLine(" * 修改内容：");
         topLevelClass.addJavaDocLine(" * 1.;");
         topLevelClass.addJavaDocLine(" **/");
-//        Properties properties = context.getJavaClientGeneratorConfiguration().getProperties();
         file = new GeneratedJavaFile(topLevelClass, project, context.getJavaFormatter());
         files.add(file);
-    }
-
-
-    /**
-     * 添加字段
-     *
-     * @param topLevelClass
-     */
-    protected void addField(TopLevelClass topLevelClass, String tableName) {
-        // 添加 dao
-        Field field = new Field();
-        // 设置变量名
-        field.setName(toLowerCase(serviceType.getShortName()));
-        topLevelClass.addImportedType(serviceType);
-        field.setType(serviceType); // 类型
-        field.setVisibility(JavaVisibility.PRIVATE);
-        // 增加注解
-        field.addAnnotation("@Autowired");
-        topLevelClass.addField(field);
     }
 
 
@@ -274,63 +216,12 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
      * 描述：设置类属性接口说明 <br>
      * 创建人：廖鹏 | 创建日期：2020/3/12 20:22 <br>
      */
-    private void setApiEntity(Method method, IntrospectedTable introspectedTable, String red) {
-        method.addAnnotation(
-                "@ApiOperation(value = \"#接口名称 > " + red + "\", notes = \"#补充说明：\", produces = \"application/json\")"
-        );
-        method.addAnnotation(
-                "@ApiImplicitParams({"
-        );
-        String dataClass = introspectedTable.getBaseRecordType();
-        dataClass = dataClass.replace(this.pojoUrl + ".base.", "");
-        for (IntrospectedColumn introspectedColumn : introspectedTable.getAllColumns()) {
-            int index = introspectedTable.getAllColumns().indexOf(introspectedColumn);
-            String property = introspectedColumn.getJavaProperty();
-            String remarks = introspectedColumn.getRemarks();
-            String api = "    @ApiImplicitParam(value = \"sc_查询属性_" + property + "\", name = \"" + remarks + "\",example = \"sc_EQ_" + property + "\",required = false, dataTypeClass = " + dataClass + ".class)";
-            if (index + 1 == introspectedTable.getAllColumns().size()) {
-                method.addAnnotation(api);
-            } else {
-                method.addAnnotation(api + ",");
-            }
-        }
-        method.addAnnotation(
-                "})"
-        );
-    }
-
-    /**
-     * 描述：设置类属性接口说明 <br>
-     * 创建人：廖鹏 | 创建日期：2020/3/12 20:22 <br>
-     */
-    private void setInstallApiEntity(Method method, IntrospectedTable introspectedTable, String red) {
-        method.addAnnotation(
-                "@ApiOperation(value = \"#接口名称 > " + red + "\", notes = \"#补充说明：\", produces = \"application/json\")"
-        );
-        method.addAnnotation("@ApiImplicitParam(value = \"record\", name = \"" + red + "\",required= true, dataTypeClass = " + pojoType.getShortName() + ".class)");
-    }
-
-    /**
-     * 描述：设置类属性接口说明 <br>
-     * 创建人：廖鹏 | 创建日期：2020/3/12 20:22 <br>
-     */
-    private void setInstallApiEntityExp(Method method, IntrospectedTable introspectedTable, String red) {
-        method.addAnnotation(
-                "@ApiOperation(value = \"#接口名称 > " + red + "\", notes = \"#补充说明：\", produces = \"application/json\")"
-        );
-        method.addAnnotation("@ApiImplicitParam(value = \"record\", name = \"" + red + "\",required= true, dataTypeClass = " + pojoType.getShortName() + "Exp.class)");
-    }
-
-    /**
-     * 描述：设置类属性接口说明 <br>
-     * 创建人：廖鹏 | 创建日期：2020/3/12 20:22 <br>
-     */
-    private void setApiKey(Method method, IntrospectedTable introspectedTable, String red) {
-        method.addAnnotation(
-                "@ApiOperation(value = \"#接口名称 > " + red + "\", notes = \"#补充说明：\", produces = \"application/json\")"
-        );
-        Parameter parameter = new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty(), "@RequestParam(value = \"" + introspectedColumn.getJavaProperty() + "\")");
-        method.addAnnotation("@ApiImplicitParam(value = \"" + introspectedColumn.getJavaProperty() + "\", name = \"" + introspectedColumn.getRemarks() + "\",required= true, dataTypeClass = " + parameter.getType().getShortName() + ".class)");
+    private void setAnnotationMethodHeaders(Method method) {
+        method.addAnnotation("@Headers({\n" +
+                "            \"Accept: application/json\",\n" +
+                "            \"Content-Type: application/json\"\n" +
+                "    })");
+        method.addAnnotation("@Body(\"{body}\")");
     }
 
 
@@ -341,25 +232,18 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
     private Method countByExample(IntrospectedTable introspectedTable, String tableName) {
         setIntrospectedColumn(introspectedTable);
         Method method = new Method();
-
         method.setName("countByExample");
         method.addAnnotation("@PostMapping(\"count_by_example\")");
-        method.setReturnType(resultType);
+        method.setReturnType(resultTypeLong);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("Long count = " + toLowerCase(serviceType.getShortName()) + ".countByExample(getParams());");
-        method.addBodyLine("return Return.builder().codes(State.OK).data(count).build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "条目数 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 查询结果条目数");
         method.addJavaDocLine(" */");
-        setApiEntity(method, introspectedTable, "查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "条目数");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -376,20 +260,14 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("int result = " + toLowerCase(serviceType.getShortName()) + ".deleteByExample(getParams());");
-        method.addBodyLine("return Return.builder().codes(State.OK).data(result).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"数据删除失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + " <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setApiEntity(method, introspectedTable, "根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark());
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -404,23 +282,16 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("deleteByPrimaryKey");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addAnnotation("@PostMapping(value = \"delete_by_primarykey\")");
-        method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(), introspectedColumn.getJavaProperty(), "@RequestParam(value = \"" + introspectedColumn.getJavaProperty() + "\")"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("int result = " + toLowerCase(serviceType.getShortName()) + ".deleteByPrimaryKey(" + introspectedColumn.getJavaProperty() + ");");
-        method.addBodyLine("return Return.builder().codes(State.OK).data(result).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"数据删除失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据主键删除" + introspectedTable.getFullyQualifiedTable().getRemark() + " <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setApiKey(method, introspectedTable, "根据主键删除" + introspectedTable.getFullyQualifiedTable().getRemark());
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -434,25 +305,18 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("insert");
         method.addAnnotation("@PostMapping(\"insert\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("int result = " + toLowerCase(serviceType.getShortName()) + ".insert(record);");
-        method.addBodyLine("return Return.builder().codes(State.OK).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"新增数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：全局新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @param    record  " + introspectedTable.getFullyQualifiedTable().getRemark() + "对象信息");
+        method.addJavaDocLine(" * @param    bodys  " + introspectedTable.getFullyQualifiedTable().getRemark() + "对象信息");
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setInstallApiEntity(method, introspectedTable, "全局新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -467,25 +331,18 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("insertSelective");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addAnnotation("@PostMapping(value = \"insert_selective\")");
-        method.addParameter(new Parameter(pojoType, "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("int result = " + toLowerCase(serviceType.getShortName()) + ".insertSelective(record);");
-        method.addBodyLine("return Return.builder().codes(State.OK).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"新增数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据对象属性状态新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
         method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @param    record  " + introspectedTable.getFullyQualifiedTable().getRemark() + "对象信息");
+        method.addJavaDocLine(" * @param    bodys  " + introspectedTable.getFullyQualifiedTable().getRemark() + "对象信息");
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setInstallApiEntity(method, introspectedTable, "根据对象属性状态新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -499,15 +356,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("selectByExample");
         method.addAnnotation("@PostMapping(value = \"select_by_example\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.setReturnType(resultType);
+        method.setReturnType(resultTypeList);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("List<" + tableName + "Exp> results = " + toLowerCase(serviceType.getShortName()) + ".selectByExample(getParams());");
-        method.addBodyLine("return Return.builder().codes(State.OK).data(results).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"查询数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据条件获取" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -515,7 +366,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setApiEntity(method, introspectedTable, "根据条件获取" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -529,18 +380,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("selectByPrimaryKey");
         method.addAnnotation("@PostMapping(\"select_by_primarykey\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(introspectedColumn.getFullyQualifiedJavaType(),
-                introspectedColumn.getJavaProperty(), "@RequestParam(value = \"" + introspectedColumn.getJavaProperty() + "\")"));
-        method.setReturnType(resultType);
+        method.setReturnType(resultTypePojo);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine(tableName + " result = " + toLowerCase(serviceType.getShortName()) +
-                ".selectByPrimaryKey(" + introspectedColumn.getJavaProperty() + ");");
-        method.addBodyLine("return Return.builder().codes(State.OK).data(result).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"查询数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据主键获取" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -548,7 +390,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setApiKey(method, introspectedTable, "根据主键获取" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
 
     }
@@ -564,16 +406,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("updateByExample");
         method.addAnnotation("@PostMapping(\"update_by_example\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine(toLowerCase(serviceType.getShortName()) + ".updateByExample(record,getParams());");
-        method.addBodyLine("return Return.builder().codes(State.OK).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"修改数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据条件修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -581,7 +416,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setInstallApiEntityExp(method, introspectedTable, "根据条件修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -596,17 +431,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("updateByExampleSelective");
         method.addAnnotation("@PostMapping(\"update_by_ex_sel\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine(toLowerCase(serviceType.getShortName()) + ".updateByExample(record,getParams());");
-//        method.addBodyLine("return Return.build().setCode(Return.SUSSESS_CODE).setData(result).setMsg(\"修改数据成功！\");");
-        method.addBodyLine("return Return.builder().codes(State.OK).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"修改数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -614,7 +441,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setInstallApiEntityExp(method, introspectedTable, "根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -629,17 +456,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("updateByPrimaryKeySelective");
         method.addAnnotation("@PostMapping(value = \"update_by_primary_key_sel\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine(toLowerCase(serviceType.getShortName()) + ".updateByPrimaryKeySelective(record);");
-//        method.addBodyLine("return Return.build().setCode(Return.SUSSESS_CODE).setData(result).setMsg(\"修改数据成功！\");");
-        method.addBodyLine("return Return.builder().codes(State.OK).msg(\"处理成功\").build();");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"修改数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据单一对象主键修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -647,7 +466,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setInstallApiEntityExp(method, introspectedTable, "根据单一对象主键修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -661,17 +480,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("updateByPrimaryKey");
         method.addAnnotation("@PostMapping(\"update_by_primary_key\")");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(new FullyQualifiedJavaType(tableName + "Exp"), "record"));
         method.setReturnType(resultType);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine(toLowerCase(serviceType.getShortName()) + ".updateByPrimaryKey(record);");
-        method.addBodyLine("return Return.builder().codes(State.OK).msg(\"处理成功\").build();");
-//        method.addBodyLine("return Return.build().setCode(Return.SUSSESS_CODE).setData(result).setMsg(\"修改数据成功！\");");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"修改数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：根据单一对象主键修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -679,7 +490,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setInstallApiEntityExp(method, introspectedTable, "根据单一对象主键修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 
@@ -693,16 +504,9 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.setName("selectByPage");
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addAnnotation("@PostMapping(\"select_by_page\")");
-        method.setReturnType(resultType);
+        method.setReturnType(resultTypePage);
         method.setVisibility(JavaVisibility.PUBLIC);
-//        method.addBodyLine("try {");
-        method.addBodyLine("PageInfo<" + tableName + "> result = " + toLowerCase(serviceType.getShortName()) + ".selectByPage(getPage(),getParams());");
-        method.addBodyLine("return Return.builder().codes(State.OK).data(result).msg(\"处理成功\").build();");
-//        method.addBodyLine("return Return.build().setCode(Return.SUSSESS_CODE).setData(result).setMsg(\"查询数据成功！\");");
-//        method.addBodyLine("} catch (Exception e) {");
-//        method.addBodyLine("e.printStackTrace();");
-//        method.addBodyLine("return Return.build().setCode(Return.ERROR_CODE).setMsg(\"查询数据失败：\"+e.getMessage());");
-//        method.addBodyLine("}");
+        method.addParameter(new Parameter(bodysPorp, "bodys"));
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：分页查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -710,7 +514,7 @@ public class JavaControllerCreatePlugin extends PluginAdapter {
         method.addJavaDocLine(" * ");
         method.addJavaDocLine(" * @return 结果");
         method.addJavaDocLine(" */");
-        setApiEntity(method, introspectedTable, "分页查询" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息");
+        setAnnotationMethodHeaders(method);
         return method;
     }
 

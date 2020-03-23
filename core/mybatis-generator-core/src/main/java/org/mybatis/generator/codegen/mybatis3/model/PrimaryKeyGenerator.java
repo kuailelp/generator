@@ -38,9 +38,9 @@ import org.mybatis.generator.codegen.AbstractJavaGenerator;
 import org.mybatis.generator.codegen.RootClassInfo;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class PrimaryKeyGenerator extends AbstractJavaGenerator {
 
