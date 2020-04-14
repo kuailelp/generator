@@ -32,7 +32,6 @@ public class JavaControllerCloudCreatePlugin extends PluginAdapter {
 
     private FullyQualifiedJavaType actionType;
     private FullyQualifiedJavaType pojoTypeExp;
-    private FullyQualifiedJavaType getMapping;
     private FullyQualifiedJavaType postMapping;
     private FullyQualifiedJavaType fBody;
     private FullyQualifiedJavaType fHeaders;
@@ -118,7 +117,6 @@ public class JavaControllerCloudCreatePlugin extends PluginAdapter {
         topLevelClass.addImportedType(component);
         topLevelClass.addImportedType(pageType);
         topLevelClass.addImportedType(resultType);
-        topLevelClass.addImportedType(getMapping);
         topLevelClass.addImportedType(postMapping);
         topLevelClass.addImportedType(bodys);
         topLevelClass.addImportedType(fBody);

@@ -69,8 +69,8 @@
         <!--                        connectionURL="jdbc:mysql://218.95.173.161:53306/nxlagc_test_jk"-->
         <!--                        userId="nxlagctest" password="wonDErsteStDb20!8"/>-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://218.95.172.112:33060/nxrkjda"
-                        userId="nxrkjda" password="$yda44F@GLC$"/>
+                        connectionURL="jdbc:mysql://90.90.90.3:3306/auth"
+                        userId="auth" password="auth"/>
         <!--        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"-->
         <!--                        connectionURL="jdbc:oracle:thin:@90.90.90.3:1521:EE"-->
         <!--                        userId="labor_tjzc" password="labor_tjzc"/>-->
@@ -97,9 +97,9 @@
         </javaClientGenerator>
 
 
-
-        <table tableName="sys_file" domainObjectName="SysFileEntity" alias="sf ">
-<!--            <generatedKey column="BEZ105" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
+        <!--        <table tableName="sys_file" domainObjectName="SysFileEntity" alias="sf ">-->
+        <table tableName="sys_cd" domainObjectName="SysFEntity" alias="cd ">
+            <!--            <generatedKey column="BEZ105" sqlStatement="select replace(sys_guid(),'-','') from dual" identity="false"/>-->
         </table>
     </context>
 </generatorConfiguration>

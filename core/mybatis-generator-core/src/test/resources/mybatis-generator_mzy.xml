@@ -77,9 +77,12 @@
         </commentGenerator>
         <!-- !!!! Database Configurations !!!! -->
         <!-- jdbc连接 -->
+        <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+        <!--                        connectionURL="jdbc:mysql://90.90.90.7:3306/nxmz_app"-->
+        <!--                        userId="nxmz_appdev" password="Appdev@911"/>-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://90.90.90.7:3306/nxmz_app"
-                        userId="nxmz_appdev" password="Appdev@911"/>
+                        connectionURL="jdbc:mysql://90.90.90.2:33061/nxmzdev"
+                        userId="nxmzdev" password="nxmzdev"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
@@ -101,10 +104,39 @@
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="hs_cwqr" domainObjectName="HsCwqr" alias="hcr"/>
-        <table tableName="hs_ry" domainObjectName="HsRy" alias="hry"/>
-        <table tableName="hs_ptry" domainObjectName="HsPtry" alias="hpy"/>
-        <table tableName="hs_rhdc" domainObjectName="HsRhdc" alias="hrc"/>
-        <table tableName="hs_dczl" domainObjectName="HsDczl" alias="hdl"/>
+        <!--        <table tableName="Dic_Organ" domainObjectName="DicOrganEntity" alias="don"/>-->
+        <!--        <table tableName="Ha01" domainObjectName="Ha01Entity" alias="ha01"/>-->
+        <!--        <table tableName="Ha02" domainObjectName="Ha02Entity" alias="ha02"/>-->
+        <!--        <table tableName="Ha03" domainObjectName="Ha03Entity" alias="ha03"/>-->
+        <!--        <table tableName="Ha04" domainObjectName="Ha04Entity" alias="ha04"/>-->
+        <!--        <table tableName="Ha05" domainObjectName="Ha05Entity" alias="ha05"/>-->
+        <!--        <table tableName="Ha06" domainObjectName="Ha06Entity" alias="ha06"/>-->
+        <!--        <table tableName="Ha08" domainObjectName="Ha08Entity" alias="ha08"/>-->
+        <!--        <table tableName="Ha13" domainObjectName="Ha13Entity" alias="ha13"/>-->
+        <!--        <table tableName="Ha15" domainObjectName="Ha15Entity" alias="ha15"/>-->
+        <!--        <table tableName="Ha16" domainObjectName="Ha16Entity" alias="ha16"/>-->
+        <!--        <table tableName="Ha17" domainObjectName="Ha17Entity" alias="ha17"/>-->
+        <!--        <table tableName="Ha18" domainObjectName="Ha18Entity" alias="ha18"/>-->
+        <!--        <table tableName="Ha19" domainObjectName="Ha19Entity" alias="ha19"/>-->
+        <!--        <table tableName="Ha20" domainObjectName="Ha20Entity" alias="ha20"/>-->
+        <!--        <table tableName="Ha21" domainObjectName="Ha21Entity" alias="ha21"/>-->
+        <!--        <table tableName="Ha22" domainObjectName="Ha22Entity" alias="ha22"/>-->
+        <!--        <table tableName="Ha23" domainObjectName="Ha23Entity" alias="ha23"/>-->
+        <!--        <table tableName="Ha24" domainObjectName="Ha24Entity" alias="ha24"/>-->
+        <!--        <table tableName="Ha24" domainObjectName="Ha24Entity" alias="ha24"/>-->
+        <!--        <table tableName="Hd_Archives" domainObjectName="HdArchivesEntity" alias="Hd_Archives"/>-->
+        <!--        <table tableName="Hd_Matarials_App" domainObjectName="HdMatarialsAppEntity" alias="hma"/>-->
+        <!--        <table tableName="Hd_Matarials_Person_App" domainObjectName="HdMatarialsPersonAppEntity" alias="hmpa"/>-->
+        <!--        <table tableName="Hd_Matarials_Type" domainObjectName="HdMatarialsTypeEntity" alias="hmt"/>-->
+        <!--        <table tableName="Webservice_Opinion" domainObjectName="WebserviceOpinionEntity" alias="wo"/>-->
+        <!--        <table tableName="Zc01" domainObjectName="Zc01Entity" alias="zc01"/>-->
+        <!--        <table tableName="Zc11" domainObjectName="Zc11Entity" alias="zc11"/>-->
+        <!--        <table tableName="Zc12" domainObjectName="Zc12Entity" alias="zc12"/>-->
+        <!--        <table tableName="Ze01" domainObjectName="Ze01Entity" alias="ze01"/>-->
+        <!--        <table tableName="Ze02" domainObjectName="Ze02Entity" alias="ze02"/>-->
+        <!--        <table tableName="Zf02" domainObjectName="Zf02Entity" alias="zf02"/>-->
+        <!--        <table tableName="cs_user" domainObjectName="CsUser" alias="cu"/>-->
+        <table tableName="Ha14" domainObjectName="Ha14Entity" alias="ha14"/>
+        <table tableName="Ha07" domainObjectName="Ha07Entity" alias="ha07"/>
     </context>
 </generatorConfiguration>

@@ -101,13 +101,16 @@
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <table tableName="sys_yh" domainObjectName="SysYHEntity" alias="yh"/>
-        <table tableName="sys_sj" domainObjectName="SysSJEntity" alias="sj"/>
-        <table tableName="sys_qx" domainObjectName="SysQXEntity" alias="qx"/>
-        <table tableName="sys_js" domainObjectName="SysJSEntity" alias="js"/>
-        <table tableName="sys_jg" domainObjectName="SysJGEntity" alias="jg"/>
-        <table tableName="sys_cd" domainObjectName="SysCDEntity" alias="cd"/>
+        <!--        <table tableName="sys_yh" domainObjectName="SysYHEntity" alias="yh"/>-->
+        <!--        <table tableName="sys_sj" domainObjectName="SysSJEntity" alias="sj"/>-->
+        <!--        <table tableName="sys_qx" domainObjectName="SysQXEntity" alias="qx"/>-->
+        <!--        <table tableName="sys_js" domainObjectName="SysJSEntity" alias="js"/>-->
+        <!--        <table tableName="sys_jg" domainObjectName="SysJGEntity" alias="jg"/>-->
+        <!--        <table tableName="sys_cd" domainObjectName="SysCDEntity" alias="cd"/>-->
+        <!--        <table tableName="dic_code" domainObjectName="DicCodeEntity" alias="dic"/>-->
+        <!--        <table tableName="dic_family" domainObjectName="DicFamilyEntity" alias="fam"/>-->
         <!--        <table tableName="fj_jbxx" domainObjectName="fjJbxx" alias="jbxx"/>-->
         <!--        <table tableName="fj_pzxx" domainObjectName="fjPzxx" alias="pzxx"/>-->
+        <table tableName="fj_template" domainObjectName="TempEntity" alias="tmp"/>
     </context>
 </generatorConfiguration>
