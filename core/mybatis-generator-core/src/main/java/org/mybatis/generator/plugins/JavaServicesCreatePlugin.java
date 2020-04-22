@@ -452,7 +452,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("insert");
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.setReturnType(introspectedColumn.getFullyQualifiedJavaType());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(pojoType, "record"));
         FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
@@ -467,8 +467,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".nextId()" + ");");
             method.addBodyLine("}");
         }
-        method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getInsertStatementId() + "(record);");
-        method.addBodyLine("return result;");
+        method.addBodyLine(toLowerCase(daoType.getShortName()) + "." + introspectedTable.getInsertStatementId() + "(record);");
+//        method.addBodyLine("return result;");
+        method.addBodyLine("return record.get" + toUpperCase(idkey) + "();");
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：全局新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
@@ -488,7 +489,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName("insertSelective");
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.setReturnType(introspectedColumn.getFullyQualifiedJavaType());
         method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
         method.addParameter(new Parameter(pojoType, "record"));
         FullyQualifiedJavaType key = introspectedColumn.getFullyQualifiedJavaType();
@@ -503,8 +504,8 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
             method.addBodyLine("record.set" + toUpperCase(idkey) + "(" + idworkType.getShortName() + ".nextId()" + ");");
             method.addBodyLine("}");
         }
-        method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + "." + introspectedTable.getInsertSelectiveStatementId() + "(record);");
-        method.addBodyLine("return result;");
+        method.addBodyLine(toLowerCase(daoType.getShortName()) + "." + introspectedTable.getInsertSelectiveStatementId() + "(record);");
+        method.addBodyLine("return record.get" + toUpperCase(idkey) + "();");
         method.addJavaDocLine("/**");
         method.addJavaDocLine(" * 描述：条件新增" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
         method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
