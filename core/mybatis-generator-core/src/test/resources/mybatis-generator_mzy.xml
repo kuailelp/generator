@@ -3,13 +3,10 @@
         "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-
-
     <!-- 引入配置文件,非必须 -->
     <!-- !!!! Driver Class Path !!!! -->
     <classPathEntry
             location="D:\m2\repository\mysql\mysql-connector-java\5.1.46\mysql-connector-java-5.1.46.jar"/>
-
     <context id="context1" targetRuntime="MyBatis3">
         <!--    <classPathEntry-->
         <!--            location="D:/m2/repository/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>-->
@@ -82,9 +79,12 @@
         <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
         <!--                        connectionURL="jdbc:mysql://90.90.90.7:3306/nxmz_app"-->
         <!--                        userId="nxmz_appdev" password="Appdev@911"/>-->
+        <!--        <jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+        <!--                        connectionURL="jdbc:mysql://90.90.90.2:33061/nxmzdev"-->
+        <!--                        userId="nxmzdev" password="nxmzdev"/>-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://90.90.90.2:33061/nxmzdev"
-                        userId="nxmzdev" password="nxmzdev"/>
+                        connectionURL="jdbc:mysql://90.90.90.7:33061/nxmz"
+                        userId="nxmz" password="nxmz"/>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
@@ -107,7 +107,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--        <table tableName="Dic_Organ" domainObjectName="DicOrganEntity" alias="don"/>-->
-        <!--        <table tableName="Ha01" domainObjectName="Ha01Entity" alias="ha01"/>-->
+        <!--                <table tableName="Ha01" domainObjectName="Ha01Entity" alias="ha01"/>-->
         <!--        <table tableName="Ha02" domainObjectName="Ha02Entity" alias="ha02"/>-->
         <!--        <table tableName="Ha03" domainObjectName="Ha03Entity" alias="ha03"/>-->
         <!--        <table tableName="Ha04" domainObjectName="Ha04Entity" alias="ha04"/>-->
@@ -132,6 +132,7 @@
         <!--        <table tableName="Hd_Matarials_Type" domainObjectName="HdMatarialsTypeEntity" alias="hmt"/>-->
         <!--        <table tableName="Webservice_Opinion" domainObjectName="WebserviceOpinionEntity" alias="wo"/>-->
         <!--        <table tableName="Zc01" domainObjectName="Zc01Entity" alias="zc01"/>-->
+        <!--        <table tableName="Zc02" domainObjectName="Zc02Entity" alias="zc02"/>-->
         <!--        <table tableName="Zc11" domainObjectName="Zc11Entity" alias="zc11"/>-->
         <!--        <table tableName="Zc12" domainObjectName="Zc12Entity" alias="zc12"/>-->
         <!--        <table tableName="Ze01" domainObjectName="Ze01Entity" alias="ze01"/>-->
@@ -146,8 +147,7 @@
         <!--        <table tableName="hs_mzpy_ryxx" domainObjectName="HsMzpyRyxx" alias="hsc"/>-->
         <!--        <table tableName="hs_ptry" domainObjectName="HsPtry" alias="hsc"/>-->
         <!--        <table tableName="hs_rhdc" domainObjectName="HsRhdc" alias="hsc"/>-->
-
-        <!--        <table tableName="hs_zxdc_jh_mx" domainObjectName="HsZxdcJhMx" alias="hsc"/>-->
+        <!--        <table tableName="hs_zxdc_jh_mx" domainObjectName="HsZxdcJhMxEntity" alias="hzjm"/>-->
         <!--        <table tableName="jz_hs" domainObjectName="JzHs" alias="hsc"/>-->
         <!--        <table tableName="ha01_ys" domainObjectName="Ha01YsEntity" alias="hays"/>-->
         <!--        <table tableName="bc_user_organ" domainObjectName="BcUserOrgan" alias="buo"/>-->
@@ -158,6 +158,40 @@
         <!--        <table tableName="zd01" domainObjectName="Zd01Entity" alias="zd01"/>-->
         <!--        <table tableName="zd02" domainObjectName="Zd02Entity" alias="zd02"/>-->
         <!--        <table tableName="zd03" domainObjectName="Zd03Entity" alias="zd03"/>-->
-        <table tableName="zd04" domainObjectName="Zd04Entity" alias="zd04"/>
+        <!--        <table tableName="zd04" domainObjectName="Zd04Entity" alias="zd04"/>-->
+        <!--        <table tableName="ha11" domainObjectName="Ha11Entity" alias="ha11"/>-->
+        <!--        <table tableName="ha12" domainObjectName="Ha12Entity" alias="ha12"/>-->
+        <!--        <table tableName="zd31" domainObjectName="Zd31Entity" alias="zd31"/>-->
+        <!--        <table tableName="zd32" domainObjectName="Zd32Entity" alias="zd32"/>-->
+        <!--        <table tableName="zd33" domainObjectName="Zd33Entity" alias="zd33"/>-->
+        <!--        <table tableName="zd34" domainObjectName="Zd34Entity" alias="zd34"/>-->
+        <!--        <table tableName="Zf01" domainObjectName="Zf01Entity" alias="zf01"/>-->
+        <!--        <table tableName="Wj01" domainObjectName="Wj01Entity" alias="wj01"/>-->
+        <!--        <table tableName="bd_send_data" domainObjectName="BdDendDataEntity" alias="bsda"/>-->
+        <!--        <table tableName="srhdjhdev.jh_return_data" domainObjectName="JhReturnDataEntity" alias="jrde"/>-->
+        <!--        <table tableName="srhdjhdev.jh_batch_status" domainObjectName="JhBatchStatusEntity" alias="jbse"/>-->
+        <!--        <table tableName="ha01_ys_jg" domainObjectName="Ha01YsJgEntity" alias="hyj"/>-->
+        <!--        <table tableName="oa_txl" domainObjectName="OaTxlEntity" alias="atl"/>-->
+        <!--        <table tableName="cm_appversion" domainObjectName="CmAppVersionEntity" alias="cav"/>-->
+        <!--        <table tableName="gark_info" domainObjectName="GarkInfoEntity" alias="gio"/>-->
+        <!--        <table tableName="hs_mzpy_ryxx" domainObjectName="HsMzpyRyxxEntity" alias="hmre"/>-->
+        <!--        <table tableName="oa_txl_bm" domainObjectName="OaTxlBmEntity" alias="otbm"/>-->
+        <!--        <table tableName="ha01_wx" domainObjectName="Ha01WxEntity" alias="ha01wx"/>-->
+        <!--        <table tableName="hs_zxdc_jh" domainObjectName="HsZxdcJhEntity" alias="hzje"/>-->
+        <!--        <table tableName="hs_zxdc_jh_mx" domainObjectName="HsZxdcJhMxEntity" alias="hzje"/>-->
+        <!--        <table tableName="cf_code_info" domainObjectName="CfCodeInfoEntity" alias="ccie"/>-->
+        <!--        <table tableName="cf_code_type" domainObjectName="CfCodeTypeEntity" alias="ccte"/>-->
+        <!--        <table tableName="sys_yh_wx" domainObjectName="SysYhWxEntity" alias="sywe"/>-->
+        <!--        <table tableName="zg01" domainObjectName="Zg01Entity" alias="zg01"/>-->
+        <!--        <table tableName="zg02" domainObjectName="Zg02Entity" alias="zg02"/>-->
+        <!--        <table tableName="zg03" domainObjectName="Zg03Entity" alias="zg03"/>-->
+        <!--        <table tableName="zg04" domainObjectName="Zg04Entity" alias="zg04"/>-->
+        <!--        <table tableName="zg05" domainObjectName="Zg05Entity" alias="zg05"/>-->
+        <!--        <table tableName="cf_log" domainObjectName="CfLogEntity" alias="cfg"/>-->
+        <!--        <table tableName="dzzz_send_log" domainObjectName="DzzzSendLogEntity" alias="sdle"/>-->
+        <!--        <table tableName="dzzz_send_marry" domainObjectName="DzzzSendMarryEntity" alias="dsme"/>-->
+        <!--        <table tableName="marriage_license_push_log" domainObjectName="MarriageLicensePushLogEntity" alias="mlple"/>-->
+        <!--        <table tableName="marriage_licensedata" domainObjectName="MarriageLicensedataEntity" alias="mle"/>-->
+        <table tableName="msg_app" domainObjectName="MsgAppEntity" alias="msga"/>
     </context>
 </generatorConfiguration>

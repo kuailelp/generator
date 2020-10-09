@@ -140,9 +140,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         countByExample.removeAllBodyLines();
         interface1.addMethod(countByExample);
         // 根据条件删除
-        Method deleteByExample = deleteByExample(introspectedTable, tableName);
-        deleteByExample.removeAllBodyLines();
-        interface1.addMethod(deleteByExample);
+//        Method deleteByExample = deleteByExample(introspectedTable, tableName);
+//        deleteByExample.removeAllBodyLines();
+//        interface1.addMethod(deleteByExample);
         // 根据主键删除
         Method deleteByPrimaryKey = deleteByPrimaryKey(introspectedTable, tableName);
         deleteByPrimaryKey.removeAllBodyLines();
@@ -165,14 +165,14 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         interface1.addMethod(selectByPrimaryKey);
 
         // 根据条件修改全部对象信息
-        Method updateByExample = updateByExample(introspectedTable, tableName);
-        updateByExample.removeAllBodyLines();
-        interface1.addMethod(updateByExample);
+//        Method updateByExample = updateByExample(introspectedTable, tableName);
+//        updateByExample.removeAllBodyLines();
+//        interface1.addMethod(updateByExample);
 
         // 根据条件修改对象信息
-        Method updateByExampleSelective = updateByExampleSelective(introspectedTable, tableName);
-        updateByExampleSelective.removeAllBodyLines();
-        interface1.addMethod(updateByExampleSelective);
+//        Method updateByExampleSelective = updateByExampleSelective(introspectedTable, tableName);
+//        updateByExampleSelective.removeAllBodyLines();
+//        interface1.addMethod(updateByExampleSelective);
 
 
         // 根据单一对象主键修改信息
@@ -231,7 +231,7 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         // 添加条目数查询
         topLevelClass.addMethod(countByExample(introspectedTable, tableName));
         // 根据条件删除
-        topLevelClass.addMethod(deleteByExample(introspectedTable, tableName));
+//        topLevelClass.addMethod(deleteByExample(introspectedTable, tableName));
         // 根据主键删除
         topLevelClass.addMethod(deleteByPrimaryKey(introspectedTable, tableName));
         // 全局新增数据
@@ -243,9 +243,9 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
         // 根据主键查询
         topLevelClass.addMethod(selectByPrimaryKey(introspectedTable, tableName));
         // 根据添加修改全部对象
-        topLevelClass.addMethod(updateByExample(introspectedTable, tableName));
+//        topLevelClass.addMethod(updateByExample(introspectedTable, tableName));
         // 根据添加修改对象
-        topLevelClass.addMethod(updateByExampleSelective(introspectedTable, tableName));
+//        topLevelClass.addMethod(updateByExampleSelective(introspectedTable, tableName));
         // 根据单一对象主键修改信息
         topLevelClass.addMethod(updateByPrimaryKeySelective(introspectedTable, tableName));
         // 根据单一对象主键修改全部信息
@@ -395,27 +395,27 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 描述：生成条件删除方法 <br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 10:36 <br>
      */
-    private Method deleteByExample(IntrospectedTable introspectedTable, String tableName) {
-        setIntrospectedColumn(introspectedTable);
-        Method method = new Method();
-        method.setName("deleteByExample");
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(searchMap, "params"));
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * 描述：根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "<br>");
-        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
-        method.addJavaDocLine(" *");
-        method.addJavaDocLine(" * @param    params   删除参数");
-        method.addJavaDocLine(" */");
-        method.addBodyLine("logger.debug(\"根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "\");");
-        method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
-        method.addBodyLine(searchUtils.getShortName() + ".parseExampleOrder(params,criteria);");
-        method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + ".deleteByExample(criteria);");
-        method.addBodyLine("return result;");
-        return method;
-    }
+//    private Method deleteByExample(IntrospectedTable introspectedTable, String tableName) {
+//        setIntrospectedColumn(introspectedTable);
+//        Method method = new Method();
+//        method.setName("deleteByExample");
+//        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+//        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
+//        method.addParameter(new Parameter(searchMap, "params"));
+//        method.setVisibility(JavaVisibility.PUBLIC);
+//        method.addJavaDocLine("/**");
+//        method.addJavaDocLine(" * 描述：根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "<br>");
+//        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
+//        method.addJavaDocLine(" *");
+//        method.addJavaDocLine(" * @param    params   删除参数");
+//        method.addJavaDocLine(" */");
+//        method.addBodyLine("logger.debug(\"根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + "\");");
+//        method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
+//        method.addBodyLine(searchUtils.getShortName() + ".parseExampleOrder(params,criteria);");
+//        method.addBodyLine("int result = " + toLowerCase(daoType.getShortName()) + ".deleteByExample(criteria);");
+//        method.addBodyLine("return result;");
+//        return method;
+//    }
 
     /**
      * 描述：根据主键删除数据 <br>
@@ -575,72 +575,72 @@ public class JavaServicesCreatePlugin extends PluginAdapter {
      * 描述： 根据条件更改全部对象信息<br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:09 <br>
      */
-    private Method updateByExample(IntrospectedTable introspectedTable, String tableName) {
-        setIntrospectedColumn(introspectedTable);
-        Method method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setName("updateByExample");
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
-        method.addParameter(new Parameter(searchMap, "params"));
-        method.addBodyLine("logger.debug(\"根据条件修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
-        method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
-        method.addBodyLine(searchUtils.getShortName() + ".parseExampleOrder(params,criteria);");
-        method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
-                toLowerCase(daoType.getShortName()) + "." + (
-                introspectedTable.getUpdateByExampleSelectiveStatementId()
-        ) + "(" +
-                "record, " +
-                "criteria" +
-                ");");
-        method.addBodyLine("return result;");
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * 描述：根据条件修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
-        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
-        method.addJavaDocLine(" *");
-        method.addJavaDocLine(" * @param record 修改信息");
-        method.addJavaDocLine(" * @param params 查询过滤数据");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @return 修改结果");
-        method.addJavaDocLine(" */");
-        return method;
-    }
+//    private Method updateByExample(IntrospectedTable introspectedTable, String tableName) {
+//        setIntrospectedColumn(introspectedTable);
+//        Method method = new Method();
+//        method.setVisibility(JavaVisibility.PUBLIC);
+//        method.setName("updateByExample");
+//        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+//        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
+//        method.addParameter(new Parameter(pojoType, "record"));
+//        method.addParameter(new Parameter(searchMap, "params"));
+//        method.addBodyLine("logger.debug(\"根据条件修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
+//        method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
+//        method.addBodyLine(searchUtils.getShortName() + ".parseExampleOrder(params,criteria);");
+//        method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
+//                toLowerCase(daoType.getShortName()) + "." + (
+//                introspectedTable.getUpdateByExampleSelectiveStatementId()
+//        ) + "(" +
+//                "record, " +
+//                "criteria" +
+//                ");");
+//        method.addBodyLine("return result;");
+//        method.addJavaDocLine("/**");
+//        method.addJavaDocLine(" * 描述：根据条件修改全部" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
+//        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
+//        method.addJavaDocLine(" *");
+//        method.addJavaDocLine(" * @param record 修改信息");
+//        method.addJavaDocLine(" * @param params 查询过滤数据");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * @return 修改结果");
+//        method.addJavaDocLine(" */");
+//        return method;
+//    }
 
 
     /**
      * 描述：根据条件更改部分对象信息 <br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 14:44 <br>
      */
-    private Method updateByExampleSelective(IntrospectedTable introspectedTable, String tableName) {
-        setIntrospectedColumn(introspectedTable);
-        Method method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.setName("updateByExampleSelective");
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.addParameter(new Parameter(pojoType, "record"));
-        method.addParameter(new Parameter(searchMap, "params"));
-        method.addBodyLine("logger.debug(\"根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
-        method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
-        method.addBodyLine(searchUtils.getShortName() + ".parseExampleOrder(params,criteria);");
-        method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
-                toLowerCase(daoType.getShortName()) + "." + (introspectedTable.getUpdateByExampleSelectiveStatementId()) + "(" +
-                "record, " +
-                "criteria" +
-                ");");
-        method.addBodyLine("return result;");
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * 描述：根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
-        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
-        method.addJavaDocLine(" *");
-        method.addJavaDocLine(" * @param record 修改信息");
-        method.addJavaDocLine(" * @param params 查询过滤数据");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @return 修改结果");
-        method.addJavaDocLine(" */");
-        return method;
-    }
+//    private Method updateByExampleSelective(IntrospectedTable introspectedTable, String tableName) {
+//        setIntrospectedColumn(introspectedTable);
+//        Method method = new Method();
+//        method.setVisibility(JavaVisibility.PUBLIC);
+//        method.setName("updateByExampleSelective");
+//        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+//        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
+//        method.addParameter(new Parameter(pojoType, "record"));
+//        method.addParameter(new Parameter(searchMap, "params"));
+//        method.addBodyLine("logger.debug(\"根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息\");");
+//        method.addBodyLine(pojoCriteriaType.getShortName() + " criteria = new " + pojoCriteriaType.getShortName() + "();");
+//        method.addBodyLine(searchUtils.getShortName() + ".parseExampleOrder(params,criteria);");
+//        method.addBodyLine(FullyQualifiedJavaType.getIntInstance() + " result = " +
+//                toLowerCase(daoType.getShortName()) + "." + (introspectedTable.getUpdateByExampleSelectiveStatementId()) + "(" +
+//                "record, " +
+//                "criteria" +
+//                ");");
+//        method.addBodyLine("return result;");
+//        method.addJavaDocLine("/**");
+//        method.addJavaDocLine(" * 描述：根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息<br>");
+//        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
+//        method.addJavaDocLine(" *");
+//        method.addJavaDocLine(" * @param record 修改信息");
+//        method.addJavaDocLine(" * @param params 查询过滤数据");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * @return 修改结果");
+//        method.addJavaDocLine(" */");
+//        return method;
+//    }
 
 
     /**

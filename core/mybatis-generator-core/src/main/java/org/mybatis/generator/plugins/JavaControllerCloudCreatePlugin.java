@@ -140,7 +140,7 @@ public class JavaControllerCloudCreatePlugin extends PluginAdapter {
         // 添加条目数查询
         topLevelClass.addMethod(countByExample(introspectedTable, tableName));
         // 根据条件删除
-        topLevelClass.addMethod(deleteByExample(introspectedTable, tableName));
+//        topLevelClass.addMethod(deleteByExample(introspectedTable, tableName));
         // 根据主键删除
         topLevelClass.addMethod(deleteByPrimaryKey(introspectedTable, tableName));
         // 全局新增数据
@@ -152,9 +152,9 @@ public class JavaControllerCloudCreatePlugin extends PluginAdapter {
         // 根据主键查询
         topLevelClass.addMethod(selectByPrimaryKey(introspectedTable, tableName));
         // 根据添加修改全部对象
-        topLevelClass.addMethod(updateByExample(introspectedTable, tableName));
+//        topLevelClass.addMethod(updateByExample(introspectedTable, tableName));
         // 根据添加修改对象
-        topLevelClass.addMethod(updateByExampleSelective(introspectedTable, tableName));
+//        topLevelClass.addMethod(updateByExampleSelective(introspectedTable, tableName));
         // 根据单一对象主键修改信息
         topLevelClass.addMethod(updateByPrimaryKeySelective(introspectedTable, tableName));
         // 根据单一对象主键修改全部信息
@@ -250,24 +250,24 @@ public class JavaControllerCloudCreatePlugin extends PluginAdapter {
      * 描述：生成条件删除方法 <br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 10:36 <br>
      */
-    private Method deleteByExample(IntrospectedTable introspectedTable, String tableName) {
-        setIntrospectedColumn(introspectedTable);
-        Method method = new Method();
-        method.setName("deleteByExample");
-        method.addAnnotation("@PostMapping(\"delete_by_example\")");
-        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.setReturnType(resultType);
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.addParameter(new Parameter(bodysPorp, "bodys"));
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * 描述：根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + " <br>");
-        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @return 结果");
-        method.addJavaDocLine(" */");
-        setAnnotationMethodHeaders(method);
-        return method;
-    }
+//    private Method deleteByExample(IntrospectedTable introspectedTable, String tableName) {
+//        setIntrospectedColumn(introspectedTable);
+//        Method method = new Method();
+//        method.setName("deleteByExample");
+//        method.addAnnotation("@PostMapping(\"delete_by_example\")");
+//        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
+//        method.setReturnType(resultType);
+//        method.setVisibility(JavaVisibility.PUBLIC);
+//        method.addParameter(new Parameter(bodysPorp, "bodys"));
+//        method.addJavaDocLine("/**");
+//        method.addJavaDocLine(" * 描述：根据条件删除" + introspectedTable.getFullyQualifiedTable().getRemark() + " <br>");
+//        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * @return 结果");
+//        method.addJavaDocLine(" */");
+//        setAnnotationMethodHeaders(method);
+//        return method;
+//    }
 
 
     /**
@@ -398,50 +398,50 @@ public class JavaControllerCloudCreatePlugin extends PluginAdapter {
      * 描述： 根据条件更改全部对象信息<br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 15:09 <br>
      */
-    private Method updateByExample(IntrospectedTable introspectedTable, String tableName) {
-        setIntrospectedColumn(introspectedTable);
-        Method method = new Method();
-        method.setName("updateByExample");
-        method.addAnnotation("@PostMapping(\"update_by_example\")");
-        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.setReturnType(resultType);
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.addParameter(new Parameter(bodysPorp, "bodys"));
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * 描述：根据条件修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
-        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @return 结果");
-        method.addJavaDocLine(" */");
-        setAnnotationMethodHeaders(method);
-        return method;
-    }
+//    private Method updateByExample(IntrospectedTable introspectedTable, String tableName) {
+//        setIntrospectedColumn(introspectedTable);
+//        Method method = new Method();
+//        method.setName("updateByExample");
+//        method.addAnnotation("@PostMapping(\"update_by_example\")");
+//        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
+//        method.setReturnType(resultType);
+//        method.setVisibility(JavaVisibility.PUBLIC);
+//        method.addParameter(new Parameter(bodysPorp, "bodys"));
+//        method.addJavaDocLine("/**");
+//        method.addJavaDocLine(" * 描述：根据条件修改" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
+//        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * @return 结果");
+//        method.addJavaDocLine(" */");
+//        setAnnotationMethodHeaders(method);
+//        return method;
+//    }
 
 
     /**
      * 描述：根据条件更改部分对象信息 <br>
      * 创建人：廖鹏 | 创建日期：2019/1/30 14:44 <br>
      */
-    private Method updateByExampleSelective(IntrospectedTable introspectedTable, String tableName) {
-        setIntrospectedColumn(introspectedTable);
-        Method method = new Method();
-        method.setName("updateByExampleSelective");
-        method.addAnnotation("@PostMapping(\"update_by_ex_sel\")");
-        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
-        method.setReturnType(resultType);
-        method.setVisibility(JavaVisibility.PUBLIC);
-        method.addParameter(new Parameter(bodysPorp, "bodys"));
-        method.addJavaDocLine("/**");
-        method.addJavaDocLine(" * 描述：根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
-        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * ");
-        method.addJavaDocLine(" * @return 结果");
-        method.addJavaDocLine(" */");
-        setAnnotationMethodHeaders(method);
-        return method;
-    }
+//    private Method updateByExampleSelective(IntrospectedTable introspectedTable, String tableName) {
+//        setIntrospectedColumn(introspectedTable);
+//        Method method = new Method();
+//        method.setName("updateByExampleSelective");
+//        method.addAnnotation("@PostMapping(\"update_by_ex_sel\")");
+//        method.addException(new FullyQualifiedJavaType("java.lang.Exception"));
+//        method.setReturnType(resultType);
+//        method.setVisibility(JavaVisibility.PUBLIC);
+//        method.addParameter(new Parameter(bodysPorp, "bodys"));
+//        method.addJavaDocLine("/**");
+//        method.addJavaDocLine(" * 描述：根据条件修改部分" + introspectedTable.getFullyQualifiedTable().getRemark() + "信息 <br>");
+//        method.addJavaDocLine(" * 创建人：Mybatis Genertor | 创建日期：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " <br>");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * ");
+//        method.addJavaDocLine(" * @return 结果");
+//        method.addJavaDocLine(" */");
+//        setAnnotationMethodHeaders(method);
+//        return method;
+//    }
 
 
     /**
